@@ -174,7 +174,7 @@ function Checkout() {
                     className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-lg ring-1 ring-white/10"
                     style={{ background: `linear-gradient(135deg, ${product.accent}22, ${product.accent}05)` }}
                   >
-                    <img src={product.logo} alt="" className="h-7 w-7 object-contain" referrerPolicy="no-referrer" />
+                    <img src={product.logo} alt="" className={product.logoFill ? "h-full w-full object-cover" : "h-7 w-7 object-contain"} referrerPolicy="no-referrer" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium">{product.name}</p>

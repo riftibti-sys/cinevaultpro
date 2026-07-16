@@ -1,3 +1,5 @@
+import iscreenLogo from "@/assets/iscreen-logo.png";
+
 export type Product = {
   id: string;
   name: string;
@@ -7,6 +9,7 @@ export type Product = {
   category: "streaming" | "editing" | "music" | "other";
   accent: string; // brand color for card glow
   logo: string; // logo URL
+  logoFill?: boolean; // let logo fill the tile edge-to-edge
 };
 
 // Real brand logos via unavatar.io — fetches the actual site logo/icon.

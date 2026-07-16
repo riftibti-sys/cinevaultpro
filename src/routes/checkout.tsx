@@ -170,8 +170,8 @@ function Checkout() {
             <ul className="mt-4 space-y-3">
               {items.map(({ product, qty }) => (
                 <li key={product.id} className="flex items-center gap-3 text-sm">
-                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg text-xs font-bold text-white" style={{ background: product.accent }}>
-                    {product.initials}
+                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/95 p-1">
+                    <img src={product.logo} alt="" className="h-full w-full object-contain" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium">{product.name}</p>

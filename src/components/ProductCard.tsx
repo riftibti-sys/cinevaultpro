@@ -16,10 +16,9 @@ export function ProductCard({ product }: { product: Product }) {
         style={{ background: product.accent }}
       />
       <div
-        className="grid h-14 w-14 place-items-center rounded-xl text-xl font-bold text-white"
-        style={{ background: product.accent }}
+        className="grid h-14 w-14 place-items-center rounded-xl bg-white/95 p-2"
       >
-        {product.initials}
+        <img src={product.logo} alt={`${product.name} logo`} className="h-full w-full object-contain" loading="lazy" />
       </div>
       <h3 className="mt-4 text-base font-semibold">{product.name}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{product.tagline}</p>

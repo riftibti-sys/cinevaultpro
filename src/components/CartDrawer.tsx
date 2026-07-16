@@ -28,11 +28,8 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
             <ul className="space-y-3">
               {items.map(({ product, qty }) => (
                 <li key={product.id} className="flex gap-3 rounded-xl border border-border bg-card p-3">
-                  <div
-                    className="grid h-12 w-12 shrink-0 place-items-center rounded-lg font-bold text-white"
-                    style={{ background: product.accent }}
-                  >
-                    {product.initials}
+                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-white/95 p-1.5">
+                    <img src={product.logo} alt="" className="h-full w-full object-contain" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">

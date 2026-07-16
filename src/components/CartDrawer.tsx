@@ -32,7 +32,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                     className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-lg ring-1 ring-white/10"
                     style={{ background: `linear-gradient(135deg, ${product.accent}22, ${product.accent}05)` }}
                   >
-                    <img src={product.logo} alt="" className="h-8 w-8 object-contain" referrerPolicy="no-referrer" />
+                    <img src={product.logo} alt="" className={product.logoFill ? "h-full w-full object-cover" : "h-8 w-8 object-contain"} referrerPolicy="no-referrer" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">

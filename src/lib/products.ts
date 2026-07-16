@@ -1,4 +1,5 @@
 import iscreenLogo from "@/assets/iscreen-logo.png";
+import hbomaxLogo from "@/assets/hbomax-logo.png";
 
 export type Product = {
   id: string;

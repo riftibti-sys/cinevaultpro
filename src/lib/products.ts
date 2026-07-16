@@ -1,4 +1,5 @@
 import iscreenLogo from "@/assets/iscreen-logo.png";
+import hbomaxLogo from "@/assets/hbomax-logo.png";
 
 export type Product = {
   id: string;
@@ -19,7 +20,7 @@ export const products: Product[] = [
   { id: "netflix", name: "Netflix", tagline: "4K Ultra HD • 1 Screen", price: 250, duration: "1 Month", category: "streaming", accent: "#e50914", logo: logo("netflix.com") },
   { id: "prime", name: "Amazon Prime Video", tagline: "HD • Private Profile", price: 180, duration: "1 Month", category: "streaming", accent: "#00a8e1", logo: logo("primevideo.com") },
   { id: "yt-premium", name: "YouTube Premium", tagline: "Ad-free + YT Music", price: 220, duration: "1 Month", category: "streaming", accent: "#ff0000", logo: logo("youtube.com") },
-  { id: "hbo", name: "HBO Max", tagline: "Full HD • Shared", price: 200, duration: "1 Month", category: "streaming", accent: "#000000", logo: logo("hbomax.com") },
+  { id: "hbo", name: "HBO Max", tagline: "Full HD • Shared", price: 200, duration: "1 Month", category: "streaming", accent: "#7c3aed", logo: hbomaxLogo, logoFill: true },
   { id: "chorki", name: "Chorki", tagline: "All Bangla Originals", price: 150, duration: "1 Month", category: "streaming", accent: "#ff6a00", logo: logo("chorki.com") },
   { id: "bongo", name: "Bongo BOB", tagline: "Movies + Live TV", price: 130, duration: "1 Month", category: "streaming", accent: "#00b894", logo: logo("bongobd.com") },
   { id: "iscreen", name: "iScreen", tagline: "Premium Access", price: 140, duration: "1 Month", category: "streaming", accent: "#e11d48", logo: iscreenLogo, logoFill: true },

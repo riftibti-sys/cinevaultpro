@@ -24,7 +24,7 @@ export function ProductCard({ product }: { product: Product }) {
         <img
           src={product.logo}
           alt={`${product.name} logo`}
-          className="h-10 w-10 object-contain"
+          className={product.logoFill ? "h-full w-full object-cover" : "h-10 w-10 object-contain"}
           loading="lazy"
           referrerPolicy="no-referrer"
         />

@@ -34,8 +34,8 @@ export function ProductCard({ product }: { product: Product }) {
             aria-label={inCart ? "Added to cart" : "Add to cart"}
             className={`grid h-9 w-9 place-items-center rounded-full border transition-colors ${
               inCart
-                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
-                : "border-border bg-white/5 text-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600"
+                : "border-border bg-secondary text-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground"
             }`}
           >
             {inCart ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" strokeWidth={3} />}

@@ -135,7 +135,7 @@ export function SiteFooter() {
             <img
               src={paymentMethods}
               alt="bKash, Nagad, Rocket, Upay, Visa, Mastercard, Amex, DBBL"
-              className="block h-full w-full object-fill"
+              className="block h-full w-full object-cover"
               loading="lazy"
               width={1920}
               height={640}

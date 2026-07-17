@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { MessageCircle, X, Send, Phone, Facebook } from "lucide-react";
+import { MessageCircle, X, Send, Phone } from "lucide-react";
+
+const MessengerIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+    <path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.44 3.14 7.17.16.14.26.34.27.56l.05 1.78a.8.8 0 0 0 1.12.71l1.98-.87c.17-.08.36-.09.54-.04.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.7C22 6.13 17.64 2 12 2Zm6 7.46-2.94 4.66a1.5 1.5 0 0 1-2.16.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66a1.5 1.5 0 0 1 2.16-.4l2.34 1.75c.21.16.51.16.72 0l3.16-2.4c.42-.32.97.18.69.63Z"/>
+  </svg>
+);
 
 export function FloatingHelp() {
   const [open, setOpen] = useState(false);

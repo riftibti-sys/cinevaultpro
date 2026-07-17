@@ -26,7 +26,7 @@ async function findProduct(id: string): Promise<Product | undefined> {
 
 export const Route = createFileRoute("/product/$id")({
   head: ({ loaderData }) => {
-    const p = loaderData?.product;
+    const p = (loaderData as { product?: Product } | undefined)?.product;
     const title = p ? `${p.name} — CineVault` : "Product — CineVault";
     const desc = p ? `${p.name} ${p.duration} — Tk. ${p.price}. ${p.tagline}. Instant delivery.` : "Premium subscription details.";
     return {

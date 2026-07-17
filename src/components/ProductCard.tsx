@@ -63,7 +63,7 @@ export function ProductCard({ product }: { product: Product }) {
 
       {/* BODY */}
       <div className="flex flex-1 flex-col p-3">
-        <h4 className="line-clamp-1 text-sm font-bold leading-tight text-foreground">{product.name}</h4>
+        <Link to="/product/$id" params={{ id: product.id }} className="line-clamp-1 text-sm font-bold leading-tight text-foreground hover:text-primary">{product.name}</Link>
         <p className="mt-0.5 line-clamp-1 text-[10px] text-muted-foreground">
           {product.tagline} • {product.duration}
         </p>

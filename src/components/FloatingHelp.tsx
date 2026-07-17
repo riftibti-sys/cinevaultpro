@@ -25,7 +25,7 @@ export function FloatingHelp() {
       sub: "Facebook Messenger এ চ্যাট করুন",
       href: "https://m.me/cinevaultbd",
       color: "#0084FF",
-      icon: Facebook,
+      icon: MessengerIcon,
     },
     {
       label: "WhatsApp",

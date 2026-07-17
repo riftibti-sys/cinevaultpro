@@ -134,28 +134,29 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <Search className="h-4 w-4" />
             </button>
 
-            {/* Offers — animated flame pill */}
+            {/* Offers — animated flame pill (white) */}
             <a
               href="#products"
-              className="group hidden h-10 items-center gap-2 rounded-full border border-primary/40 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent px-4 text-sm font-bold uppercase tracking-wide text-primary transition hover:border-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
+              className="group hidden h-10 items-center gap-2 rounded-full border border-white/20 bg-white px-4 text-sm font-bold uppercase tracking-wide text-neutral-900 transition hover:border-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
             >
-              <Flame className="h-4 w-4 animate-pulse" strokeWidth={2.5} />
+              <Flame className="h-4 w-4 animate-pulse text-primary group-hover:text-primary-foreground" strokeWidth={2.5} />
               Offers
-              <span className="ml-0.5 rounded-full bg-primary/20 px-1.5 py-0.5 text-[9px] font-black text-primary group-hover:bg-white/25 group-hover:text-primary-foreground">
+              <span className="ml-0.5 rounded-full bg-primary/15 px-1.5 py-0.5 text-[9px] font-black text-primary group-hover:bg-white/25 group-hover:text-primary-foreground">
                 HOT
               </span>
             </a>
 
-            {/* Support */}
+            {/* Store Locator */}
             <a
-              href={waUrl}
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.get("footer_address") || "Dhaka, Bangladesh")}`}
               target="_blank"
               rel="noreferrer"
               className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary lg:inline-flex"
             >
-              <MessageCircle className="h-4 w-4" />
-              Support
+              <MapPin className="h-4 w-4" />
+              Store Locator
             </a>
+
 
 
             {/* Login / Sign out */}

@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { CartDrawer } from "@/components/CartDrawer";
 import { ProductCard } from "@/components/ProductCard";
 import { BottomNav } from "@/components/BottomNav";
+import { SiteFooter } from "@/components/SiteFooter";
 import { products, categoryLabels, type Product } from "@/lib/products";
 import heroCinema from "@/assets/hero-cinema.jpg";
 
@@ -174,9 +175,7 @@ function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} CineVault. All rights reserved.
-      </footer>
+      <SiteFooter />
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <BottomNav onCartClick={() => setCartOpen(true)} />

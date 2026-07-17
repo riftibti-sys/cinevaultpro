@@ -42,8 +42,10 @@ function Home() {
 
   return (
     <div className="min-h-screen pb-28">
-      <Header onCartClick={() => setCartOpen(true)} />
-      <CategoryBar />
+      <div className="sticky top-0 z-40">
+        <Header onCartClick={() => setCartOpen(true)} />
+        <CategoryBar />
+      </div>
 
       {/* HERO — auto-swiping product carousel */}
       <HeroCarousel />

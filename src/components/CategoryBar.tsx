@@ -15,7 +15,7 @@ const categories = [
 
 export function CategoryBar() {
   return (
-    <div className="sticky top-[68px] z-30 border-b border-white/10 bg-[#0a0a0a] text-white sm:top-[76px]">
+    <div className="border-b border-white/10 bg-[#0a0a0a] text-white">
       <div className="mx-auto max-w-7xl">
         <nav
           className="scrollbar-none flex items-center gap-1 overflow-x-auto px-3 py-2 sm:justify-center sm:gap-2 sm:px-6 sm:py-2.5"

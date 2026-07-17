@@ -44,12 +44,12 @@ export function FloatingHelp() {
         />
       )}
 
-      {/* Chat popup card */}
+      {/* Chat popup card — same behaviour on mobile & desktop */}
       <div
         className={`fixed right-4 z-[70] w-[calc(100vw-2rem)] max-w-sm origin-bottom-right transition-all duration-300 sm:right-6 ${
           open
-            ? "bottom-24 scale-100 opacity-100 sm:bottom-28"
-            : "pointer-events-none bottom-20 scale-90 opacity-0"
+            ? "bottom-[calc(6rem+64px+env(safe-area-inset-bottom))] scale-100 opacity-100 sm:bottom-28"
+            : "pointer-events-none bottom-[calc(6rem+64px+env(safe-area-inset-bottom))] scale-90 opacity-0 sm:bottom-24"
         }`}
       >
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0a] shadow-[0_30px_80px_-20px_rgba(229,9,20,0.6)]">
@@ -126,7 +126,7 @@ export function FloatingHelp() {
           setPulse(false);
         }}
         aria-label={open ? "Close help" : "Open help"}
-        className="fixed bottom-24 right-4 z-[70] grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-primary via-[#e50914] to-[#a10810] text-white shadow-[0_15px_40px_-10px_rgba(229,9,20,0.8)] transition-transform hover:scale-110 active:scale-95 sm:bottom-6 sm:right-6 sm:h-16 sm:w-16"
+        className="fixed bottom-[calc(64px+env(safe-area-inset-bottom)+16px)] right-4 z-[70] grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-primary via-[#e50914] to-[#a10810] text-white shadow-[0_15px_40px_-10px_rgba(229,9,20,0.8)] transition-transform hover:scale-110 active:scale-95 sm:bottom-6 sm:right-6 sm:h-16 sm:w-16"
       >
         {/* Ping ring */}
         {pulse && !open && (

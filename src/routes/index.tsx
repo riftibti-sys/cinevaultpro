@@ -140,6 +140,7 @@ function Home() {
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <BottomNav onCartClick={() => setCartOpen(true)} />
+      <FloatingHelp />
     </div>
   );
 }

@@ -36,8 +36,7 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
       key: "request",
       label: "Request Order",
       icon: ClipboardList,
-      onClick: () =>
-        window.open("https://wa.me/8801785897167?text=Hi%2C%20I%20want%20to%20request%20an%20order", "_blank"),
+      onClick: () => navigate({ to: "/request-order" }),
     },
     {
       key: "user",

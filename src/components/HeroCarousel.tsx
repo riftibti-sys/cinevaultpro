@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Play, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useProducts, type Product } from "@/lib/products";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 // Featured products to showcase in the hero (in order)
 const featuredIds = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
@@ -9,6 +10,8 @@ const AUTO_MS = 7000;
 
 export function HeroCarousel() {
   const products = useProducts();
+  const settings = useSiteSettings();
+  const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), "Hi CineVault! আমি একটা subscription কিনতে চাই।");
   const slides = useMemo<Product[]>(
     () => featuredIds.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => Boolean(p)),
     [products],
@@ -90,7 +93,7 @@ export function HeroCarousel() {
                         <Play className="h-3 w-3 fill-black sm:h-3.5 sm:w-3.5" /> Shop Now
                       </a>
                       <a
-                        href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমি একটা subscription কিনতে চাই।")}&type=phone_number&app_absent=0`}
+                        href={waUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex h-9 items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-4 text-[11px] font-bold uppercase tracking-wide text-white backdrop-blur-md transition hover:bg-white/10 sm:h-11 sm:px-6 sm:text-xs"

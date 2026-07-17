@@ -42,6 +42,12 @@ import {
   type ProductInput,
   type ProductRow,
 } from "@/lib/products.functions";
+import {
+  adminUpdateSiteSettings,
+  listSiteSettings,
+  type SettingRow,
+} from "@/lib/site-settings.functions";
+import { Settings as SettingsIcon } from "lucide-react";
 
 
 export const Route = createFileRoute("/admin")({

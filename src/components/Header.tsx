@@ -5,7 +5,7 @@ import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { products } from "@/lib/products";
+import { useProducts } from "@/lib/products";
 import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
 import footballImg from "@/assets/football.png";
 
@@ -13,6 +13,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { count, items, add } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const products = useProducts();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -47,7 +48,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
     return products.filter(
       (p) => p.name.toLowerCase().includes(q) || p.tagline.toLowerCase().includes(q),
     );
-  }, [query]);
+  }, [query, products]);
 
   const menuItems = [
     { label: "Home", href: "#", icon: Home },

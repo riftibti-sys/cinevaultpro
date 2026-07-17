@@ -1,6 +1,7 @@
 import { Phone, Mail, Facebook, Instagram, Youtube, Linkedin } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import paymentMethods from "@/assets/payment-methods.png";
 
 export function SiteFooter() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,6 @@ export function SiteFooter() {
     setEmail("");
   };
 
-  const payments = ["bKash", "Nagad", "Rocket", "Upay", "Visa", "Master", "Binance", "PayPal"];
 
   return (
     <footer className="mt-16 border-t border-white/10 bg-[#0a0a0a] text-white">

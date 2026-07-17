@@ -75,31 +75,23 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <span className="hidden flex-col leading-none sm:flex">
                 <span className="relative font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
                   Cine<span className="text-primary">Vault</span>
-                  {/* Subtle football that glides across the wordmark */}
-                  <span aria-hidden className="pointer-events-none absolute -top-2.5 left-0 animate-cv-football-roll">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-3.5 w-3.5 animate-cv-football-spin text-white/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    >
-                      <circle cx="12" cy="12" r="9.5" fill="currentColor" fillOpacity="0.95" stroke="#0a0a0a" />
-                      <path
-                        d="M12 5.5l3.2 2.3-1.2 3.8h-4l-1.2-3.8L12 5.5zm-6.5 5.2l3 1 1.2 3.8-2.4 2.4M18.5 10.7l-3 1-1.2 3.8 2.4 2.4M12 15.6v3.9"
-                        stroke="#0a0a0a"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                  {/* Soccer ball that glides across the wordmark */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute -top-4 left-0 animate-cv-football-roll"
+                  >
+                    <span className="block h-5 w-5 animate-cv-football-spin rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.55)] ring-1 ring-black/70"
+                      style={{
+                        backgroundImage:
+                          "radial-gradient(circle at 50% 50%, #000 0 3px, transparent 3.5px), radial-gradient(circle at 18% 30%, #000 0 2px, transparent 2.5px), radial-gradient(circle at 82% 30%, #000 0 2px, transparent 2.5px), radial-gradient(circle at 18% 78%, #000 0 2px, transparent 2.5px), radial-gradient(circle at 82% 78%, #000 0 2px, transparent 2.5px), radial-gradient(circle at 50% 92%, #000 0 2px, transparent 2.5px)",
+                      }}
+                    />
                   </span>
                 </span>
                 <span className="mt-1 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
                   <span>Since 2026</span>
-                  <span className="inline-flex items-center gap-1 rounded-sm border-l border-r border-white/15 px-2 py-[1px] tracking-[0.22em] text-[8px] text-amber-200/80">
-                    <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="currentColor">
-                      <circle cx="12" cy="12" r="10" />
-                    </svg>
+                  <span className="inline-flex items-center gap-1.5 rounded-sm border-l border-r border-white/15 px-2 py-[1px] tracking-[0.22em] text-[8px] text-amber-200/80">
+                    <span className="block h-2 w-2 rounded-full bg-amber-200/80" />
                     FIFA World Cup · 2026
                   </span>
                 </span>

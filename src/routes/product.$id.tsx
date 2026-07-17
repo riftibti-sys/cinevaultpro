@@ -58,6 +58,7 @@ function ProductDetail() {
   const inCart = items.some((i) => i.product.id === product.id);
   const { reviews, submit, statsFor } = useReviews();
   const { questions, ask } = useQuestions(product.id);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const productReviews = useMemo(
     () => reviews.filter((r) => r.product_id === product.id),

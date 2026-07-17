@@ -346,6 +346,8 @@ function AdminPage() {
     { key: "orders" as const, label: "Orders", icon: Package, count: data?.orders.length ?? 0 },
     { key: "products" as const, label: "Products", icon: ShoppingBag, count: products?.length ?? 0 },
     { key: "combos" as const, label: "Combos", icon: Sparkles, count: combos?.length ?? 0 },
+    { key: "hero" as const, label: "Hero", icon: ImageIcon, count: (settings ?? []).filter((s) => s.key.startsWith("hero_")).length },
+
     { key: "reviews" as const, label: "Reviews", icon: Star, count: data?.reviews.length ?? 0 },
     { key: "questions" as const, label: "Q&A", icon: MessageSquare, count: data?.questions.length ?? 0 },
     { key: "users" as const, label: "Users", icon: Users, count: data?.profiles.length ?? 0 },

@@ -101,9 +101,9 @@ export function SiteFooter() {
                 <Phone className="h-4 w-4 text-primary" strokeWidth={2.4} />
                 {displayPhone}
               </a>
-              <a href="mailto:support@cinevault.bd" className="flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
+              <a href="mailto:cinevault136@gmail.com" className="flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
                 <Mail className="h-4 w-4 text-primary" strokeWidth={2.4} />
-                support@cinevault.bd
+                cinevault136@gmail.com
               </a>
             </div>
 

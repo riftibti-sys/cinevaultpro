@@ -28,11 +28,7 @@ export function CategoryBar() {
           <a
             key={c.label}
             href={c.href}
-            className={`group inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-wide transition sm:text-[13px] lg:gap-1 lg:px-2.5 lg:py-1 lg:text-[11px] lg:tracking-normal xl:gap-1.5 xl:px-3.5 xl:text-[13px] xl:tracking-wide ${
-              c.hot
-                ? "border-white/40 bg-white text-neutral-900 hover:bg-neutral-100"
-                : "border-white/10 bg-white/5 text-white/85 hover:border-primary/60 hover:text-primary"
-            }`}
+            className="group inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-wide text-white/85 transition hover:border-primary/60 hover:text-primary sm:text-[13px] lg:gap-1 lg:px-2.5 lg:py-1 lg:text-[11px] lg:tracking-normal xl:gap-1.5 xl:px-3.5 xl:text-[13px] xl:tracking-wide"
           >
             <c.icon className={`h-3.5 w-3.5 lg:h-3 lg:w-3 xl:h-3.5 xl:w-3.5 ${c.hot ? "animate-pulse" : ""}`} strokeWidth={2.5} />
             <span className="whitespace-nowrap">{c.label}</span>

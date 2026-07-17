@@ -111,15 +111,16 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
           {/* Center: long pill search bar (desktop only) — white, matches reference */}
           <button
             onClick={() => setSearchOpen(true)}
-            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/15 bg-white pl-7 pr-1.5 py-1.5 text-left text-neutral-500 shadow-[0_2px_10px_rgba(0,0,0,0.25)] transition hover:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
+            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/15 bg-white pl-8 pr-2 py-2 text-left text-neutral-500 shadow-[0_2px_10px_rgba(0,0,0,0.25)] transition hover:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
           >
-            <span className="flex-1 truncate text-[15px] font-medium tracking-wide">
+            <span className="flex-1 truncate text-[17px] font-medium tracking-wide">
               Search products
             </span>
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_20px_-4px_rgba(229,9,20,0.9)] transition group-hover:brightness-110">
-              <Search className="h-[22px] w-[22px]" strokeWidth={2.75} />
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_20px_-4px_rgba(229,9,20,0.9)] transition group-hover:brightness-110">
+              <Search className="h-6 w-6" strokeWidth={2.75} />
             </span>
           </button>
+
 
 
 

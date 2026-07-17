@@ -215,6 +215,36 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          description: string | null
+          group_name: string
+          key: string
+          label: string
+          sort_order: number
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          description?: string | null
+          group_name?: string
+          key: string
+          label: string
+          sort_order?: number
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          description?: string | null
+          group_name?: string
+          key?: string
+          label?: string
+          sort_order?: number
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

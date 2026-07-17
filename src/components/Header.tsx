@@ -72,8 +72,13 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-black ring-1 ring-primary/50 shadow-[0_0_18px_-4px_rgba(229,9,20,0.6)] sm:h-10 sm:w-10">
                 <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-cover" />
               </span>
-              <span className="hidden font-display text-2xl uppercase italic leading-none tracking-wider text-white sm:inline sm:text-[28px]">
-                Cine<span className="text-primary">Vault</span>
+              <span className="hidden flex-col leading-none sm:flex">
+                <span className="font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
+                  Cine<span className="text-primary">Vault</span>
+                </span>
+                <span className="mt-0.5 text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
+                  Since 2026
+                </span>
               </span>
             </Link>
           </div>

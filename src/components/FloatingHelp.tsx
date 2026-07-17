@@ -44,12 +44,12 @@ export function FloatingHelp() {
         />
       )}
 
-      {/* Chat popup card */}
+      {/* Chat popup card — same behaviour on mobile & desktop */}
       <div
         className={`fixed right-4 z-[70] w-[calc(100vw-2rem)] max-w-sm origin-bottom-right transition-all duration-300 sm:right-6 ${
           open
-            ? "bottom-24 scale-100 opacity-100 sm:bottom-28"
-            : "pointer-events-none bottom-20 scale-90 opacity-0"
+            ? "bottom-[calc(6rem+64px+env(safe-area-inset-bottom))] scale-100 opacity-100 sm:bottom-28"
+            : "pointer-events-none bottom-[calc(6rem+64px+env(safe-area-inset-bottom))] scale-90 opacity-0 sm:bottom-24"
         }`}
       >
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0a] shadow-[0_30px_80px_-20px_rgba(229,9,20,0.6)]">

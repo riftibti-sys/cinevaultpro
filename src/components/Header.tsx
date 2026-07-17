@@ -1,16 +1,32 @@
-import { Link } from "@tanstack/react-router";
-import { Search, ShoppingBag, Menu, X, Home, Store, HelpCircle, MessageCircle, Plus, Check } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Search, ShoppingBag, Menu, X, Home, Store, HelpCircle, MessageCircle, Plus, Check, MapPin, ClipboardList, User, LogOut } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { products } from "@/lib/products";
 import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
 
 export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { count, items, add } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleUser = () => {
+    if (user) {
+      if (confirm("আপনি কি sign out করতে চান?")) {
+        supabase.auth.signOut().then(() => toast.success("Sign out হয়েছে"));
+      }
+    } else {
+      navigate({ to: "/auth" });
+    }
+  };
+
 
   useEffect(() => {
     if (searchOpen) setTimeout(() => inputRef.current?.focus(), 50);
@@ -61,11 +77,12 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             </Link>
           </div>
 
-          <nav className="hidden gap-8 text-sm text-white/70 md:flex">
+          <nav className="hidden gap-8 text-sm text-white/70 xl:flex">
             <a href="#products" className="transition hover:text-white">Products</a>
             <a href="#how" className="transition hover:text-white">How it works</a>
             <a href="#contact" className="transition hover:text-white">Contact</a>
           </nav>
+
 
           <div className="flex items-center gap-2">
             <button
@@ -75,6 +92,36 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             >
               <Search className="h-4 w-4" />
             </button>
+
+            {/* Desktop-only quick actions */}
+            <a
+              href="https://www.facebook.com/share/1HTm4Rz58F/"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary md:inline-flex"
+            >
+              <MapPin className="h-4 w-4" />
+              Store Locator
+            </a>
+            <button
+              onClick={() => navigate({ to: "/request-order" })}
+              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary md:inline-flex"
+            >
+              <ClipboardList className="h-4 w-4" />
+              Request Order
+            </button>
+            <button
+              onClick={handleUser}
+              className={`hidden h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition md:inline-flex ${
+                user
+                  ? "border border-white/15 bg-white/5 text-white/85 hover:border-primary/60 hover:text-primary"
+                  : "bg-primary text-primary-foreground shadow-[0_0_18px_-4px_rgba(229,9,20,0.7)] hover:brightness-110"
+              }`}
+            >
+              {user ? <LogOut className="h-4 w-4" /> : <User className="h-4 w-4" />}
+              {user ? "Sign Out" : "Login"}
+            </button>
+
             <button
               onClick={onCartClick}
               aria-label="Cart"
@@ -89,6 +136,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               )}
             </button>
           </div>
+
         </div>
       </header>
 

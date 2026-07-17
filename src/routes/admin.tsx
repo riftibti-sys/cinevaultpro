@@ -1178,6 +1178,10 @@ const SETTING_LABELS: Record<string, { label: string; hint?: string; textarea?: 
   hero_badge_text: { label: "Header FIFA badge text" },
   footer_tagline: { label: "Footer tagline", textarea: true },
   footer_address: { label: "Footer address" },
+  hero_featured_ids: { label: "Hero featured product IDs", hint: "Comma-separated product IDs — e.g. netflix,prime,spotify" },
+  hero_recommended_text: { label: "Hero badge text" },
+  hero_starts_text: { label: "Hero 'Starts at' label" },
+  hero_shop_text: { label: "Hero shop button text" },
 };
 
 function SettingsManager({

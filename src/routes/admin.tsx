@@ -326,6 +326,13 @@ function AdminPage() {
           <div className="grid place-items-center py-20">
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
           </div>
+        ) : tab === "orders" ? (
+          <OrdersTable
+            rows={data.orders}
+            onDelete={handleDeleteOrder}
+            onStatus={handleUpdateOrderStatus}
+            error={data.errors.orders}
+          />
         ) : tab === "reviews" ? (
           <ReviewsTable
             rows={data.reviews}
@@ -348,6 +355,7 @@ function AdminPage() {
             error={data.errors.profiles}
           />
         )}
+
       </main>
     </div>
   );

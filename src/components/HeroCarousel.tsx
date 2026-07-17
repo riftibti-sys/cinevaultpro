@@ -73,7 +73,7 @@ export function HeroCarousel() {
                       className="mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white sm:mb-3 sm:px-3"
                       style={{ background: p.accent, boxShadow: `0 0 20px -4px ${p.accent}` }}
                     >
-                      ● Recommended
+                      {settings.get("hero_recommended_text", "● Recommended")}
                     </span>
                     <h1 className="font-display text-[26px] uppercase italic leading-[0.9] tracking-wide text-white sm:text-6xl">
                       {p.name}

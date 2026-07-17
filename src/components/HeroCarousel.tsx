@@ -60,8 +60,8 @@ export function HeroCarousel() {
                   {/* Left: copy */}
                   <div className="min-w-0 flex-1">
                     <span
-                      className="mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white sm:mb-3 sm:px-3"
-                      style={{ background: p.accent, boxShadow: `0 0 20px -4px ${p.accent}` }}
+                      className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.25em] text-white sm:mb-4 sm:px-5 sm:py-2 sm:text-sm"
+                      style={{ background: p.accent, boxShadow: `0 0 24px -4px ${p.accent}` }}
                     >
                       ● Recommended
                     </span>

@@ -7,6 +7,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { FloatingHelp } from "@/components/FloatingHelp";
 import { products, categoryLabels, type Product } from "@/lib/products";
 
 export const Route = createFileRoute("/")({

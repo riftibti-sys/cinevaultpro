@@ -62,19 +62,19 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
 
       {/* BODY */}
-      <div className="flex flex-1 flex-col p-3">
-        <h3 className="line-clamp-1 text-sm font-bold leading-tight text-foreground">{product.name}</h3>
-        <p className="mt-0.5 line-clamp-1 text-[10px] text-muted-foreground">
+      <div className="flex flex-1 flex-col p-3.5 sm:p-4">
+        <h3 className="line-clamp-1 text-[15px] font-bold leading-tight text-foreground sm:text-base">{product.name}</h3>
+        <p className="mt-1 line-clamp-1 text-[11px] text-muted-foreground sm:text-xs">
           {product.tagline} • {product.duration}
         </p>
 
         {/* PRICE */}
-        <div className="mt-2 flex items-baseline gap-1.5">
-          <span className="text-lg font-black tracking-tight text-primary">
+        <div className="mt-2.5 flex items-baseline gap-1.5">
+          <span className="text-xl font-black tracking-tight text-primary sm:text-[22px]">
             Tk. {product.price.toLocaleString()}
           </span>
           {product.originalPrice && (
-            <span className="text-[11px] font-medium text-muted-foreground line-through">
+            <span className="text-xs font-medium text-muted-foreground line-through">
               Tk. {product.originalPrice.toLocaleString()}
             </span>
           )}

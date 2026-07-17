@@ -126,7 +126,7 @@ export function FloatingHelp() {
           setPulse(false);
         }}
         aria-label={open ? "Close help" : "Open help"}
-        className="fixed bottom-24 right-4 z-[70] grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-primary via-[#e50914] to-[#a10810] text-white shadow-[0_15px_40px_-10px_rgba(229,9,20,0.8)] transition-transform hover:scale-110 active:scale-95 sm:bottom-6 sm:right-6 sm:h-16 sm:w-16"
+        className="fixed bottom-[calc(64px+env(safe-area-inset-bottom)+16px)] right-4 z-[70] grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-primary via-[#e50914] to-[#a10810] text-white shadow-[0_15px_40px_-10px_rgba(229,9,20,0.8)] transition-transform hover:scale-110 active:scale-95 sm:bottom-6 sm:right-6 sm:h-16 sm:w-16"
       >
         {/* Ping ring */}
         {pulse && !open && (

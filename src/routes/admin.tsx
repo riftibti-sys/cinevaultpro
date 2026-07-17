@@ -19,8 +19,10 @@ import {
   Trash2,
   Users,
   MessageSquare,
+  Image as ImageIcon,
   X,
 } from "lucide-react";
+
 import { Toaster } from "@/components/ui/sonner";
 import {
   adminAnswerQuestion,

@@ -9,6 +9,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { FloatingHelp } from "@/components/FloatingHelp";
+import { ReviewsSection } from "@/components/ReviewsSection";
 import { products, categoryLabels, type Product } from "@/lib/products";
 
 export const Route = createFileRoute("/")({
@@ -110,6 +111,9 @@ function Home() {
           ))}
         </div>
       </section>
+
+      {/* REVIEWS */}
+      <ReviewsSection />
 
       {/* CONTACT */}
       <section id="contact" className="mx-auto mt-16 max-w-6xl px-4 pb-16 sm:px-5">

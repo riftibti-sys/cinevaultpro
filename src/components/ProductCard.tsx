@@ -1,17 +1,35 @@
-import { Check, Star, Zap } from "lucide-react";
+import { useState } from "react";
+import { Check, Star } from "lucide-react";
 import { useCart } from "@/lib/cart";
+import { useReviews } from "@/lib/useReviews";
 import type { Product } from "@/lib/products";
+import { toast } from "sonner";
 
 export function ProductCard({ product }: { product: Product }) {
   const { items, add } = useCart();
   const inCart = items.some((i) => i.product.id === product.id);
+  const { statsFor, submit } = useReviews();
+  const [hover, setHover] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
-  const rating = product.rating ?? 5.0;
-  const reviews = product.reviews ?? 0;
-  const discount =
-    product.originalPrice && product.originalPrice > product.price
-      ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-      : 0;
+  const stats = statsFor(product.id);
+  const avg = stats.count > 0 ? stats.avg : (product.rating ?? 0);
+  const count = stats.count > 0 ? stats.count : 0;
+
+  const handleRate = async (value: number) => {
+    if (submitting) return;
+    const name = window.prompt("আপনার নাম লিখুন (রেটিং দেওয়ার জন্য):")?.trim();
+    if (!name) return;
+    try {
+      setSubmitting(true);
+      await submit({ product_id: product.id, name, rating: value });
+      toast.success(`${product.name} — ${value}★ রেটিং জমা হয়েছে!`);
+    } catch {
+      toast.error("রেটিং জমা দিতে সমস্যা হয়েছে");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/70 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-[0_10px_30px_-15px_rgba(229,9,20,0.45)] active:scale-[0.98]">
@@ -31,16 +49,6 @@ export function ProductCard({ product }: { product: Product }) {
           loading="lazy"
           referrerPolicy="no-referrer"
         />
-
-        {/* Discount ribbon (unique diagonal) */}
-        {discount > 0 && (
-          <div className="absolute left-0 top-3 flex items-center gap-1 rounded-r-full bg-primary px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-primary-foreground shadow-md">
-            <Zap className="h-3 w-3" strokeWidth={3} />
-            {discount}% OFF
-          </div>
-        )}
-
-        {/* Instant delivery pill */}
         <div className="absolute right-2 top-2 rounded-md border border-emerald-500/30 bg-black/70 px-2 py-0.5 text-[9px] font-bold tracking-wide text-emerald-400 backdrop-blur">
           INSTANT
         </div>
@@ -55,29 +63,43 @@ export function ProductCard({ product }: { product: Product }) {
 
         {/* PRICE */}
         <div className="mt-2 flex items-baseline gap-1.5">
-          <span className="text-lg font-black tracking-tight text-primary">৳{product.price.toLocaleString()}</span>
+          <span className="text-lg font-black tracking-tight text-primary">
+            Taka {product.price.toLocaleString()}
+          </span>
           {product.originalPrice && (
             <span className="text-[11px] font-medium text-muted-foreground line-through">
-              ৳{product.originalPrice.toLocaleString()}
+              Taka {product.originalPrice.toLocaleString()}
             </span>
           )}
         </div>
 
-        {/* RATING */}
-        <div className="mt-1.5 flex items-center gap-1">
+        {/* INTERACTIVE RATING */}
+        <div className="mt-1.5 flex items-center gap-1" onMouseLeave={() => setHover(0)}>
           <div className="flex">
             {Array.from({ length: 5 }).map((_, i) => {
-              const filled = i < Math.round(rating);
+              const value = i + 1;
+              const active = hover ? value <= hover : value <= Math.round(avg);
               return (
-                <Star
+                <button
                   key={i}
-                  className={`h-3 w-3 ${filled ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
-                />
+                  type="button"
+                  onMouseEnter={() => setHover(value)}
+                  onClick={() => handleRate(value)}
+                  disabled={submitting}
+                  aria-label={`Rate ${value} star${value > 1 ? "s" : ""}`}
+                  className="p-0.5 transition-transform hover:scale-125"
+                >
+                  <Star
+                    className={`h-3.5 w-3.5 ${active ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
+                  />
+                </button>
               );
             })}
           </div>
-          <span className="text-[10px] font-bold text-foreground">({rating.toFixed(1)})</span>
-          {reviews > 0 && <span className="text-[9px] text-muted-foreground">· {reviews}</span>}
+          <span className="text-[10px] font-bold text-foreground">
+            {avg > 0 ? avg.toFixed(1) : "New"}
+          </span>
+          {count > 0 && <span className="text-[9px] text-muted-foreground">· {count}</span>}
         </div>
 
         {/* BUY NOW */}

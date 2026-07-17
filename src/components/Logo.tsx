@@ -1,34 +1,25 @@
+import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
+
 export function Logo({ className = "" }: { className?: string }) {
-  // "Cine" + soccer ball as the "V" pivot + "ault"  with "vault" script beneath
   return (
-    <div className={`inline-flex flex-col items-center leading-none ${className}`}>
-      <div className="flex items-end gap-[2px] text-2xl font-extrabold tracking-tight sm:text-[26px]">
-        <span className="text-foreground">Cine</span>
-        <span className="text-primary">Va</span>
-        {/* soccer ball replacing the "u" */}
-        <span className="relative inline-block h-[1.05em] w-[1.05em] -mx-[1px] align-baseline">
-          <svg viewBox="0 0 40 40" className="cv-ball absolute inset-0 h-full w-full" aria-hidden="true">
-            <defs>
-              <radialGradient id="cvBallG" cx="35%" cy="30%" r="70%">
-                <stop offset="0%" stopColor="#ffffff" />
-                <stop offset="60%" stopColor="#e5e5e5" />
-                <stop offset="100%" stopColor="#9a9a9a" />
-              </radialGradient>
-            </defs>
-            <circle cx="20" cy="20" r="18" fill="url(#cvBallG)" stroke="#111" strokeWidth="1.2" />
-            <polygon points="20,10 27,15 24.5,23 15.5,23 13,15" fill="#111" />
-            <path d="M20,10 L20,3 M27,15 L34,12 M24.5,23 L30,29 M15.5,23 L10,29 M13,15 L6,12"
-                  stroke="#111" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-          </svg>
+    <div className={`inline-flex items-center gap-2.5 leading-none ${className}`}>
+      <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl bg-black shadow-[0_6px_18px_-8px_rgba(0,0,0,.4)] ring-1 ring-black/10 sm:h-12 sm:w-12">
+        <img
+          src={logoAsset.url}
+          alt="CineVault"
+          className="h-full w-full object-cover"
+          loading="eager"
+          decoding="async"
+        />
+      </span>
+      <span className="flex flex-col leading-none">
+        <span className="text-xl font-extrabold tracking-tight text-foreground sm:text-[22px]">
+          Cine<span className="text-primary">Vault</span>
         </span>
-        <span className="text-primary">lt</span>
-      </div>
-      {/* soft cast shadow — no filter blur, uses radial gradient for cheap paint */}
-      <span
-        className="cv-shadow mt-[3px] block h-[4px] w-8 rounded-full"
-        style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 70%)" }}
-      />
-      <span className="cv-script -mt-[6px] text-[13px] text-primary/90">cine vault</span>
+        <span className="mt-1 text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+          Premium Subscriptions
+        </span>
+      </span>
     </div>
   );
 }

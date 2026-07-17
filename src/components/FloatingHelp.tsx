@@ -22,10 +22,17 @@ export function FloatingHelp() {
       icon: MessageCircle,
     },
     {
-      label: "Support Chat",
-      sub: "WhatsApp web/app খুলবে",
-      href: whatsappUrl(),
-      color: "#25D366",
+      label: "Messenger",
+      sub: "Facebook Messenger এ চ্যাট করুন",
+      href: "https://m.me/cinevaultbd",
+      color: "#0084FF",
+      icon: Facebook,
+    },
+    {
+      label: "Facebook Page",
+      sub: "আমাদের পেজ visit করুন",
+      href: "https://www.facebook.com/cinevaultbd",
+      color: "#1877F2",
       icon: Send,
     },
     {

@@ -74,19 +74,22 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                 <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-cover" />
               </span>
               <span className="hidden flex-col leading-none sm:flex">
-                <span className="relative font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
-                  Cine<span className="text-primary">Vault</span>
-                  {/* Football that kicks & bounces across the wordmark */}
+                <span className="relative inline-block font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
+                  {/* Wordmark — clipped/restored by the ball sweep */}
+                  <span className="inline-block animate-cv-text-wipe">
+                    Cine<span className="text-primary">Vault</span>
+                  </span>
+                  {/* Big ball that wipes across, then rolls back to repaint */}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute bottom-0 left-0 animate-cv-ball-kick"
+                    className="pointer-events-none absolute inset-y-0 left-0 flex items-center animate-cv-ball-sweep"
                   >
                     <img
                       src={footballImg}
                       alt=""
-                      width={20}
-                      height={20}
-                      className="h-5 w-5 animate-cv-ball-spin drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
+                      width={32}
+                      height={32}
+                      className="h-8 w-8 animate-cv-ball-spin drop-shadow-[0_3px_6px_rgba(0,0,0,0.6)]"
                     />
                   </span>
                 </span>

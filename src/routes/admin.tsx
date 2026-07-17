@@ -19,8 +19,10 @@ import {
   Trash2,
   Users,
   MessageSquare,
+  Image as ImageIcon,
   X,
 } from "lucide-react";
+
 import { Toaster } from "@/components/ui/sonner";
 import {
   adminAnswerQuestion,
@@ -138,7 +140,7 @@ function AdminPage() {
   const [products, setProducts] = useState<ProductRow[] | null>(null);
   const [combos, setCombos] = useState<ComboRow[] | null>(null);
   const [settings, setSettings] = useState<SettingRow[] | null>(null);
-  const [tab, setTab] = useState<"orders" | "products" | "combos" | "reviews" | "questions" | "users" | "settings">("orders");
+  const [tab, setTab] = useState<"orders" | "products" | "combos" | "hero" | "reviews" | "questions" | "users" | "settings">("orders");
 
   const listProductsFn = useServerFn(adminListProducts);
   const saveProductFn = useServerFn(adminSaveProduct);
@@ -344,6 +346,8 @@ function AdminPage() {
     { key: "orders" as const, label: "Orders", icon: Package, count: data?.orders.length ?? 0 },
     { key: "products" as const, label: "Products", icon: ShoppingBag, count: products?.length ?? 0 },
     { key: "combos" as const, label: "Combos", icon: Sparkles, count: combos?.length ?? 0 },
+    { key: "hero" as const, label: "Hero", icon: ImageIcon, count: (settings ?? []).filter((s) => s.key.startsWith("hero_")).length },
+
     { key: "reviews" as const, label: "Reviews", icon: Star, count: data?.reviews.length ?? 0 },
     { key: "questions" as const, label: "Q&A", icon: MessageSquare, count: data?.questions.length ?? 0 },
     { key: "users" as const, label: "Users", icon: Users, count: data?.profiles.length ?? 0 },
@@ -424,6 +428,13 @@ function AdminPage() {
             onSave={handleSaveCombo}
             onDelete={handleDeleteCombo}
           />
+        ) : tab === "hero" ? (
+          <HeroManager
+            rows={(settings ?? []).filter((s) => s.key.startsWith("hero_"))}
+            products={products ?? []}
+            onSave={handleSaveSettings}
+          />
+
         ) : tab === "reviews" ? (
           <ReviewsTable
             rows={data.reviews}
@@ -1517,6 +1528,155 @@ function ComboEditor({
       </div>
       <style>{`.input{width:100%;border-radius:0.5rem;border:1px solid hsl(var(--border));background:hsl(var(--background));padding:0.5rem 0.75rem;font-size:0.875rem;color:hsl(var(--foreground));outline:none}.input:focus{border-color:hsl(var(--primary))}`}</style>
     </div>
+  );
+}
+
+function HeroManager({
+  rows,
+  products,
+  onSave,
+}: {
+  rows: SettingRow[];
+  products: ProductRow[];
+  onSave: (updates: { key: string; value: string }[]) => Promise<void>;
+}) {
+  const [draft, setDraft] = useState<Record<string, string>>(() => {
+    const d: Record<string, string> = {};
+    for (const r of rows) d[r.key] = r.value;
+    return d;
+  });
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    const d: Record<string, string> = {};
+    for (const r of rows) d[r.key] = r.value;
+    setDraft(d);
+  }, [rows]);
+
+  const selectedIds = (draft.hero_featured_ids ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const toggleId = (id: string) => {
+    const set = new Set(selectedIds);
+    if (set.has(id)) set.delete(id);
+    else set.add(id);
+    // preserve product order
+    const ordered = products.filter((p) => set.has(p.id)).map((p) => p.id);
+    setDraft((d) => ({ ...d, hero_featured_ids: ordered.join(",") }));
+  };
+
+  const moveId = (id: string, dir: -1 | 1) => {
+    const arr = [...selectedIds];
+    const i = arr.indexOf(id);
+    if (i < 0) return;
+    const j = i + dir;
+    if (j < 0 || j >= arr.length) return;
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    setDraft((d) => ({ ...d, hero_featured_ids: arr.join(",") }));
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const updates = rows.map((r) => ({ key: r.key, value: draft[r.key] ?? r.value }));
+      await onSave(updates);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const textField = (key: string, label: string, hint?: string) => (
+    <Field label={label} key={key}>
+      <input
+        className="input"
+        value={draft[key] ?? ""}
+        onChange={(e) => setDraft((d) => ({ ...d, [key]: e.target.value }))}
+      />
+      {hint ? <span className="mt-1 block text-[10px] text-muted-foreground">{hint}</span> : null}
+    </Field>
+  );
+
+  return (
+    <form onSubmit={submit} className="space-y-4">
+      <div className="rounded-2xl border border-border bg-card p-6">
+        <div className="mb-4 flex items-center gap-2">
+          <ImageIcon className="h-5 w-5 text-primary" />
+          <h2 className="font-display text-xl uppercase italic tracking-wide">Hero Carousel</h2>
+        </div>
+
+        <div className="mb-6">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+            Featured slides (click to toggle, arrows to reorder)
+          </div>
+
+          {selectedIds.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {selectedIds.map((id) => {
+                const p = products.find((x) => x.id === id);
+                if (!p) return (
+                  <span key={id} className="rounded-full border border-destructive/40 bg-destructive/10 px-3 py-1 text-xs text-destructive">
+                    {id} (missing)
+                  </span>
+                );
+                return (
+                  <span key={id} className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-1 text-xs font-semibold">
+                    <button type="button" onClick={() => moveId(id, -1)} className="rounded px-1 hover:bg-primary/20">←</button>
+                    <span>{p.name}</span>
+                    <button type="button" onClick={() => moveId(id, 1)} className="rounded px-1 hover:bg-primary/20">→</button>
+                    <button type="button" onClick={() => toggleId(id)} className="ml-1 rounded p-0.5 hover:bg-destructive/20"><X className="h-3 w-3" /></button>
+                  </span>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            {products.map((p) => {
+              const active = selectedIds.includes(p.id);
+              return (
+                <button
+                  type="button"
+                  key={p.id}
+                  onClick={() => toggleId(p.id)}
+                  className={`flex items-center gap-2 rounded-xl border p-2 text-left text-xs transition ${
+                    active ? "border-primary bg-primary/10" : "border-border bg-background hover:border-primary/50"
+                  }`}
+                >
+                  <img src={p.logo} alt="" className="h-8 w-8 rounded object-contain" referrerPolicy="no-referrer" />
+                  <div className="min-w-0">
+                    <div className="truncate font-bold">{p.name}</div>
+                    <div className="truncate text-[10px] text-muted-foreground">{p.id}</div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          {textField("hero_recommended_text", "Badge text", "Small pill above the title, e.g. ● Recommended")}
+          {textField("hero_starts_text", "'Starts at' label")}
+          {textField("hero_shop_text", "Shop button text")}
+          {textField("hero_since_text", "Header 'since' text")}
+          {textField("hero_badge_text", "Header FIFA badge text")}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <button
+          type="submit"
+          disabled={saving}
+          className="flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-[0_10px_25px_-10px_rgba(229,9,20,0.6)] disabled:opacity-60"
+        >
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+          Save Hero Settings
+        </button>
+      </div>
+      <style>{`.input{width:100%;border-radius:0.5rem;border:1px solid hsl(var(--border));background:hsl(var(--background));padding:0.5rem 0.75rem;font-size:0.875rem;color:hsl(var(--foreground));outline:none}.input:focus{border-color:hsl(var(--primary))}`}</style>
+    </form>
   );
 }
 

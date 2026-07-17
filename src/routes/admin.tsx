@@ -104,13 +104,16 @@ function AdminPage() {
   const updateReviewFn = useServerFn(adminUpdateReview);
   const delUserFn = useServerFn(adminDeleteUser);
   const updateUserFn = useServerFn(adminUpdateUser);
+  const delOrderFn = useServerFn(adminDeleteOrder);
+  const updateOrderFn = useServerFn(adminUpdateOrderStatus);
 
   const [checking, setChecking] = useState(true);
   const [unlocked, setUnlocked] = useState(false);
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [data, setData] = useState<Data | null>(null);
-  const [tab, setTab] = useState<"reviews" | "questions" | "users">("reviews");
+  const [tab, setTab] = useState<"orders" | "reviews" | "questions" | "users">("orders");
+
 
   useEffect(() => {
     isUnlockedFn()

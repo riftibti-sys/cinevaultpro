@@ -195,11 +195,11 @@ export function SiteFooter() {
             <span className="hidden text-[10px] font-black uppercase tracking-[0.25em] text-white/40 sm:block">
               We Accept
             </span>
-            <div className="rounded-lg bg-white/95 px-2 py-1.5 shadow-[0_4px_20px_-6px_rgba(229,9,20,0.4)] ring-1 ring-white/15">
+            <div className="rounded-lg bg-white/95 px-4 py-2 shadow-[0_4px_20px_-6px_rgba(229,9,20,0.4)] ring-1 ring-white/15">
               <img
                 src={paymentMethods}
                 alt="bKash, Nagad, Rocket, Upay, Visa, Mastercard, Binance, PayPal"
-                className="h-6 w-auto object-contain sm:h-7"
+                className="h-8 w-auto object-contain sm:h-10"
                 loading="lazy"
                 width={1920}
                 height={640}

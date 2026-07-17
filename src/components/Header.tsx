@@ -84,10 +84,10 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                   {/* Broadcast-style underline: gold bar draws in with the ball leading it */}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute -bottom-1 left-0 h-[1.5px] w-[70%] overflow-visible sm:-bottom-1.5 sm:w-[65%]"
+                    className="pointer-events-none absolute -bottom-1 left-0 h-[1.5px] w-full overflow-visible sm:-bottom-1.5"
                   >
-                    <span className="absolute inset-y-0 left-0 h-full bg-white/10" />
-                    <span className="absolute inset-y-0 left-0 h-full origin-left animate-cv-line-draw bg-gradient-to-r from-primary via-amber-300 to-amber-100 shadow-[0_0_6px_rgba(229,9,20,0.55)]" />
+                    <span className="absolute inset-y-0 left-0 h-full w-full bg-white/10" />
+                    <span className="absolute inset-y-0 left-0 h-full w-full origin-left animate-cv-line-draw bg-gradient-to-r from-primary via-amber-300 to-amber-100 shadow-[0_0_6px_rgba(229,9,20,0.55)]" />
                     <img
                       src={footballImg}
                       alt=""

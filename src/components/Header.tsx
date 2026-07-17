@@ -79,7 +79,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                   {/* Football that kicks & bounces across the wordmark */}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute -top-5 left-0 animate-cv-ball-kick"
+                    className="pointer-events-none absolute bottom-0 left-0 animate-cv-ball-kick"
                   >
                     <img
                       src={footballImg}

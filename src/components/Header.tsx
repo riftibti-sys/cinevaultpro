@@ -125,13 +125,14 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               Store Locator
             </a>
 
-            {/* Request Order */}
+            {/* Request Order — icon on mobile, full pill on desktop */}
             <button
               onClick={() => navigate({ to: "/request-order" })}
-              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary lg:inline-flex"
+              aria-label="Request Order"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-0 w-10 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary hover:text-primary-foreground lg:w-auto lg:px-4 lg:border-white/15 lg:bg-white/5 lg:text-white/85 lg:hover:border-primary/60 lg:hover:bg-transparent lg:hover:text-primary"
             >
               <ClipboardList className="h-4 w-4" />
-              Request Order
+              <span className="hidden lg:inline">Request Order</span>
             </button>
 
             {/* Login / Sign out */}

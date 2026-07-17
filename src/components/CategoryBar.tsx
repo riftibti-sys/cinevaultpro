@@ -21,7 +21,7 @@ export function CategoryBar() {
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-[#0a0a0a] to-transparent lg:hidden" />
 
       <nav
-        className="scrollbar-none mx-auto flex w-full items-center gap-2 overflow-x-auto px-4 py-2.5 lg:max-w-7xl lg:justify-center lg:gap-2 lg:px-6"
+        className="scrollbar-none mx-auto flex w-full items-center gap-2 overflow-x-auto px-4 py-2.5 lg:max-w-7xl lg:flex-wrap lg:justify-center lg:gap-1.5 lg:overflow-visible lg:px-6"
         aria-label="Categories"
       >
         {categories.map((c) => (

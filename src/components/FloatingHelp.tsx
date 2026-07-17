@@ -15,13 +15,6 @@ export function FloatingHelp() {
 
   const options = [
     {
-      label: "WhatsApp",
-      sub: "সবচেয়ে দ্রুত reply",
-      href: whatsappUrl("Hi CineVault! আমি একটা subscription কিনতে চাই।"),
-      color: "#25D366",
-      icon: MessageCircle,
-    },
-    {
       label: "Messenger",
       sub: "Facebook Messenger এ চ্যাট করুন",
       href: "https://m.me/cinevaultbd",
@@ -29,16 +22,16 @@ export function FloatingHelp() {
       icon: Facebook,
     },
     {
-      label: "Facebook Page",
-      sub: "আমাদের পেজ visit করুন",
-      href: "https://www.facebook.com/cinevaultbd",
-      color: "#1877F2",
-      icon: Send,
+      label: "WhatsApp",
+      sub: "সবচেয়ে দ্রুত reply",
+      href: whatsappUrl("Hi CineVault! আমি একটা subscription কিনতে চাই।"),
+      color: "#25D366",
+      icon: MessageCircle,
     },
     {
-      label: "WhatsApp করুন",
+      label: "Call করুন",
       sub: "01785-897167",
-      href: whatsappUrl(),
+      href: "tel:+8801785897167",
       color: "#E50914",
       icon: Phone,
     },

@@ -132,7 +132,7 @@ function ProductDetail() {
   return (
     <div className="min-h-screen bg-background pb-24 text-foreground md:pb-8">
       <div className="sticky top-0 z-40">
-        <Header />
+        <Header onCartClick={() => setCartOpen(true)} />
         <CategoryBar />
       </div>
 

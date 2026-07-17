@@ -1,4 +1,4 @@
-import { ShoppingCart, ClipboardList, User, MessageCircle, LogOut } from "lucide-react";
+import { ShoppingCart, ClipboardList, User, Flame, LogOut } from "lucide-react";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
@@ -54,11 +54,11 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
       highlight: false,
     },
     {
-      key: "store",
-      label: "Support",
-      icon: MessageCircle,
-      onClick: () =>
-        window.open(whatsappSupportUrl, "_blank"),
+      key: "offers",
+      label: "Offers",
+      icon: Flame,
+      onClick: () => navigate({ to: "/offers" }),
+      highlight: true,
     },
   ];
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageCircle, X, Send, Phone } from "lucide-react";
+import { MessageCircle, X, Send, Phone, Facebook } from "lucide-react";
 
 export function FloatingHelp() {
   const [open, setOpen] = useState(false);

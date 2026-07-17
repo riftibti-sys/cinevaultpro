@@ -28,7 +28,7 @@ export function FloatingHelp() {
     {
       label: "Call করুন",
       sub: "01785-897167",
-      href: "tel:+8801785897167",
+      href: "https://wa.me/8801785897167",
       color: "#E50914",
       icon: Phone,
     },

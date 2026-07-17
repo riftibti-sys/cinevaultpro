@@ -40,8 +40,12 @@ export function useReviews() {
 
   const submit = useCallback(
     async (input: { product_id: string; name: string; rating: number; comment?: string }) => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const userId = sessionData.session?.user.id;
+      if (!userId) throw new Error("Please log in to submit a review.");
       const { error } = await supabase.from("reviews").insert({
         product_id: input.product_id,
+        user_id: userId,
         name: input.name.trim().slice(0, 60),
         rating: Math.max(1, Math.min(5, Math.round(input.rating))),
         comment: input.comment?.trim().slice(0, 500) || null,

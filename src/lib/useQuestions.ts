@@ -42,8 +42,12 @@ export function useQuestions(productId: string) {
 
   const ask = useCallback(
     async (input: { name: string; question: string }) => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const userId = sessionData.session?.user.id;
+      if (!userId) throw new Error("Please log in to ask a question.");
       const { error } = await (supabase as any).from("questions").insert({
         product_id: productId,
+        user_id: userId,
         name: input.name.trim().slice(0, 60),
         question: input.question.trim().slice(0, 500),
       });

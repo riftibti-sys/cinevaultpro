@@ -124,7 +124,7 @@ function Home() {
                 WhatsApp: 01785-897167
               </a>
               <a
-                href="https://www.messenger.com/t/cinevaultbd"
+                href="https://www.facebook.com/cinevaultbd"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex h-11 items-center gap-2 rounded-full border border-border bg-secondary/60 px-6 text-sm font-bold text-foreground hover:border-primary/60"

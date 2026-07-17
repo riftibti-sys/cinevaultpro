@@ -108,10 +108,10 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             </Link>
           </div>
 
-          {/* Center: long pill search bar (desktop only) — matches reference */}
+          {/* Center: long pill search bar (desktop only) — white, matches reference */}
           <button
             onClick={() => setSearchOpen(true)}
-            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/20 bg-white/[0.07] pl-7 pr-1.5 py-1.5 text-left text-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition hover:border-primary/60 hover:bg-white/[0.1] focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
+            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/15 bg-white pl-7 pr-1.5 py-1.5 text-left text-neutral-500 shadow-[0_2px_10px_rgba(0,0,0,0.25)] transition hover:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
           >
             <span className="flex-1 truncate text-[15px] font-medium tracking-wide">
               Search products
@@ -120,6 +120,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <Search className="h-[22px] w-[22px]" strokeWidth={2.75} />
             </span>
           </button>
+
 
 
           {/* Right: quick actions */}

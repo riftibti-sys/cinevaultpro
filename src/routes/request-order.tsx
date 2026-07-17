@@ -31,7 +31,12 @@ function RequestOrderPage() {
   const [cartOpen, setCartOpen] = useState(false);
   const [image, setImage] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [ticketId, setTicketId] = useState<string>("------");
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setTicketId(Date.now().toString().slice(-6));
+  }, []);
 
   const [form, setForm] = useState({
     productName: "",

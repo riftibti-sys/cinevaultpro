@@ -23,7 +23,7 @@ export function FloatingHelp() {
     {
       label: "Messenger",
       sub: "Facebook Messenger এ চ্যাট করুন",
-      href: "https://m.me/cinevaultbd",
+      href: "https://www.messenger.com/t/cinevaultbd",
       color: "#0084FF",
       icon: MessengerIcon,
     },

@@ -19,8 +19,8 @@ export type Product = {
   warranty?: string;
 };
 
-// Real brand logos via unavatar.io — fetches the actual site logo/icon.
-const logo = (domain: string) => `https://unavatar.io/${domain}`;
+// High-resolution brand logos via Clearbit (crisp, transparent PNG ~256px).
+const logo = (domain: string) => `https://logo.clearbit.com/${domain}?size=512`;
 
 export const products: Product[] = [
   {

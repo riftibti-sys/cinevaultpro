@@ -47,23 +47,21 @@ export function ProductCard({ product }: { product: Product }) {
           alt={`${product.name} logo`}
           className={
             product.logoFill
-              ? "h-full w-full object-cover opacity-95"
-              : "h-16 w-16 object-contain opacity-95 transition-transform group-hover:scale-105"
+              ? "h-full w-full object-cover"
+              : "h-24 w-24 object-contain drop-shadow-sm transition-transform group-hover:scale-105"
           }
           loading="lazy"
+          decoding="async"
           referrerPolicy="no-referrer"
         />
         <div className="absolute right-2 top-2 rounded-md border border-emerald-500/30 bg-black/70 px-2 py-0.5 text-[9px] font-bold tracking-wide text-emerald-400 backdrop-blur">
           INSTANT
         </div>
-        <div className="absolute inset-x-0 bottom-0 translate-y-full bg-primary/95 py-1.5 text-center text-[10px] font-black uppercase tracking-widest text-primary-foreground transition-transform group-hover:translate-y-0">
-          View Details →
-        </div>
       </Link>
 
       {/* BODY */}
       <div className="flex flex-1 flex-col p-3">
-        <Link to="/product/$id" params={{ id: product.id }} className="line-clamp-1 text-sm font-bold leading-tight text-foreground hover:text-primary">{product.name}</Link>
+        <h3 className="line-clamp-1 text-sm font-bold leading-tight text-foreground">{product.name}</h3>
         <p className="mt-0.5 line-clamp-1 text-[10px] text-muted-foreground">
           {product.tagline} • {product.duration}
         </p>

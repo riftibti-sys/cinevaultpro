@@ -45,7 +45,7 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
       label: user ? "Sign Out" : "Login",
       icon: user ? LogOut : User,
       onClick: handleUser,
-      highlight: !user,
+      highlight: false,
     },
     {
       key: "store",

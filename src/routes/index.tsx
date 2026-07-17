@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Zap, Shield, Play, MessageCircle } from "lucide-react";
 import { Header } from "@/components/Header";
+import { CategoryBar } from "@/components/CategoryBar";
 import { CartDrawer } from "@/components/CartDrawer";
 import { ProductCard } from "@/components/ProductCard";
 import { BottomNav } from "@/components/BottomNav";
@@ -42,6 +43,7 @@ function Home() {
   return (
     <div className="min-h-screen pb-28">
       <Header onCartClick={() => setCartOpen(true)} />
+      <CategoryBar />
 
       {/* HERO — auto-swiping product carousel */}
       <HeroCarousel />

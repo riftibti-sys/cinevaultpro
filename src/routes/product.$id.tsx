@@ -2,7 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, Check, MessageCircleQuestion, Send, ShieldCheck, Sparkles, Star, Zap } from "lucide-react";
 import { toast } from "sonner";
-import { products } from "@/lib/products";
+import { fallbackProducts, rowToProduct, type Product } from "@/lib/products";
+import { listProducts } from "@/lib/products.functions";
 import { useCart } from "@/lib/cart";
 import { useReviews } from "@/lib/useReviews";
 import { useQuestions } from "@/lib/useQuestions";
@@ -12,9 +13,20 @@ import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CartDrawer } from "@/components/CartDrawer";
 
+async function findProduct(id: string): Promise<Product | undefined> {
+  try {
+    const rows = await listProducts();
+    const found = rows.find((r) => r.id === id);
+    if (found) return rowToProduct(found);
+  } catch {
+    // fall through to fallback
+  }
+  return fallbackProducts.find((x) => x.id === id);
+}
+
 export const Route = createFileRoute("/product/$id")({
-  head: ({ params }) => {
-    const p = products.find((x) => x.id === params.id);
+  head: ({ loaderData }) => {
+    const p = loaderData?.product;
     const title = p ? `${p.name} — CineVault` : "Product — CineVault";
     const desc = p ? `${p.name} ${p.duration} — Tk. ${p.price}. ${p.tagline}. Instant delivery.` : "Premium subscription details.";
     return {
@@ -27,8 +39,8 @@ export const Route = createFileRoute("/product/$id")({
       ],
     };
   },
-  loader: ({ params }) => {
-    const p = products.find((x) => x.id === params.id);
+  loader: async ({ params }) => {
+    const p = await findProduct(params.id);
     if (!p) throw notFound();
     return { product: p };
   },

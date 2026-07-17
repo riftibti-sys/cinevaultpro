@@ -48,7 +48,9 @@ export function ProductCard({ product }: { product: Product }) {
           className={
             product.logoFill
               ? "h-full w-full object-cover"
-              : "h-24 w-24 object-contain drop-shadow-sm transition-transform group-hover:scale-105"
+              : product.logoLarge
+                ? "h-36 w-36 object-contain drop-shadow-sm transition-transform group-hover:scale-105"
+                : "h-24 w-24 object-contain drop-shadow-sm transition-transform group-hover:scale-105"
           }
           loading="lazy"
           decoding="async"

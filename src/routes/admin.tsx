@@ -136,12 +136,16 @@ function AdminPage() {
   const [submitting, setSubmitting] = useState(false);
   const [data, setData] = useState<Data | null>(null);
   const [products, setProducts] = useState<ProductRow[] | null>(null);
+  const [combos, setCombos] = useState<ComboRow[] | null>(null);
   const [settings, setSettings] = useState<SettingRow[] | null>(null);
-  const [tab, setTab] = useState<"orders" | "products" | "reviews" | "questions" | "users" | "settings">("orders");
+  const [tab, setTab] = useState<"orders" | "products" | "combos" | "reviews" | "questions" | "users" | "settings">("orders");
 
   const listProductsFn = useServerFn(adminListProducts);
   const saveProductFn = useServerFn(adminSaveProduct);
   const delProductFn = useServerFn(adminDeleteProduct);
+  const listCombosFn = useServerFn(adminListCombos);
+  const saveComboFn = useServerFn(adminSaveCombo);
+  const delComboFn = useServerFn(adminDeleteCombo);
   const listSettingsFn = useServerFn(listSiteSettings);
   const saveSettingsFn = useServerFn(adminUpdateSiteSettings);
 

@@ -34,10 +34,13 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/70 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-[0_10px_30px_-15px_rgba(229,9,20,0.45)] active:scale-[0.98]">
-      {/* IMAGE */}
-      <div
+      {/* IMAGE — clickable to detail */}
+      <Link
+        to="/product/$id"
+        params={{ id: product.id }}
         className="relative grid aspect-square place-items-center overflow-hidden border-b border-border"
         style={{ background: `linear-gradient(135deg, ${product.accent}22, ${product.accent}05)` }}
+        aria-label={`View ${product.name} details`}
       >
         <img
           src={product.logo}
@@ -53,7 +56,10 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute right-2 top-2 rounded-md border border-emerald-500/30 bg-black/70 px-2 py-0.5 text-[9px] font-bold tracking-wide text-emerald-400 backdrop-blur">
           INSTANT
         </div>
-      </div>
+        <div className="absolute inset-x-0 bottom-0 translate-y-full bg-primary/95 py-1.5 text-center text-[10px] font-black uppercase tracking-widest text-primary-foreground transition-transform group-hover:translate-y-0">
+          View Details →
+        </div>
+      </Link>
 
       {/* BODY */}
       <div className="flex flex-1 flex-col p-3">

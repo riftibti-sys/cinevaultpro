@@ -317,6 +317,7 @@ function AdminPage() {
     { key: "reviews" as const, label: "Reviews", icon: Star, count: data?.reviews.length ?? 0 },
     { key: "questions" as const, label: "Q&A", icon: MessageSquare, count: data?.questions.length ?? 0 },
     { key: "users" as const, label: "Users", icon: Users, count: data?.profiles.length ?? 0 },
+    { key: "settings" as const, label: "Settings", icon: SettingsIcon, count: settings?.length ?? 0 },
   ];
 
 
@@ -401,13 +402,15 @@ function AdminPage() {
             onAnswer={handleAnswerQuestion}
             error={data.errors.questions}
           />
-        ) : (
+        ) : tab === "users" ? (
           <UsersTable
             rows={data.profiles}
             onDelete={handleDeleteUser}
             onUpdate={handleUpdateUser}
             error={data.errors.profiles}
           />
+        ) : (
+          <SettingsManager rows={settings ?? []} onSave={handleSaveSettings} />
         )}
 
       </main>

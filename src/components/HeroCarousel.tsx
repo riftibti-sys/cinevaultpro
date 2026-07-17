@@ -41,7 +41,7 @@ export function HeroCarousel() {
         >
           {/* Slides track */}
           <div
-            className="flex h-[10rem] transition-transform duration-700 ease-out sm:h-[15rem] lg:h-[18rem]"
+            className="flex h-[12rem] transition-transform duration-700 ease-out sm:h-[17rem] lg:h-[20rem]"
             style={{ transform: `translateX(-${index * 100}%)` }}
           >
             {slides.map((p) => (

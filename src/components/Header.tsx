@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { products } from "@/lib/products";
 import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
+import footballImg from "@/assets/football.png";
 
 export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { count, items, add } = useCart();

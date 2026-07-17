@@ -26,7 +26,7 @@ export function FloatingHelp() {
       icon: Send,
     },
     {
-      label: "Call করুন",
+      label: "WhatsApp করুন",
       sub: "01785-897167",
       href: "https://wa.me/8801785897167",
       color: "#E50914",

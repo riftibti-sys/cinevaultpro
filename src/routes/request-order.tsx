@@ -35,6 +35,7 @@ function RequestOrderPage() {
   const [image, setImage] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [ticketId, setTicketId] = useState<string>("------");
+  const settings = useSiteSettings();
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

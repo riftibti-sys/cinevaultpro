@@ -66,7 +66,7 @@ export function HeroCarousel() {
                   }}
                 />
 
-                <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-12 pt-5 sm:px-12 sm:py-10">
+                <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-14 pt-5 sm:px-12 sm:py-10">
                   {/* Left: copy */}
                   <div className="min-w-0 flex-1">
                     <span

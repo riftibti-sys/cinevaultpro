@@ -108,18 +108,19 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             </Link>
           </div>
 
-          {/* Center: long pill search bar (desktop only) */}
+          {/* Center: long pill search bar (desktop only) — matches reference */}
           <button
             onClick={() => setSearchOpen(true)}
-            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/15 bg-white/[0.06] pl-6 pr-2 py-3 text-left text-white/50 transition hover:border-primary/50 hover:bg-white/[0.09] focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
+            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/20 bg-white/[0.07] pl-7 pr-1.5 py-1.5 text-left text-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition hover:border-primary/60 hover:bg-white/[0.1] focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
           >
-            <span className="flex-1 truncate text-base font-medium">
-              Search product
+            <span className="flex-1 truncate text-[15px] font-medium tracking-wide">
+              Search products
             </span>
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_16px_-4px_rgba(229,9,20,0.8)] transition group-hover:brightness-110">
-              <Search className="h-5 w-5" strokeWidth={2.5} />
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_20px_-4px_rgba(229,9,20,0.9)] transition group-hover:brightness-110">
+              <Search className="h-[22px] w-[22px]" strokeWidth={2.75} />
             </span>
           </button>
+
 
           {/* Right: quick actions */}
           <div className="flex shrink-0 items-center gap-2">

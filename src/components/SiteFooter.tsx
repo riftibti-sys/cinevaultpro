@@ -115,15 +115,17 @@ export function SiteFooter() {
         </div>
 
         {/* Payments strip */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-2 border-t border-white/10 pt-6 sm:justify-end">
-          {payments.map((p) => (
-            <span
-              key={p}
-              className="grid h-8 min-w-[52px] place-items-center rounded-md border border-white/15 bg-white/5 px-2 text-[10px] font-bold uppercase tracking-wider text-white/80"
-            >
-              {p}
-            </span>
-          ))}
+        <div className="mt-10 border-t border-white/10 pt-6">
+          <div className="rounded-2xl bg-white/95 p-3 sm:p-4">
+            <img
+              src={paymentMethods}
+              alt="We accept bKash, Nagad, Rocket, Upay, Visa, Mastercard, Binance, PayPal"
+              className="mx-auto h-14 w-full object-contain sm:h-16"
+              loading="lazy"
+              width={1920}
+              height={640}
+            />
+          </div>
         </div>
 
         <p className="mt-6 text-center text-xs text-white/50 sm:text-left">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { MessageCircle, X, Send, Phone } from "lucide-react";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 const MessengerIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
@@ -10,9 +11,10 @@ const MessengerIcon = ({ className }: { className?: string }) => (
 export function FloatingHelp() {
   const [open, setOpen] = useState(false);
   const [pulse, setPulse] = useState(true);
-
-  const whatsappUrl = (message = "Hi CineVault! আমার support দরকার।") =>
-    `https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+  const settings = useSiteSettings();
+  const phoneIntl = settings.get("contact_phone_intl");
+  const displayPhone = settings.get("contact_phone");
+  const messengerUrl = settings.get("messenger_url");
 
   useEffect(() => {
     const t = setTimeout(() => setPulse(false), 8000);
@@ -23,21 +25,21 @@ export function FloatingHelp() {
     {
       label: "Messenger",
       sub: "Facebook Messenger এ চ্যাট করুন",
-      href: "https://www.messenger.com/t/cinevaultbd",
+      href: messengerUrl,
       color: "#0084FF",
       icon: MessengerIcon,
     },
     {
       label: "WhatsApp",
       sub: "সবচেয়ে দ্রুত reply",
-      href: whatsappUrl("Hi CineVault! আমি একটা subscription কিনতে চাই।"),
+      href: buildWhatsAppUrl(phoneIntl, "Hi CineVault! আমি একটা subscription কিনতে চাই।"),
       color: "#25D366",
       icon: MessageCircle,
     },
     {
       label: "Call Us",
-      sub: "01785-897167",
-      href: "tel:+8801785897167",
+      sub: displayPhone,
+      href: `tel:+${phoneIntl}`,
       color: "#E50914",
       icon: Phone,
     },

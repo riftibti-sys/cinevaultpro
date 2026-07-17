@@ -128,11 +128,14 @@ function AdminPage() {
   const [submitting, setSubmitting] = useState(false);
   const [data, setData] = useState<Data | null>(null);
   const [products, setProducts] = useState<ProductRow[] | null>(null);
-  const [tab, setTab] = useState<"orders" | "products" | "reviews" | "questions" | "users">("orders");
+  const [settings, setSettings] = useState<SettingRow[] | null>(null);
+  const [tab, setTab] = useState<"orders" | "products" | "reviews" | "questions" | "users" | "settings">("orders");
 
   const listProductsFn = useServerFn(adminListProducts);
   const saveProductFn = useServerFn(adminSaveProduct);
   const delProductFn = useServerFn(adminDeleteProduct);
+  const listSettingsFn = useServerFn(listSiteSettings);
+  const saveSettingsFn = useServerFn(adminUpdateSiteSettings);
 
   useEffect(() => {
     isUnlockedFn()
@@ -144,7 +147,15 @@ function AdminPage() {
     if (!unlocked) return;
     getDataFn().then((d) => setData(d as Data));
     listProductsFn().then((p) => setProducts(p as ProductRow[]));
-  }, [unlocked, getDataFn, listProductsFn]);
+    listSettingsFn().then((s) => setSettings(s as SettingRow[]));
+  }, [unlocked, getDataFn, listProductsFn, listSettingsFn]);
+
+  async function handleSaveSettings(updates: { key: string; value: string }[]) {
+    await saveSettingsFn({ data: { updates } });
+    toast.success("Settings saved");
+    const s = await listSettingsFn();
+    setSettings(s as SettingRow[]);
+  }
 
   async function refreshProducts() {
     const p = await listProductsFn();

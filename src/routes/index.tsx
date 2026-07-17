@@ -38,7 +38,7 @@ function Home() {
   ];
 
   return (
-    <div className="min-h-screen pb-28 sm:pb-0">
+    <div className="min-h-screen pb-28">
       <Header onCartClick={() => setCartOpen(true)} />
 
       {/* HERO */}

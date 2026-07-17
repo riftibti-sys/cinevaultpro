@@ -91,6 +91,36 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             >
               <Search className="h-4 w-4" />
             </button>
+
+            {/* Desktop-only quick actions */}
+            <a
+              href="https://www.facebook.com/share/1HTm4Rz58F/"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary md:inline-flex"
+            >
+              <MapPin className="h-4 w-4" />
+              Store Locator
+            </a>
+            <button
+              onClick={() => navigate({ to: "/request-order" })}
+              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary md:inline-flex"
+            >
+              <ClipboardList className="h-4 w-4" />
+              Request Order
+            </button>
+            <button
+              onClick={handleUser}
+              className={`hidden h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition md:inline-flex ${
+                user
+                  ? "border border-white/15 bg-white/5 text-white/85 hover:border-primary/60 hover:text-primary"
+                  : "bg-primary text-primary-foreground shadow-[0_0_18px_-4px_rgba(229,9,20,0.7)] hover:brightness-110"
+              }`}
+            >
+              {user ? <LogOut className="h-4 w-4" /> : <User className="h-4 w-4" />}
+              {user ? "Sign Out" : "Login"}
+            </button>
+
             <button
               onClick={onCartClick}
               aria-label="Cart"
@@ -105,6 +135,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               )}
             </button>
           </div>
+
         </div>
       </header>
 

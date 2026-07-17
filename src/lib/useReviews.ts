@@ -28,7 +28,7 @@ export function useReviews() {
   useEffect(() => {
     load();
     const channel = supabase
-      .channel("reviews-changes")
+      .channel(`reviews-changes-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "reviews" }, (payload) => {
         setReviews((prev) => [payload.new as Review, ...prev]);
       })

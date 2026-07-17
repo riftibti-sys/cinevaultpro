@@ -183,7 +183,6 @@ export const products: Product[] = [
     category: "streaming",
     accent: "#e11d48",
     logo: iscreenLogo,
-    logoFill: true,
     rating: 4.8,
     reviews: 96,
     description:

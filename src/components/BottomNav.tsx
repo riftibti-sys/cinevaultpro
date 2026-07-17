@@ -1,18 +1,22 @@
 import { ShoppingCart, ClipboardList, User, Flame, LogOut } from "lucide-react";
 import { useNavigate, useRouter } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const router = useRouter();
-  const settings = useSiteSettings();
-  const whatsappSupportUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const preloadAuth = () => {
     if (!user) router.preloadRoute({ to: "/auth" }).catch(() => {});
@@ -61,18 +65,9 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
     },
   ];
 
-  return (
+  const nav = (
     <div
-      className="z-50 md:hidden"
-      style={{
-        position: "fixed",
-        left: 0,
-        right: 0,
-        bottom: 0,
-        willChange: "auto",
-        WebkitTransform: "none",
-        transform: "none",
-      }}
+      className="mobile-bottom-nav md:hidden"
     >
       <nav className="border-t border-white/10 bg-[#0a0a0a]/95 px-2 pb-[max(env(safe-area-inset-bottom),8px)] pt-2 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl">
         <ul className="mx-auto flex max-w-md items-stretch justify-between gap-1">
@@ -104,4 +99,8 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
       </nav>
     </div>
   );
+
+  if (!mounted) return null;
+
+  return createPortal(nav, document.body);
 }

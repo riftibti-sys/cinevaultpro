@@ -26,8 +26,9 @@ export function HeroCarousel() {
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length);
 
   return (
-    <section className="px-4 pt-4 sm:px-5 sm:pt-6">
-      <div className="mx-auto max-w-6xl">
+    <section className="px-3 pt-3 sm:px-4 sm:pt-4">
+      <div className="mx-auto max-w-[1400px]">
+
         <div
           className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0a] shadow-[0_30px_80px_-30px_rgba(229,9,20,0.55)]"
           onMouseEnter={() => setPaused(true)}

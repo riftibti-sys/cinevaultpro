@@ -45,7 +45,7 @@ export function HeroCarousel() {
         >
           {/* Slides track */}
           <div
-            className="flex h-[11rem] transition-transform duration-700 ease-out sm:h-[16rem] lg:h-[19rem]"
+            className="flex h-[13rem] transition-transform duration-700 ease-out sm:h-[16rem] lg:h-[19rem]"
             style={{ transform: `translateX(-${index * 100}%)` }}
           >
             {slides.map((p) => (
@@ -66,7 +66,7 @@ export function HeroCarousel() {
                   }}
                 />
 
-                <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-12 pt-5 sm:px-12 sm:py-10">
+                <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-14 pt-5 sm:px-12 sm:py-10">
                   {/* Left: copy */}
                   <div className="min-w-0 flex-1">
                     <span
@@ -147,7 +147,7 @@ export function HeroCarousel() {
           </button>
 
           {/* Dots */}
-          <div className="absolute inset-x-0 bottom-3 z-10 flex items-center justify-center gap-1.5 sm:bottom-5">
+          <div className="absolute inset-x-0 bottom-2 z-10 flex items-center justify-center gap-1.5 sm:bottom-5">
             {slides.map((s, i) => (
               <button
                 key={s.id}

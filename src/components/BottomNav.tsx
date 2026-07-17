@@ -1,4 +1,4 @@
-import { ShoppingCart, ClipboardList, User, MapPin, LogOut } from "lucide-react";
+import { ShoppingCart, ClipboardList, User, MessageCircle, LogOut } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
@@ -9,6 +9,8 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const whatsappSupportUrl = `https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`;
 
   const handleUser = () => {
     if (user) {
@@ -47,10 +49,10 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
     },
     {
       key: "store",
-      label: "Store Locator",
-      icon: MapPin,
+      label: "Support",
+      icon: MessageCircle,
       onClick: () =>
-        window.open("https://www.facebook.com/cinevaultbd", "_blank"),
+        window.open(whatsappSupportUrl, "_blank"),
     },
   ];
 

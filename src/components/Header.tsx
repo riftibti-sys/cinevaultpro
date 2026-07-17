@@ -139,15 +139,15 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               </span>
             </a>
 
-            {/* Store Locator */}
+            {/* Support */}
             <a
-              href="https://www.facebook.com/cinevaultbd"
+              href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`}
               target="_blank"
               rel="noreferrer"
               className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary lg:inline-flex"
             >
-              <MapPin className="h-4 w-4" />
-              Store Locator
+              <MessageCircle className="h-4 w-4" />
+              Support
             </a>
 
 
@@ -309,7 +309,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               Support
             </p>
             <a
-              href="https://wa.me/8801785897167"
+              href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`}
               target="_blank"
               rel="noreferrer"
               className="mx-3 flex h-11 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-[0_0_15px_rgba(229,9,20,0.4)]"

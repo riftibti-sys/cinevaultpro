@@ -81,7 +81,7 @@ function RequestOrderPage() {
       .filter(Boolean)
       .join("\n");
 
-    const url = `https://wa.me/8801785897167?text=${encodeURIComponent(msg)}`;
+    const url = `https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent(msg)}&type=phone_number&app_absent=0`;
     window.open(url, "_blank");
     toast.success("🎬 Request পাঠানো হয়েছে! WhatsApp-এ image attach করুন।");
     setTimeout(() => setSubmitting(false), 800);

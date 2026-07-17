@@ -6,6 +6,8 @@ import paymentMethods from "@/assets/payment-methods.png";
 export function SiteFooter() {
   const [email, setEmail] = useState("");
 
+  const whatsappSupportUrl = `https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`;
+
   const onSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
@@ -26,7 +28,9 @@ export function SiteFooter() {
           {/* Phone button + Company column */}
           <div>
             <a
-              href="https://wa.me/8801785897167"
+              href={whatsappSupportUrl}
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center gap-3 rounded-2xl border-2 border-primary bg-transparent px-5 py-4 text-primary transition hover:bg-primary/10"
             >
               <span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground">
@@ -91,7 +95,7 @@ export function SiteFooter() {
 
             {/* Contact row */}
             <div className="mt-6 space-y-3">
-              <a href="https://wa.me/8801785897167" className="flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
+              <a href={whatsappSupportUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
                 <Phone className="h-4 w-4 text-primary" strokeWidth={2.4} />
                 01785-897167
               </a>

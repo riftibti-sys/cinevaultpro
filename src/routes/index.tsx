@@ -116,7 +116,7 @@ function Home() {
             <p className="mt-3 text-sm text-muted-foreground">২৪/৭ সাপোর্ট — যেকোনো প্রশ্নে যোগাযোগ করুন।</p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a
-                href="https://wa.me/8801785897167"
+                href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-bold text-primary-foreground shadow-[0_0_20px_rgba(229,9,20,0.4)] hover:brightness-110"
@@ -124,12 +124,12 @@ function Home() {
                 WhatsApp: 01785-897167
               </a>
               <a
-                href="https://www.facebook.com/cinevaultbd"
+                href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex h-11 items-center gap-2 rounded-full border border-border bg-secondary/60 px-6 text-sm font-bold text-foreground hover:border-primary/60"
               >
-                Messenger
+                Support Chat
               </a>
             </div>
           </div>

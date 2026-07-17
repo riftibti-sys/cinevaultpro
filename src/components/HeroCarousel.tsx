@@ -94,7 +94,7 @@ export function HeroCarousel() {
                         href="#products"
                         className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-bold uppercase tracking-wide text-black transition active:scale-95 sm:h-11 sm:px-6 sm:text-xs"
                       >
-                        <Play className="h-3 w-3 fill-black sm:h-3.5 sm:w-3.5" /> Shop Now
+                        <Play className="h-3 w-3 fill-black sm:h-3.5 sm:w-3.5" /> {settings.get("hero_shop_text", "Shop Now")}
                       </a>
                       <a
                         href={waUrl}

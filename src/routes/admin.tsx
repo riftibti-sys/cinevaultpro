@@ -121,8 +121,12 @@ function AdminPage() {
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [data, setData] = useState<Data | null>(null);
-  const [tab, setTab] = useState<"orders" | "reviews" | "questions" | "users">("orders");
+  const [products, setProducts] = useState<ProductRow[] | null>(null);
+  const [tab, setTab] = useState<"orders" | "products" | "reviews" | "questions" | "users">("orders");
 
+  const listProductsFn = useServerFn(adminListProducts);
+  const saveProductFn = useServerFn(adminSaveProduct);
+  const delProductFn = useServerFn(adminDeleteProduct);
 
   useEffect(() => {
     isUnlockedFn()
@@ -133,7 +137,24 @@ function AdminPage() {
   useEffect(() => {
     if (!unlocked) return;
     getDataFn().then((d) => setData(d as Data));
-  }, [unlocked, getDataFn]);
+    listProductsFn().then((p) => setProducts(p as ProductRow[]));
+  }, [unlocked, getDataFn, listProductsFn]);
+
+  async function refreshProducts() {
+    const p = await listProductsFn();
+    setProducts(p as ProductRow[]);
+  }
+  async function handleSaveProduct(product: ProductInput, isNew: boolean, originalId?: string) {
+    await saveProductFn({ data: { product, isNew, originalId } });
+    toast.success(isNew ? "Product created" : "Product updated");
+    await refreshProducts();
+  }
+  async function handleDeleteProduct(id: string) {
+    if (!confirm(`Delete product "${id}"?`)) return;
+    await delProductFn({ data: { id } });
+    toast.success("Deleted");
+    await refreshProducts();
+  }
 
   async function handleUnlock(e: React.FormEvent) {
     e.preventDefault();

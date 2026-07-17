@@ -197,20 +197,19 @@ export function SiteFooter() {
             <span className="h-px flex-1 bg-gradient-to-l from-transparent to-white/15" />
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-4 sm:p-5">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(229,9,20,0.08),transparent_60%)]" />
+          <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-white p-5 shadow-[0_10px_40px_-10px_rgba(229,9,20,0.35)] sm:p-6">
             <img
               src={paymentMethods}
               alt="bKash, Nagad, Rocket, Upay, Visa, Mastercard, Binance, PayPal"
-              className="relative mx-auto h-12 w-full object-contain sm:h-14"
+              className="mx-auto h-16 w-full object-contain sm:h-20"
               loading="lazy"
               width={1920}
               height={640}
             />
-            <p className="relative mt-3 text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
-              Instant delivery • SSL encrypted • 100% safe
-            </p>
           </div>
+          <p className="mt-3 text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
+            Instant delivery • SSL encrypted • 100% safe
+          </p>
         </div>
 
         {/* Bottom row */}

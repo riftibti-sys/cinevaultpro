@@ -38,7 +38,7 @@ export function ProductCard({ product }: { product: Product }) {
       <Link
         to="/product/$id"
         params={{ id: product.id }}
-        className="relative grid aspect-square place-items-center overflow-hidden border-b border-border"
+        className="relative grid aspect-[5/4] place-items-center overflow-hidden border-b border-border"
         style={{ background: `linear-gradient(135deg, ${product.accent}22, ${product.accent}05)` }}
         aria-label={`View ${product.name} details`}
       >
@@ -49,8 +49,8 @@ export function ProductCard({ product }: { product: Product }) {
             product.logoFill
               ? "h-full w-full object-cover"
               : product.logoLarge
-                ? "h-36 w-36 object-contain drop-shadow-sm transition-transform group-hover:scale-105"
-                : "h-24 w-24 object-contain drop-shadow-sm transition-transform group-hover:scale-105"
+                ? "h-24 w-24 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-28 sm:w-28"
+                : "h-16 w-16 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-20 sm:w-20"
           }
           loading="lazy"
           decoding="async"

@@ -14,6 +14,9 @@ export type Product = {
   logoFill?: boolean; // let logo fill the tile edge-to-edge
   rating?: number; // 0..5, one-decimal
   reviews?: number; // review count
+  description?: string;
+  features?: string[];
+  warranty?: string;
 };
 
 // Real brand logos via unavatar.io — fetches the actual site logo/icon.

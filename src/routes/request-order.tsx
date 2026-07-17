@@ -279,7 +279,7 @@ function RequestOrderPage() {
 }
 
 const inputCls =
-  "w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/30 transition focus:border-primary focus:bg-black/60 focus:outline-none focus:ring-2 focus:ring-primary/30";
+  "w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 transition focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/20";
 
 function Field({
   label,
@@ -294,8 +294,8 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-2 flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-white/70">
-        {Icon && <Icon className="h-3.5 w-3.5 text-primary" />}
+      <label className="mb-2 flex items-center gap-2 text-sm font-bold text-neutral-800">
+        {Icon && <Icon className="h-4 w-4 text-primary" />}
         {label} {required && <span className="text-primary">*</span>}
       </label>
       {children}

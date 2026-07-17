@@ -11,6 +11,7 @@ import { HeroCarousel } from "@/components/HeroCarousel";
 import { FloatingHelp } from "@/components/FloatingHelp";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { useProducts, categoryLabels, type Product } from "@/lib/products";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,6 +29,9 @@ function Home() {
   const [cartOpen, setCartOpen] = useState(false);
   const [filter, setFilter] = useState<Product["category"] | "all">("all");
   const products = useProducts();
+  const settings = useSiteSettings();
+  const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
+  const displayPhone = settings.get("contact_phone");
 
   const filtered = useMemo(
     () => (filter === "all" ? products : products.filter((p) => p.category === filter)),
@@ -125,15 +129,15 @@ function Home() {
             <p className="mt-3 text-sm text-muted-foreground">২৪/৭ সাপোর্ট — যেকোনো প্রশ্নে যোগাযোগ করুন।</p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a
-                href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`}
+                href={waUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-bold text-primary-foreground shadow-[0_0_20px_rgba(229,9,20,0.4)] hover:brightness-110"
               >
-                WhatsApp: 01785-897167
+                WhatsApp: {displayPhone}
               </a>
               <a
-                href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`}
+                href={waUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex h-11 items-center gap-2 rounded-full border border-border bg-secondary/60 px-6 text-sm font-bold text-foreground hover:border-primary/60"

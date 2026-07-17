@@ -134,9 +134,9 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <Search className="h-4 w-4" />
             </button>
 
-            {/* Offers — animated flame pill (white) */}
-            <a
-              href="#products"
+            {/* Offers — animated flame pill */}
+            <Link
+              to="/offers"
               className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/90 transition hover:border-primary/60 hover:text-primary md:inline-flex"
             >
               <Flame className="h-4 w-4 animate-pulse text-primary" strokeWidth={2.5} />
@@ -144,7 +144,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <span className="ml-0.5 rounded-full bg-primary px-1.5 py-0.5 text-[9px] font-black text-primary-foreground">
                 HOT
               </span>
-            </a>
+            </Link>
 
             {/* Store Locator */}
             <a

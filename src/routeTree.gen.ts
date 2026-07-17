@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RequestOrderRouteImport } from './routes/request-order'
+import { Route as OffersRouteImport } from './routes/offers'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -19,6 +20,11 @@ import { Route as ProductIdRouteImport } from './routes/product.$id'
 const RequestOrderRoute = RequestOrderRouteImport.update({
   id: '/request-order',
   path: '/request-order',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OffersRoute = OffersRouteImport.update({
+  id: '/offers',
+  path: '/offers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
+  '/offers': typeof OffersRoute
   '/request-order': typeof RequestOrderRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
+  '/offers': typeof OffersRoute
   '/request-order': typeof RequestOrderRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
+  '/offers': typeof OffersRoute
   '/request-order': typeof RequestOrderRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -79,16 +88,25 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/checkout'
+    | '/offers'
     | '/request-order'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/auth' | '/checkout' | '/request-order' | '/product/$id'
+  to:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/checkout'
+    | '/offers'
+    | '/request-order'
+    | '/product/$id'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/auth'
     | '/checkout'
+    | '/offers'
     | '/request-order'
     | '/product/$id'
   fileRoutesById: FileRoutesById
@@ -98,6 +116,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   CheckoutRoute: typeof CheckoutRoute
+  OffersRoute: typeof OffersRoute
   RequestOrderRoute: typeof RequestOrderRoute
   ProductIdRoute: typeof ProductIdRoute
 }
@@ -109,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/request-order'
       fullPath: '/request-order'
       preLoaderRoute: typeof RequestOrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/offers': {
+      id: '/offers'
+      path: '/offers'
+      fullPath: '/offers'
+      preLoaderRoute: typeof OffersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -154,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   CheckoutRoute: CheckoutRoute,
+  OffersRoute: OffersRoute,
   RequestOrderRoute: RequestOrderRoute,
   ProductIdRoute: ProductIdRoute,
 }

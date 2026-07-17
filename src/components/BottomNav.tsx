@@ -1,5 +1,5 @@
 import { ShoppingCart, ClipboardList, User, MessageCircle, LogOut } from "lucide-react";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,8 +10,13 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const router = useRouter();
   const settings = useSiteSettings();
   const whatsappSupportUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
+
+  const preloadAuth = () => {
+    if (!user) router.preloadRoute({ to: "/auth" }).catch(() => {});
+  };
 
   const handleUser = () => {
     if (user) {

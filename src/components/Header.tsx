@@ -75,21 +75,20 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               </span>
               <span className="hidden flex-col leading-none sm:flex">
                 <span className="relative inline-block font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
-                  {/* Wordmark — clipped/restored by the ball sweep */}
-                  <span className="inline-block animate-cv-text-wipe">
-                    Cine<span className="text-primary">Vault</span>
-                  </span>
-                  {/* Big ball that wipes across, then rolls back to repaint */}
+                  Cine<span className="text-primary">Vault</span>
+                  {/* Broadcast-style underline: gold bar draws in with the ball leading it */}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-y-0 left-0 flex items-center animate-cv-ball-sweep"
+                    className="pointer-events-none absolute -bottom-1.5 left-0 h-[2px] w-full overflow-visible"
                   >
+                    <span className="absolute inset-y-0 left-0 h-full bg-white/10" />
+                    <span className="absolute inset-y-0 left-0 h-full origin-left animate-cv-line-draw bg-gradient-to-r from-primary via-amber-300 to-amber-100 shadow-[0_0_8px_rgba(229,9,20,0.6)]" />
                     <img
                       src={footballImg}
                       alt=""
-                      width={32}
-                      height={32}
-                      className="h-8 w-8 animate-cv-ball-spin drop-shadow-[0_3px_6px_rgba(0,0,0,0.6)]"
+                      width={14}
+                      height={14}
+                      className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 animate-cv-line-ball drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]"
                     />
                   </span>
                 </span>

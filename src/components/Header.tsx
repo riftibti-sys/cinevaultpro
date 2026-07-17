@@ -58,8 +58,9 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0a0a0a] text-white backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-4">
-          <div className="flex items-center gap-2.5">
+        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 sm:py-4">
+          {/* Left: menu + logo */}
+          <div className="flex shrink-0 items-center gap-2.5">
             <button
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
@@ -71,45 +72,69 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-black ring-1 ring-primary/50 shadow-[0_0_18px_-4px_rgba(229,9,20,0.6)] sm:h-10 sm:w-10">
                 <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-cover" />
               </span>
-              <span className="font-display text-2xl uppercase italic leading-none tracking-wider text-white sm:text-[28px]">
+              <span className="hidden font-display text-2xl uppercase italic leading-none tracking-wider text-white sm:inline sm:text-[28px]">
                 Cine<span className="text-primary">Vault</span>
               </span>
             </Link>
           </div>
 
-          <nav className="hidden gap-8 text-sm text-white/70 xl:flex">
-            <a href="#products" className="transition hover:text-white">Products</a>
-            <a href="#how" className="transition hover:text-white">How it works</a>
-            <a href="#contact" className="transition hover:text-white">Contact</a>
-          </nav>
+          {/* Center: long pill search bar (desktop only) */}
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/15 bg-white/[0.06] pl-5 pr-1.5 py-1.5 text-left text-white/50 transition hover:border-primary/50 hover:bg-white/[0.09] focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
+          >
+            <span className="flex-1 truncate text-sm font-medium">
+              Search Netflix, Spotify, CapCut, ChatGPT…
+            </span>
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_16px_-4px_rgba(229,9,20,0.8)] transition group-hover:brightness-110">
+              <Search className="h-4 w-4" strokeWidth={2.5} />
+            </span>
+          </button>
 
-
-          <div className="flex items-center gap-2">
+          {/* Right: quick actions */}
+          <div className="flex shrink-0 items-center gap-2">
+            {/* Mobile search icon */}
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search"
-              className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/5 text-white/80 transition hover:border-primary/60 hover:text-primary"
+              className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/5 text-white/80 transition hover:border-primary/60 hover:text-primary md:hidden"
             >
               <Search className="h-4 w-4" />
             </button>
 
-            {/* Desktop-only quick actions */}
+            {/* Offers — animated flame pill */}
+            <a
+              href="#products"
+              className="group hidden h-10 items-center gap-2 rounded-full border border-primary/40 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent px-4 text-sm font-bold uppercase tracking-wide text-primary transition hover:border-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
+            >
+              <Flame className="h-4 w-4 animate-pulse" strokeWidth={2.5} />
+              Offers
+              <span className="ml-0.5 rounded-full bg-primary/20 px-1.5 py-0.5 text-[9px] font-black text-primary group-hover:bg-white/25 group-hover:text-primary-foreground">
+                HOT
+              </span>
+            </a>
+
+            {/* Store Locator */}
             <a
               href="https://www.facebook.com/share/1HTm4Rz58F/"
               target="_blank"
               rel="noreferrer"
-              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary md:inline-flex"
+              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary lg:inline-flex"
             >
               <MapPin className="h-4 w-4" />
               Store Locator
             </a>
+
+            {/* Request Order */}
             <button
               onClick={() => navigate({ to: "/request-order" })}
-              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary md:inline-flex"
+              className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary lg:inline-flex"
             >
               <ClipboardList className="h-4 w-4" />
               Request Order
             </button>
+
+            {/* Login / Sign out */}
             <button
               onClick={handleUser}
               className={`hidden h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition md:inline-flex ${
@@ -122,6 +147,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               {user ? "Sign Out" : "Login"}
             </button>
 
+            {/* Cart */}
             <button
               onClick={onCartClick}
               aria-label="Cart"
@@ -136,9 +162,9 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               )}
             </button>
           </div>
-
         </div>
       </header>
+
 
       {/* SEARCH OVERLAY */}
       <div

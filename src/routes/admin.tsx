@@ -10,8 +10,10 @@ import {
   LogOut,
   Package,
   Pencil,
+  Plus,
   Reply,
   ShieldCheck,
+  ShoppingBag,
   Star,
   Trash2,
   Users,
@@ -33,6 +35,13 @@ import {
   adminUpdateReview,
   adminUpdateUser,
 } from "@/lib/admin.functions";
+import {
+  adminDeleteProduct,
+  adminListProducts,
+  adminSaveProduct,
+  type ProductInput,
+  type ProductRow,
+} from "@/lib/products.functions";
 
 
 export const Route = createFileRoute("/admin")({

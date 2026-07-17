@@ -56,6 +56,75 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          accent: string
+          category: string
+          created_at: string
+          description: string | null
+          duration: string
+          features: string[]
+          id: string
+          is_active: boolean
+          logo: string
+          logo_fill: boolean
+          logo_large: boolean
+          name: string
+          original_price: number | null
+          price: number
+          rating: number | null
+          reviews: number | null
+          sort_order: number
+          tagline: string
+          updated_at: string
+          warranty: string | null
+        }
+        Insert: {
+          accent?: string
+          category?: string
+          created_at?: string
+          description?: string | null
+          duration?: string
+          features?: string[]
+          id: string
+          is_active?: boolean
+          logo?: string
+          logo_fill?: boolean
+          logo_large?: boolean
+          name: string
+          original_price?: number | null
+          price?: number
+          rating?: number | null
+          reviews?: number | null
+          sort_order?: number
+          tagline?: string
+          updated_at?: string
+          warranty?: string | null
+        }
+        Update: {
+          accent?: string
+          category?: string
+          created_at?: string
+          description?: string | null
+          duration?: string
+          features?: string[]
+          id?: string
+          is_active?: boolean
+          logo?: string
+          logo_fill?: boolean
+          logo_large?: boolean
+          name?: string
+          original_price?: number | null
+          price?: number
+          rating?: number | null
+          reviews?: number | null
+          sort_order?: number
+          tagline?: string
+          updated_at?: string
+          warranty?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null

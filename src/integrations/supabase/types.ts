@@ -41,6 +41,36 @@ export type Database = {
         }
         Relationships: []
       }
+      questions: {
+        Row: {
+          answer: string | null
+          answered_at: string | null
+          created_at: string
+          id: string
+          name: string
+          product_id: string
+          question: string
+        }
+        Insert: {
+          answer?: string | null
+          answered_at?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          product_id: string
+          question: string
+        }
+        Update: {
+          answer?: string | null
+          answered_at?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          product_id?: string
+          question?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           comment: string | null

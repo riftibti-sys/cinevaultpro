@@ -186,24 +186,30 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* PAYMENTS — labelled rail */}
+        {/* PAYMENTS — premium dark rail */}
         <div className="mt-14">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="h-px flex-1 bg-white/10" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50">
+          <div className="mb-5 flex items-center gap-4">
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-white/15" />
+            <span className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-white/70 backdrop-blur">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
               Secure Checkout
             </span>
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-white/15" />
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/95 p-3 sm:p-4">
+
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-4 sm:p-5">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(229,9,20,0.08),transparent_60%)]" />
             <img
               src={paymentMethods}
               alt="bKash, Nagad, Rocket, Upay, Visa, Mastercard, Binance, PayPal"
-              className="mx-auto h-14 w-full object-contain sm:h-16"
+              className="relative mx-auto h-12 w-full object-contain sm:h-14"
               loading="lazy"
               width={1920}
               height={640}
             />
+            <p className="relative mt-3 text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
+              Instant delivery • SSL encrypted • 100% safe
+            </p>
           </div>
         </div>
 

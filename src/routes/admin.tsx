@@ -188,6 +188,18 @@ function AdminPage() {
     toast.success("Updated");
     refresh();
   }
+  async function handleDeleteOrder(id: string) {
+    if (!confirm("Delete this order?")) return;
+    await delOrderFn({ data: { id } });
+    toast.success("Deleted");
+    refresh();
+  }
+  async function handleUpdateOrderStatus(id: string, status: "new" | "contacted" | "completed" | "cancelled") {
+    await updateOrderFn({ data: { id, status } });
+    toast.success("Status updated");
+    refresh();
+  }
+
 
   if (checking) {
     return (

@@ -73,13 +73,13 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-black ring-1 ring-primary/50 shadow-[0_0_18px_-4px_rgba(229,9,20,0.6)] sm:h-10 sm:w-10">
                 <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-cover" />
               </span>
-              <span className="hidden flex-col leading-none sm:flex">
-                <span className="relative inline-block font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
+              <span className="flex flex-col leading-none">
+                <span className="relative inline-block font-display text-xl uppercase italic tracking-wider text-white sm:text-[28px]">
                   Cine<span className="text-primary">Vault</span>
                   {/* Broadcast-style underline: gold bar draws in with the ball leading it */}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute -bottom-1.5 left-0 h-[2px] w-full overflow-visible"
+                    className="pointer-events-none absolute -bottom-1 left-0 h-[2px] w-full overflow-visible sm:-bottom-1.5"
                   >
                     <span className="absolute inset-y-0 left-0 h-full bg-white/10" />
                     <span className="absolute inset-y-0 left-0 h-full origin-left animate-cv-line-draw bg-gradient-to-r from-primary via-amber-300 to-amber-100 shadow-[0_0_8px_rgba(229,9,20,0.6)]" />
@@ -88,15 +88,15 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                       alt=""
                       width={14}
                       height={14}
-                      className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 animate-cv-line-ball drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]"
+                      className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 animate-cv-line-ball drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)] sm:h-3.5 sm:w-3.5"
                     />
                   </span>
                 </span>
-                <span className="mt-1 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
+                <span className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[8px] font-black uppercase tracking-[0.22em] text-white/50 sm:mt-1 sm:gap-2 sm:text-[9px] sm:tracking-[0.3em]">
                   <span>Since 2026</span>
-                  <span className="inline-flex items-center gap-1.5 rounded-sm border-l border-r border-white/15 px-2 py-[1px] tracking-[0.22em] text-[8px] text-amber-200/80">
-                    <span className="block h-1.5 w-1.5 rounded-full bg-amber-200/80" />
-                    FIFA World Cup · 2026
+                  <span className="inline-flex items-center gap-1 rounded-sm border-l border-r border-white/15 px-1.5 py-[1px] tracking-[0.18em] text-[7px] text-amber-200/80 sm:gap-1.5 sm:px-2 sm:text-[8px] sm:tracking-[0.22em]">
+                    <span className="block h-1 w-1 rounded-full bg-amber-200/80 sm:h-1.5 sm:w-1.5" />
+                    FIFA WC · 2026
                   </span>
                 </span>
               </span>

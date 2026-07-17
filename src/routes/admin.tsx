@@ -2,15 +2,33 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Lock, LogOut, Star, Trash2, Users, MessageSquare, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Loader2,
+  Lock,
+  LogOut,
+  Pencil,
+  Reply,
+  ShieldCheck,
+  Star,
+  Trash2,
+  Users,
+  MessageSquare,
+  X,
+} from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import {
+  adminAnswerQuestion,
   adminDeleteQuestion,
   adminDeleteReview,
+  adminDeleteUser,
   adminGetData,
   adminIsUnlocked,
   adminLock,
   adminUnlock,
+  adminUpdateReview,
+  adminUpdateUser,
 } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/admin")({
@@ -64,6 +82,10 @@ function AdminPage() {
   const getDataFn = useServerFn(adminGetData);
   const delReviewFn = useServerFn(adminDeleteReview);
   const delQuestionFn = useServerFn(adminDeleteQuestion);
+  const answerQuestionFn = useServerFn(adminAnswerQuestion);
+  const updateReviewFn = useServerFn(adminUpdateReview);
+  const delUserFn = useServerFn(adminDeleteUser);
+  const updateUserFn = useServerFn(adminUpdateUser);
 
   const [checking, setChecking] = useState(true);
   const [unlocked, setUnlocked] = useState(false);
@@ -118,11 +140,31 @@ function AdminPage() {
     toast.success("Deleted");
     refresh();
   }
-
+  async function handleUpdateReview(id: string, rating: number, comment: string) {
+    await updateReviewFn({ data: { id, rating, comment } });
+    toast.success("Updated");
+    refresh();
+  }
   async function handleDeleteQuestion(id: string) {
     if (!confirm("Delete this question?")) return;
     await delQuestionFn({ data: { id } });
     toast.success("Deleted");
+    refresh();
+  }
+  async function handleAnswerQuestion(id: string, answer: string) {
+    await answerQuestionFn({ data: { id, answer } });
+    toast.success("Saved");
+    refresh();
+  }
+  async function handleDeleteUser(id: string) {
+    if (!confirm("Delete this user permanently? Their reviews & questions will also be removed.")) return;
+    await delUserFn({ data: { id } });
+    toast.success("User deleted");
+    refresh();
+  }
+  async function handleUpdateUser(id: string, full_name: string, phone: string, address: string) {
+    await updateUserFn({ data: { id, full_name, phone, address } });
+    toast.success("Updated");
     refresh();
   }
 
@@ -250,11 +292,26 @@ function AdminPage() {
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
           </div>
         ) : tab === "reviews" ? (
-          <ReviewsTable rows={data.reviews} onDelete={handleDeleteReview} error={data.errors.reviews} />
+          <ReviewsTable
+            rows={data.reviews}
+            onDelete={handleDeleteReview}
+            onUpdate={handleUpdateReview}
+            error={data.errors.reviews}
+          />
         ) : tab === "questions" ? (
-          <QuestionsTable rows={data.questions} onDelete={handleDeleteQuestion} error={data.errors.questions} />
+          <QuestionsTable
+            rows={data.questions}
+            onDelete={handleDeleteQuestion}
+            onAnswer={handleAnswerQuestion}
+            error={data.errors.questions}
+          />
         ) : (
-          <UsersTable rows={data.profiles} error={data.errors.profiles} />
+          <UsersTable
+            rows={data.profiles}
+            onDelete={handleDeleteUser}
+            onUpdate={handleUpdateUser}
+            error={data.errors.profiles}
+          />
         )}
       </main>
     </div>
@@ -264,44 +321,111 @@ function AdminPage() {
 function ReviewsTable({
   rows,
   onDelete,
+  onUpdate,
   error,
 }: {
   rows: Review[];
   onDelete: (id: string) => void;
+  onUpdate: (id: string, rating: number, comment: string) => void;
   error: string | null;
 }) {
+  const [editing, setEditing] = useState<string | null>(null);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
   if (error) return <ErrorBox message={error} />;
   if (rows.length === 0) return <EmptyBox label="No reviews yet" />;
   return (
     <div className="grid gap-3">
-      {rows.map((r) => (
-        <div key={r.id} className="rounded-2xl border border-border bg-card p-4">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-bold text-foreground">{r.name}</span>
-                <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
-                  {r.product_id}
-                </span>
-                <span className="flex items-center gap-0.5 text-amber-500">
-                  {Array.from({ length: r.rating }).map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                  ))}
-                </span>
+      {rows.map((r) => {
+        const isEditing = editing === r.id;
+        return (
+          <div key={r.id} className="rounded-2xl border border-border bg-card p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-bold text-foreground">{r.name}</span>
+                  <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
+                    {r.product_id}
+                  </span>
+                  {!isEditing && (
+                    <span className="flex items-center gap-0.5 text-amber-500">
+                      {Array.from({ length: r.rating }).map((_, i) => (
+                        <Star key={i} className="h-3.5 w-3.5 fill-current" />
+                      ))}
+                    </span>
+                  )}
+                </div>
+                {isEditing ? (
+                  <div className="mt-2 space-y-2">
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <button
+                          key={n}
+                          onClick={() => setRating(n)}
+                          className={`text-lg ${n <= rating ? "text-amber-500" : "text-muted-foreground/40"}`}
+                          type="button"
+                        >
+                          ★
+                        </button>
+                      ))}
+                    </div>
+                    <textarea
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      rows={2}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          onUpdate(r.id, rating, comment);
+                          setEditing(null);
+                        }}
+                        className="flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground"
+                      >
+                        <Check className="h-3.5 w-3.5" /> Save
+                      </button>
+                      <button
+                        onClick={() => setEditing(null)}
+                        className="flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-bold"
+                      >
+                        <X className="h-3.5 w-3.5" /> Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {r.comment && <p className="mt-1 text-sm text-foreground/80">{r.comment}</p>}
+                    <p className="mt-1 text-xs text-muted-foreground">{new Date(r.created_at).toLocaleString()}</p>
+                  </>
+                )}
               </div>
-              {r.comment && <p className="mt-1 text-sm text-foreground/80">{r.comment}</p>}
-              <p className="mt-1 text-xs text-muted-foreground">{new Date(r.created_at).toLocaleString()}</p>
+              {!isEditing && (
+                <div className="flex shrink-0 flex-col gap-2">
+                  <button
+                    onClick={() => {
+                      setEditing(r.id);
+                      setRating(r.rating);
+                      setComment(r.comment ?? "");
+                    }}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                    aria-label="Edit"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => onDelete(r.id)}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                    aria-label="Delete"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
             </div>
-            <button
-              onClick={() => onDelete(r.id)}
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
-              aria-label="Delete"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -309,71 +433,193 @@ function ReviewsTable({
 function QuestionsTable({
   rows,
   onDelete,
+  onAnswer,
   error,
 }: {
   rows: Question[];
   onDelete: (id: string) => void;
+  onAnswer: (id: string, answer: string) => void;
   error: string | null;
 }) {
+  const [answering, setAnswering] = useState<string | null>(null);
+  const [text, setText] = useState("");
   if (error) return <ErrorBox message={error} />;
   if (rows.length === 0) return <EmptyBox label="No questions yet" />;
   return (
     <div className="grid gap-3">
-      {rows.map((q) => (
-        <div key={q.id} className="rounded-2xl border border-border bg-card p-4">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-bold text-foreground">{q.name}</span>
-                <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
-                  {q.product_id}
-                </span>
+      {rows.map((q) => {
+        const isAnswering = answering === q.id;
+        return (
+          <div key={q.id} className="rounded-2xl border border-border bg-card p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-bold text-foreground">{q.name}</span>
+                  <span className="rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
+                    {q.product_id}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm text-foreground/90">Q: {q.question}</p>
+                {q.answer && !isAnswering && (
+                  <p className="mt-1 text-sm text-primary">A: {q.answer}</p>
+                )}
+                {isAnswering ? (
+                  <div className="mt-2 space-y-2">
+                    <textarea
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
+                      rows={3}
+                      placeholder="Your answer..."
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          onAnswer(q.id, text);
+                          setAnswering(null);
+                        }}
+                        className="flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground"
+                      >
+                        <Check className="h-3.5 w-3.5" /> Save Answer
+                      </button>
+                      <button
+                        onClick={() => setAnswering(null)}
+                        className="flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-bold"
+                      >
+                        <X className="h-3.5 w-3.5" /> Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="mt-1 text-xs text-muted-foreground">{new Date(q.created_at).toLocaleString()}</p>
+                )}
               </div>
-              <p className="mt-1 text-sm text-foreground/90">Q: {q.question}</p>
-              {q.answer && <p className="mt-1 text-sm text-primary">A: {q.answer}</p>}
-              <p className="mt-1 text-xs text-muted-foreground">{new Date(q.created_at).toLocaleString()}</p>
+              {!isAnswering && (
+                <div className="flex shrink-0 flex-col gap-2">
+                  <button
+                    onClick={() => {
+                      setAnswering(q.id);
+                      setText(q.answer ?? "");
+                    }}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                    aria-label={q.answer ? "Edit answer" : "Answer"}
+                  >
+                    <Reply className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => onDelete(q.id)}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                    aria-label="Delete"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
             </div>
-            <button
-              onClick={() => onDelete(q.id)}
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
-              aria-label="Delete"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
 
-function UsersTable({ rows, error }: { rows: Profile[]; error: string | null }) {
+function UsersTable({
+  rows,
+  onDelete,
+  onUpdate,
+  error,
+}: {
+  rows: Profile[];
+  onDelete: (id: string) => void;
+  onUpdate: (id: string, full_name: string, phone: string, address: string) => void;
+  error: string | null;
+}) {
+  const [editing, setEditing] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   if (error) return <ErrorBox message={error} />;
   if (rows.length === 0) return <EmptyBox label="No users yet" />;
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border bg-card">
-      <table className="w-full text-sm">
-        <thead className="bg-secondary text-left text-xs uppercase tracking-wide text-muted-foreground">
-          <tr>
-            <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3">Phone</th>
-            <th className="px-4 py-3">Address</th>
-            <th className="px-4 py-3">Joined</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((p) => (
-            <tr key={p.id} className="border-t border-border">
-              <td className="px-4 py-3 font-semibold text-foreground">{p.full_name || "—"}</td>
-              <td className="px-4 py-3 text-foreground/80">{p.phone || "—"}</td>
-              <td className="px-4 py-3 text-foreground/80">{p.address || "—"}</td>
-              <td className="px-4 py-3 text-muted-foreground">
-                {new Date(p.created_at).toLocaleDateString()}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="grid gap-3">
+      {rows.map((p) => {
+        const isEditing = editing === p.id;
+        return (
+          <div key={p.id} className="rounded-2xl border border-border bg-card p-4">
+            {isEditing ? (
+              <div className="space-y-2">
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Full name"
+                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+                />
+                <input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Phone"
+                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+                />
+                <input
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Address"
+                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      onUpdate(p.id, name, phone, address);
+                      setEditing(null);
+                    }}
+                    className="flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground"
+                  >
+                    <Check className="h-3.5 w-3.5" /> Save
+                  </button>
+                  <button
+                    onClick={() => setEditing(null)}
+                    className="flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-bold"
+                  >
+                    <X className="h-3.5 w-3.5" /> Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0 flex-1 space-y-1 text-sm">
+                  <div className="font-bold text-foreground">{p.full_name || "—"}</div>
+                  <div className="text-foreground/80">📞 {p.phone || "—"}</div>
+                  <div className="text-foreground/80">📍 {p.address || "—"}</div>
+                  <div className="text-xs text-muted-foreground">
+                    Joined {new Date(p.created_at).toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="flex shrink-0 flex-col gap-2">
+                  <button
+                    onClick={() => {
+                      setEditing(p.id);
+                      setName(p.full_name ?? "");
+                      setPhone(p.phone ?? "");
+                      setAddress(p.address ?? "");
+                    }}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                    aria-label="Edit"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => onDelete(p.id)}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                    aria-label="Delete user"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

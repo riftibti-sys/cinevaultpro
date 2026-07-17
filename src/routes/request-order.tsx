@@ -112,11 +112,13 @@ function RequestOrderPage() {
       {/* TICKET FORM */}
       <section className="px-4 pt-8 sm:px-5">
         <div className="mx-auto max-w-3xl">
-          <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] shadow-[0_30px_80px_-20px_rgba(229,9,20,0.35)]">
+          <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-white text-neutral-900 shadow-[0_30px_80px_-20px_rgba(229,9,20,0.5)]">
             {/* Ticket header */}
             <div className="relative flex items-center justify-between bg-gradient-to-r from-primary via-[#c40812] to-primary px-5 py-4 text-white sm:px-7">
               <div className="flex items-center gap-3">
-                <Ticket className="h-6 w-6" />
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/15 ring-1 ring-white/30">
+                  <Ticket className="h-5 w-5" />
+                </span>
                 <div className="leading-tight">
                   <p className="text-[9px] font-black uppercase tracking-[0.3em] opacity-80">Order Ticket</p>
                   <p className="font-display text-lg uppercase italic tracking-wide">#CV-{Date.now().toString().slice(-6)}</p>
@@ -128,8 +130,8 @@ function RequestOrderPage() {
             </div>
 
             {/* Perforated cut */}
-            <div className="relative h-4 bg-[#0a0a0a]">
-              <div className="absolute inset-x-6 top-1/2 -translate-y-1/2 border-t-2 border-dashed border-white/15" />
+            <div className="relative h-4 bg-white">
+              <div className="absolute inset-x-6 top-1/2 -translate-y-1/2 border-t-2 border-dashed border-primary/25" />
               <span className="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-background" />
               <span className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-background" />
             </div>
@@ -143,23 +145,23 @@ function RequestOrderPage() {
                   maxLength={200}
                   value={form.productName}
                   onChange={(e) => setForm({ ...form, productName: e.target.value })}
-                  placeholder="e.g. Netflix Premium 4K / ChatGPT Plus / product link"
+                  placeholder="Enter product name / URL"
                   className={inputCls}
                 />
               </Field>
 
               {/* Product image */}
               <div>
-                <label className="mb-2 flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-white/70">
-                  <Upload className="h-3.5 w-3.5 text-primary" /> Product Image <span className="text-white/30">(optional)</span>
+                <label className="mb-2 flex items-center gap-2 text-sm font-bold text-neutral-800">
+                  <Upload className="h-4 w-4 text-primary" /> Product Image <span className="text-neutral-400 font-normal">(optional)</span>
                 </label>
                 {image ? (
-                  <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-black/40">
+                  <div className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50">
                     <img src={image} alt="Product preview" className="h-48 w-full object-contain" />
                     <button
                       type="button"
                       onClick={() => setImage(null)}
-                      className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-black/70 text-white ring-1 ring-white/20 hover:bg-primary"
+                      className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-black/70 text-white hover:bg-primary"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -168,13 +170,13 @@ function RequestOrderPage() {
                   <button
                     type="button"
                     onClick={() => fileRef.current?.click()}
-                    className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-white/15 bg-white/[0.02] px-4 py-8 text-center transition hover:border-primary/60 hover:bg-primary/5"
+                    className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-neutral-300 bg-neutral-50 px-4 py-8 text-center transition hover:border-primary hover:bg-primary/5"
                   >
-                    <span className="grid h-12 w-12 place-items-center rounded-full bg-primary/15 text-primary">
+                    <span className="grid h-12 w-12 place-items-center rounded-full bg-primary/10 text-primary">
                       <Upload className="h-5 w-5" />
                     </span>
-                    <span className="text-sm font-bold text-white">Click to upload image</span>
-                    <span className="text-[11px] text-white/40">PNG, JPG • max 5MB</span>
+                    <span className="text-sm font-bold text-neutral-800">Click to upload image</span>
+                    <span className="text-[11px] text-neutral-500">PNG, JPG • max 5MB</span>
                   </button>
                 )}
                 <input
@@ -186,7 +188,6 @@ function RequestOrderPage() {
                 />
               </div>
 
-              {/* Name + Phone (2 col on desktop) */}
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field label="Full Name" required icon={User}>
                   <input
@@ -195,7 +196,7 @@ function RequestOrderPage() {
                     maxLength={100}
                     value={form.fullName}
                     onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-                    placeholder="আপনার পুরো নাম"
+                    placeholder="Enter your full name"
                     className={inputCls}
                   />
                 </Field>
@@ -206,19 +207,19 @@ function RequestOrderPage() {
                     maxLength={20}
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    placeholder="01XXX-XXXXXX"
+                    placeholder="Enter your phone number"
                     className={inputCls}
                   />
                 </Field>
               </div>
 
-              <Field label="Email" icon={Mail}>
+              <Field label="Email" required icon={Mail}>
                 <input
                   type="email"
                   maxLength={255}
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="you@email.com"
+                  placeholder="Enter your email address"
                   className={inputCls}
                 />
               </Field>
@@ -230,7 +231,7 @@ function RequestOrderPage() {
                   rows={2}
                   value={form.address}
                   onChange={(e) => setForm({ ...form, address: e.target.value })}
-                  placeholder="Full delivery address"
+                  placeholder="Enter your address"
                   className={`${inputCls} resize-none`}
                 />
               </Field>
@@ -241,32 +242,30 @@ function RequestOrderPage() {
                   rows={2}
                   value={form.notes}
                   onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                  placeholder="কোন specific plan, duration, বা extra info…"
+                  placeholder="Specific plan, duration, বা extra info…"
                   className={`${inputCls} resize-none`}
                 />
               </Field>
 
-              <button
-                type="submit"
-                disabled={submitting}
-                className="group relative w-full overflow-hidden rounded-2xl bg-primary py-4 font-black uppercase tracking-widest text-primary-foreground shadow-[0_10px_40px_-8px_rgba(229,9,20,0.7)] transition hover:brightness-110 active:scale-[0.98] disabled:opacity-60"
-              >
-                <span className="relative inline-flex items-center justify-center gap-2 text-sm">
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="mx-auto flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-black uppercase tracking-widest text-primary-foreground shadow-[0_10px_30px_-8px_rgba(229,9,20,0.7)] transition hover:brightness-110 active:scale-[0.98] disabled:opacity-60"
+                >
                   <Send className="h-4 w-4" />
-                  {submitting ? "Sending…" : "Submit Request"}
-                </span>
-              </button>
-
-              <p className="text-center text-[11px] text-white/40">
-                Submit করলে WhatsApp-এ আপনার request পাঠানো হবে। Image upload করলে ওখানে attach করুন।
-              </p>
+                  {submitting ? "Sending…" : "Request Order"}
+                </button>
+              </div>
             </form>
 
             {/* Bottom stub */}
-            <div className="flex items-center justify-center gap-3 border-t border-dashed border-white/10 bg-black/40 px-4 py-3 text-[10px] font-black uppercase tracking-[0.3em] text-white/50">
+            <div className="flex flex-wrap items-center justify-center gap-3 border-t border-dashed border-neutral-200 bg-neutral-50 px-4 py-3 text-[10px] font-black uppercase tracking-[0.3em] text-neutral-500">
               <span>⚡ 30 min response</span>
-              <span className="h-1 w-1 rounded-full bg-white/30" />
+              <span className="h-1 w-1 rounded-full bg-neutral-400" />
               <span>🔒 100% private</span>
+              <span className="h-1 w-1 rounded-full bg-neutral-400" />
+              <span>💬 WhatsApp confirm</span>
             </div>
           </div>
         </div>

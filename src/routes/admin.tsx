@@ -428,6 +428,13 @@ function AdminPage() {
             onSave={handleSaveCombo}
             onDelete={handleDeleteCombo}
           />
+        ) : tab === "hero" ? (
+          <HeroManager
+            rows={(settings ?? []).filter((s) => s.key.startsWith("hero_"))}
+            products={products ?? []}
+            onSave={handleSaveSettings}
+          />
+
         ) : tab === "reviews" ? (
           <ReviewsTable
             rows={data.reviews}

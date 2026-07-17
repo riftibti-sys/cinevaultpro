@@ -141,7 +141,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
 
             {/* Store Locator */}
             <a
-              href="https://www.facebook.com/cinevaultbd"
+              href="https://www.messenger.com/t/cinevaultbd"
               target="_blank"
               rel="noreferrer"
               className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary lg:inline-flex"

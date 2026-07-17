@@ -50,7 +50,7 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
       label: "Store Locator",
       icon: MapPin,
       onClick: () =>
-        window.open("https://www.facebook.com/cinevaultbd", "_blank"),
+        window.open("https://www.messenger.com/t/cinevaultbd", "_blank"),
     },
   ];
 

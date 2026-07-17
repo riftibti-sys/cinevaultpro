@@ -186,60 +186,26 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* PAYMENTS — cinema ticket window */}
-        <div className="mt-14">
-          <div className="relative overflow-hidden rounded-[28px] border border-white/15 bg-white shadow-[0_20px_60px_-15px_rgba(229,9,20,0.45)]">
-            {/* Red header strip */}
-            <div className="relative flex items-center justify-between bg-gradient-to-r from-primary via-[#c40812] to-primary px-5 py-3 text-white sm:px-7">
-              <div className="flex items-center gap-2.5">
-                <span className="grid h-7 w-7 place-items-center rounded-full bg-white/20 ring-1 ring-white/40">
-                  <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]" />
-                </span>
-                <span className="font-display text-sm uppercase italic tracking-[0.25em] sm:text-base">
-                  We Accept
-                </span>
-              </div>
-              <span className="hidden text-[10px] font-black uppercase tracking-[0.3em] text-white/80 sm:block">
-                Instant • Secure • 24/7
-              </span>
-            </div>
-
-            {/* Perforated divider (ticket cut) */}
-            <div className="relative h-4 bg-white">
-              <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 border-t-2 border-dashed border-primary/25" />
-              <span className="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-[#0a0a0a]" />
-              <span className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-[#0a0a0a]" />
-            </div>
-
-            {/* Logos row */}
-            <div className="relative px-4 py-5 sm:px-6 sm:py-6">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(229,9,20,0.04),transparent_70%)]" />
+        {/* Bottom row with inline payments (right side, small) */}
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row">
+          <p className="text-xs text-white/50">
+            © {new Date().getFullYear()} CineVault Bangladesh. All rights reserved.
+          </p>
+          <div className="flex items-center gap-3">
+            <span className="hidden text-[10px] font-black uppercase tracking-[0.25em] text-white/40 sm:block">
+              We Accept
+            </span>
+            <div className="rounded-lg bg-white/95 px-2 py-1.5 shadow-[0_4px_20px_-6px_rgba(229,9,20,0.4)] ring-1 ring-white/15">
               <img
                 src={paymentMethods}
                 alt="bKash, Nagad, Rocket, Upay, Visa, Mastercard, Binance, PayPal"
-                className="relative mx-auto h-20 w-full object-contain sm:h-28"
+                className="h-6 w-auto object-contain sm:h-7"
                 loading="lazy"
                 width={1920}
                 height={640}
               />
             </div>
-
-            {/* Bottom stamp */}
-            <div className="flex items-center justify-center gap-3 border-t border-dashed border-black/10 bg-neutral-50 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.3em] text-black/60">
-              <span>🔒 SSL Encrypted</span>
-              <span className="h-1 w-1 rounded-full bg-black/30" />
-              <span>100% Safe Checkout</span>
-            </div>
           </div>
-        </div>
-
-        {/* Bottom row */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} CineVault Bangladesh. All rights reserved.</p>
-          <p className="flex items-center gap-2">
-            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-            All systems operational
-          </p>
         </div>
       </div>
     </footer>

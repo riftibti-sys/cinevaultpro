@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { ArrowLeft, Package, Upload, User, Phone, Mail, MapPin, Send, X, Ticket, Sparkles } from "lucide-react";
@@ -31,7 +31,12 @@ function RequestOrderPage() {
   const [cartOpen, setCartOpen] = useState(false);
   const [image, setImage] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [ticketId, setTicketId] = useState<string>("------");
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setTicketId(Date.now().toString().slice(-6));
+  }, []);
 
   const [form, setForm] = useState({
     productName: "",
@@ -121,7 +126,7 @@ function RequestOrderPage() {
                 </span>
                 <div className="leading-tight">
                   <p className="text-[9px] font-black uppercase tracking-[0.3em] opacity-80">Order Ticket</p>
-                  <p className="font-display text-lg uppercase italic tracking-wide">#CV-{Date.now().toString().slice(-6)}</p>
+                  <p className="font-display text-lg uppercase italic tracking-wide">#CV-{ticketId}</p>
                 </div>
               </div>
               <span className="hidden rounded-full bg-white/20 px-3 py-1 text-[10px] font-black uppercase tracking-widest ring-1 ring-white/30 sm:block">

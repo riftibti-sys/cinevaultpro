@@ -245,6 +245,8 @@ function AuthPage() {
           Register/Login করে অর্ডারের ইতিহাস track করতে পারবেন।
         </p>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }

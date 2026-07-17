@@ -21,7 +21,7 @@ export function FloatingHelp() {
     {
       label: "Messenger",
       sub: "Facebook chat",
-      href: "https://www.facebook.com/share/1HTm4Rz58F/",
+      href: "https://m.me/cinevaultbd",
       color: "#0084FF",
       icon: Send,
     },

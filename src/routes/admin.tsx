@@ -8,6 +8,7 @@ import {
   Loader2,
   Lock,
   LogOut,
+  Package,
   Pencil,
   Reply,
   ShieldCheck,
@@ -20,6 +21,7 @@ import {
 import { Toaster } from "@/components/ui/sonner";
 import {
   adminAnswerQuestion,
+  adminDeleteOrder,
   adminDeleteQuestion,
   adminDeleteReview,
   adminDeleteUser,
@@ -27,9 +29,11 @@ import {
   adminIsUnlocked,
   adminLock,
   adminUnlock,
+  adminUpdateOrderStatus,
   adminUpdateReview,
   adminUpdateUser,
 } from "@/lib/admin.functions";
+
 
 export const Route = createFileRoute("/admin")({
   ssr: false,

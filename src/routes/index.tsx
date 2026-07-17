@@ -10,7 +10,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { FloatingHelp } from "@/components/FloatingHelp";
 import { ReviewsSection } from "@/components/ReviewsSection";
-import { products, categoryLabels, type Product } from "@/lib/products";
+import { useProducts, categoryLabels, type Product } from "@/lib/products";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,10 +27,11 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [cartOpen, setCartOpen] = useState(false);
   const [filter, setFilter] = useState<Product["category"] | "all">("all");
+  const products = useProducts();
 
   const filtered = useMemo(
     () => (filter === "all" ? products : products.filter((p) => p.category === filter)),
-    [filter],
+    [filter, products],
   );
 
   const categories: Array<{ key: Product["category"] | "all"; label: string }> = [

@@ -1,29 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Play, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
-import { products } from "@/lib/products";
+import { useProducts, type Product } from "@/lib/products";
 
 // Featured products to showcase in the hero (in order)
 const featuredIds = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
 
-const slides = featuredIds
-  .map((id) => products.find((p) => p.id === id))
-  .filter((p): p is (typeof products)[number] => Boolean(p));
-
 const AUTO_MS = 7000;
 
 export function HeroCarousel() {
+  const products = useProducts();
+  const slides = useMemo<Product[]>(
+    () => featuredIds.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => Boolean(p)),
+    [products],
+  );
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || slides.length === 0) return;
     const t = setInterval(() => {
       setIndex((i) => (i + 1) % slides.length);
     }, AUTO_MS);
     return () => clearInterval(t);
-  }, [paused]);
+  }, [paused, slides.length]);
 
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length);
+  if (slides.length === 0) return null;
 
   return (
     <section className="px-3 pt-3 sm:px-4 sm:pt-4">

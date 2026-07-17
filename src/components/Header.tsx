@@ -93,7 +93,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                       alt=""
                       width={14}
                       height={14}
-                      className="absolute top-1/2 h-3 w-3 animate-cv-line-ball drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)] sm:h-3.5 sm:w-3.5"
+                      className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 animate-cv-line-ball drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)] sm:h-3.5 sm:w-3.5"
                     />
                   </span>
                 </span>

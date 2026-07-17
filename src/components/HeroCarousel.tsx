@@ -9,7 +9,7 @@ const slides = featuredIds
   .map((id) => products.find((p) => p.id === id))
   .filter((p): p is (typeof products)[number] => Boolean(p));
 
-const AUTO_MS = 10000;
+const AUTO_MS = 7000;
 
 export function HeroCarousel() {
   const [index, setIndex] = useState(0);

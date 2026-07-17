@@ -8,6 +8,7 @@ import {
   Loader2,
   Lock,
   LogOut,
+  Package,
   Pencil,
   Reply,
   ShieldCheck,
@@ -20,6 +21,7 @@ import {
 import { Toaster } from "@/components/ui/sonner";
 import {
   adminAnswerQuestion,
+  adminDeleteOrder,
   adminDeleteQuestion,
   adminDeleteReview,
   adminDeleteUser,
@@ -27,9 +29,11 @@ import {
   adminIsUnlocked,
   adminLock,
   adminUnlock,
+  adminUpdateOrderStatus,
   adminUpdateReview,
   adminUpdateUser,
 } from "@/lib/admin.functions";
+
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -68,12 +72,26 @@ type Profile = {
   created_at: string;
 };
 
+type Order = {
+  id: string;
+  product_name: string;
+  full_name: string;
+  phone: string;
+  email: string | null;
+  address: string;
+  notes: string | null;
+  status: string;
+  created_at: string;
+};
+
 type Data = {
   reviews: Review[];
   questions: Question[];
   profiles: Profile[];
-  errors: { reviews: string | null; questions: string | null; profiles: string | null };
+  orders: Order[];
+  errors: { reviews: string | null; questions: string | null; profiles: string | null; orders: string | null };
 };
+
 
 function AdminPage() {
   const isUnlockedFn = useServerFn(adminIsUnlocked);
@@ -86,13 +104,16 @@ function AdminPage() {
   const updateReviewFn = useServerFn(adminUpdateReview);
   const delUserFn = useServerFn(adminDeleteUser);
   const updateUserFn = useServerFn(adminUpdateUser);
+  const delOrderFn = useServerFn(adminDeleteOrder);
+  const updateOrderFn = useServerFn(adminUpdateOrderStatus);
 
   const [checking, setChecking] = useState(true);
   const [unlocked, setUnlocked] = useState(false);
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [data, setData] = useState<Data | null>(null);
-  const [tab, setTab] = useState<"reviews" | "questions" | "users">("reviews");
+  const [tab, setTab] = useState<"orders" | "reviews" | "questions" | "users">("orders");
+
 
   useEffect(() => {
     isUnlockedFn()
@@ -167,6 +188,18 @@ function AdminPage() {
     toast.success("Updated");
     refresh();
   }
+  async function handleDeleteOrder(id: string) {
+    if (!confirm("Delete this order?")) return;
+    await delOrderFn({ data: { id } });
+    toast.success("Deleted");
+    refresh();
+  }
+  async function handleUpdateOrderStatus(id: string, status: "new" | "contacted" | "completed" | "cancelled") {
+    await updateOrderFn({ data: { id, status } });
+    toast.success("Status updated");
+    refresh();
+  }
+
 
   if (checking) {
     return (
@@ -232,10 +265,12 @@ function AdminPage() {
   }
 
   const tabs = [
+    { key: "orders" as const, label: "Orders", icon: Package, count: data?.orders.length ?? 0 },
     { key: "reviews" as const, label: "Reviews", icon: Star, count: data?.reviews.length ?? 0 },
     { key: "questions" as const, label: "Q&A", icon: MessageSquare, count: data?.questions.length ?? 0 },
     { key: "users" as const, label: "Users", icon: Users, count: data?.profiles.length ?? 0 },
   ];
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -291,6 +326,13 @@ function AdminPage() {
           <div className="grid place-items-center py-20">
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
           </div>
+        ) : tab === "orders" ? (
+          <OrdersTable
+            rows={data.orders}
+            onDelete={handleDeleteOrder}
+            onStatus={handleUpdateOrderStatus}
+            error={data.errors.orders}
+          />
         ) : tab === "reviews" ? (
           <ReviewsTable
             rows={data.reviews}
@@ -313,6 +355,7 @@ function AdminPage() {
             error={data.errors.profiles}
           />
         )}
+
       </main>
     </div>
   );
@@ -639,3 +682,86 @@ function EmptyBox({ label }: { label: string }) {
     </div>
   );
 }
+
+const STATUS_STYLES: Record<string, string> = {
+  new: "bg-blue-500/15 text-blue-600 border-blue-500/30",
+  contacted: "bg-amber-500/15 text-amber-600 border-amber-500/30",
+  completed: "bg-emerald-500/15 text-emerald-600 border-emerald-500/30",
+  cancelled: "bg-red-500/15 text-red-600 border-red-500/30",
+};
+
+function OrdersTable({
+  rows,
+  onDelete,
+  onStatus,
+  error,
+}: {
+  rows: Order[];
+  onDelete: (id: string) => void;
+  onStatus: (id: string, s: "new" | "contacted" | "completed" | "cancelled") => void;
+  error: string | null;
+}) {
+  if (error) return <ErrorBox message={error} />;
+  if (rows.length === 0) return <EmptyBox label="No orders yet" />;
+  return (
+    <div className="grid gap-3">
+      {rows.map((o) => (
+        <div key={o.id} className="rounded-2xl border border-border bg-card p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0 flex-1 space-y-1 text-sm">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-bold text-foreground">{o.product_name}</span>
+                <span
+                  className={`rounded-full border px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${
+                    STATUS_STYLES[o.status] ?? "border-border bg-secondary text-muted-foreground"
+                  }`}
+                >
+                  {o.status}
+                </span>
+              </div>
+              <div className="text-foreground/80">👤 {o.full_name}</div>
+              <div className="text-foreground/80">📞 {o.phone}{o.email ? ` · ✉️ ${o.email}` : ""}</div>
+              <div className="text-foreground/80">📍 {o.address}</div>
+              {o.notes && <div className="text-foreground/70">📝 {o.notes}</div>}
+              <div className="text-xs text-muted-foreground">
+                {new Date(o.created_at).toLocaleString()}
+              </div>
+            </div>
+            <div className="flex shrink-0 flex-col items-end gap-2">
+              <select
+                value={o.status}
+                onChange={(e) => onStatus(o.id, e.target.value as "new" | "contacted" | "completed" | "cancelled")}
+                className="rounded-lg border border-border bg-background px-2 py-1.5 text-xs font-bold"
+              >
+                <option value="new">New</option>
+                <option value="contacted">Contacted</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <div className="flex gap-2">
+                <a
+                  href={`https://wa.me/${o.phone.replace(/[^0-9]/g, "")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                  aria-label="WhatsApp"
+                  title="WhatsApp"
+                >
+                  <MessageSquare className="h-4 w-4" />
+                </a>
+                <button
+                  onClick={() => onDelete(o.id)}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                  aria-label="Delete"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+

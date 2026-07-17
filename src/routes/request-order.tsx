@@ -7,6 +7,8 @@ import { Header } from "@/components/Header";
 import { CartDrawer } from "@/components/CartDrawer";
 import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import { supabase } from "@/integrations/supabase/client";
+
 
 export const Route = createFileRoute("/request-order")({
   head: () => ({
@@ -58,7 +60,7 @@ function RequestOrderPage() {
     r.readAsDataURL(f);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = schema.safeParse(form);
     if (!result.success) {
@@ -66,6 +68,24 @@ function RequestOrderPage() {
       return;
     }
     setSubmitting(true);
+
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const { error } = await supabase.from("orders").insert({
+        user_id: sessionData.session?.user.id ?? null,
+        product_name: result.data.productName,
+        full_name: result.data.fullName,
+        phone: result.data.phone,
+        email: result.data.email || null,
+        address: result.data.address,
+        notes: result.data.notes || null,
+        status: "new",
+      });
+      if (error) throw error;
+    } catch (err) {
+      console.error(err);
+      toast.error("Order save হয়নি, WhatsApp দিয়ে পাঠাচ্ছি");
+    }
 
     const msg = [
       `🎬 *CineVault — New Order Request*`,
@@ -86,6 +106,7 @@ function RequestOrderPage() {
     toast.success("🎬 Request পাঠানো হয়েছে! WhatsApp-এ image attach করুন।");
     setTimeout(() => setSubmitting(false), 800);
   };
+
 
   return (
     <div className="min-h-screen pb-28">

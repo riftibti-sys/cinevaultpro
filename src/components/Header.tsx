@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useProducts } from "@/lib/products";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
 import footballImg from "@/assets/football.png";
 
@@ -14,6 +15,10 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const products = useProducts();
+  const products = useProducts();
+  const settings = useSiteSettings();
+  const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
+  const displayPhone = settings.get("contact_phone");
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");

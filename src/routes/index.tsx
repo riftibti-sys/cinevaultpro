@@ -175,9 +175,7 @@ function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} CineVault. All rights reserved.
-      </footer>
+      <SiteFooter />
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <BottomNav onCartClick={() => setCartOpen(true)} />

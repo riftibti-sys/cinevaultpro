@@ -6,16 +6,13 @@ import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const router = useRouter();
-  const settings = useSiteSettings();
   const [mounted, setMounted] = useState(false);
-  const whatsappSupportUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
 
   useEffect(() => {
     setMounted(true);

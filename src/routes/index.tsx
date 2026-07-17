@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { CartDrawer } from "@/components/CartDrawer";
 import { ProductCard } from "@/components/ProductCard";
 import { BottomNav } from "@/components/BottomNav";
+import { SiteFooter } from "@/components/SiteFooter";
 import { products, categoryLabels, type Product } from "@/lib/products";
 import heroCinema from "@/assets/hero-cinema.jpg";
 

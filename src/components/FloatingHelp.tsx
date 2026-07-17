@@ -5,6 +5,9 @@ export function FloatingHelp() {
   const [open, setOpen] = useState(false);
   const [pulse, setPulse] = useState(true);
 
+  const whatsappUrl = (message = "Hi CineVault! আমার support দরকার।") =>
+    `https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+
   useEffect(() => {
     const t = setTimeout(() => setPulse(false), 8000);
     return () => clearTimeout(t);
@@ -14,21 +17,21 @@ export function FloatingHelp() {
     {
       label: "WhatsApp",
       sub: "সবচেয়ে দ্রুত reply",
-      href: "https://wa.me/8801785897167?text=" + encodeURIComponent("Hi CineVault! আমি একটা subscription কিনতে চাই।"),
+      href: whatsappUrl("Hi CineVault! আমি একটা subscription কিনতে চাই।"),
       color: "#25D366",
       icon: MessageCircle,
     },
     {
-      label: "Messenger",
-      sub: "Facebook chat",
-      href: "https://www.facebook.com/cinevaultbd",
-      color: "#0084FF",
+      label: "Support Chat",
+      sub: "WhatsApp web/app খুলবে",
+      href: whatsappUrl(),
+      color: "#25D366",
       icon: Send,
     },
     {
       label: "WhatsApp করুন",
       sub: "01785-897167",
-      href: "https://wa.me/8801785897167",
+      href: whatsappUrl(),
       color: "#E50914",
       icon: Phone,
     },

@@ -39,7 +39,7 @@ function Checkout() {
       `*Items:*%0A${orderLines}%0A%0A*Total:* ৳${total}%0A%0A` +
       `Payment: ${payInstructions[method].label}%0ATrxID / TxHash: ${form.trxId || "(pending)"}%0A%0A` +
       `Notes: ${form.notes || "-"}`;
-    window.open(`https://wa.me/8801785897167?text=${msg}`, "_blank");
+    window.open(`https://api.whatsapp.com/send/?phone=8801785897167&text=${msg}&type=phone_number&app_absent=0`, "_blank");
     setPlaced(true);
     clear();
   };

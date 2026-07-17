@@ -49,8 +49,8 @@ export function ProductCard({ product }: { product: Product }) {
             product.logoFill
               ? "h-full w-full object-cover"
               : product.logoLarge
-                ? "h-24 w-24 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-28 sm:w-28"
-                : "h-16 w-16 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-20 sm:w-20"
+                ? "h-28 w-28 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-32 sm:w-32"
+                : "h-20 w-20 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-24 sm:w-24"
           }
           loading="lazy"
           decoding="async"

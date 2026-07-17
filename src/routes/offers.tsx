@@ -9,7 +9,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingHelp } from "@/components/FloatingHelp";
 import { Toaster } from "@/components/ui/sonner";
-import { combos, comboToProduct, type Combo } from "@/lib/combos";
+import { useCombos, comboToProduct, type Combo } from "@/lib/combos";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/offers")({

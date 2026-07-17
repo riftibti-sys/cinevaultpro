@@ -3,12 +3,12 @@ import { useCart } from "@/lib/cart";
 
 export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
-  const items = [
+  const items: Array<{ key: string; label: string; icon: typeof Home; active?: boolean; onClick: () => void; badge?: number }> = [
     { key: "home", label: "Home", icon: Home, active: true, onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
     { key: "store", label: "Store", icon: Store, onClick: () => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" }) },
     { key: "cart", label: "Cart", icon: ShoppingCart, onClick: onCartClick, badge: count },
     { key: "user", label: "Support", icon: User, onClick: () => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }) },
-  ] as const;
+  ];
 
   return (
     <div className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 sm:hidden">

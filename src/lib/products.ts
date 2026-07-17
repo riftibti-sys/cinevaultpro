@@ -12,6 +12,7 @@ export type Product = {
   accent: string; // brand color for card glow
   logo: string; // logo URL
   logoFill?: boolean; // let logo fill the tile edge-to-edge
+  logoLarge?: boolean; // render logo bigger than default contained size
   rating?: number; // 0..5, one-decimal
   reviews?: number; // review count
   description?: string;

@@ -265,10 +265,12 @@ function AdminPage() {
   }
 
   const tabs = [
+    { key: "orders" as const, label: "Orders", icon: Package, count: data?.orders.length ?? 0 },
     { key: "reviews" as const, label: "Reviews", icon: Star, count: data?.reviews.length ?? 0 },
     { key: "questions" as const, label: "Q&A", icon: MessageSquare, count: data?.questions.length ?? 0 },
     { key: "users" as const, label: "Users", icon: Users, count: data?.profiles.length ?? 0 },
   ];
+
 
   return (
     <div className="min-h-screen bg-background">

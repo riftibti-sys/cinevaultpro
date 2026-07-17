@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, CheckCircle2, Copy } from "lucide-react";
 import { useCart } from "@/lib/cart";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -15,31 +16,32 @@ export const Route = createFileRoute("/checkout")({
 
 type PayMethod = "bkash" | "nagad" | "binance" | "card";
 
-const payInstructions: Record<PayMethod, { label: string; account: string; note: string }> = {
-  bkash: { label: "bKash (Send Money)", account: "01785-897167", note: "Send Money → নাম্বারে টাকা পাঠান → নিচে TrxID লিখুন।" },
-  nagad: { label: "Nagad (Send Money)", account: "01785-897167", note: "Send Money → নাম্বারে টাকা পাঠান → নিচে TrxID লিখুন।" },
-  binance: { label: "Binance Pay (USDT)", account: "Binance ID: cinevault", note: "USDT (BEP20/TRC20) পাঠিয়ে TxHash নিচে দিন।" },
-  card: { label: "Card Payment", account: "WhatsApp করুন সিকিউর কার্ড লিংকের জন্য", note: "কার্ড পেমেন্টের জন্য আমরা WhatsApp-এ সিকিউর লিংক পাঠাব।" },
-};
-
 function Checkout() {
   const { items, total, clear } = useCart();
   const navigate = useNavigate();
+  const settings = useSiteSettings();
   const [method, setMethod] = useState<PayMethod>("bkash");
   const [form, setForm] = useState({ name: "", phone: "", email: "", trxId: "", notes: "" });
   const [placed, setPlaced] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const payInstructions: Record<PayMethod, { label: string; account: string; note: string }> = {
+    bkash: { label: "bKash (Send Money)", account: settings.get("bkash_number"), note: "Send Money → নাম্বারে টাকা পাঠান → নিচে TrxID লিখুন।" },
+    nagad: { label: "Nagad (Send Money)", account: settings.get("nagad_number"), note: "Send Money → নাম্বারে টাকা পাঠান → নিচে TrxID লিখুন।" },
+    binance: { label: "Binance Pay (USDT)", account: "Binance ID: cinevault", note: "USDT (BEP20/TRC20) পাঠিয়ে TxHash নিচে দিন।" },
+    card: { label: "Card Payment", account: "WhatsApp করুন সিকিউর কার্ড লিংকের জন্য", note: "কার্ড পেমেন্টের জন্য আমরা WhatsApp-এ সিকিউর লিংক পাঠাব।" },
+  };
+
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const orderLines = items.map((i) => `• ${i.product.name} × ${i.qty} = ৳${i.product.price * i.qty}`).join("%0A");
+    const orderLines = items.map((i) => `• ${i.product.name} × ${i.qty} = ৳${i.product.price * i.qty}`).join("\n");
     const msg =
-      `*New Order — CineVault*%0A%0A` +
-      `Name: ${form.name}%0APhone: ${form.phone}%0AEmail: ${form.email}%0A%0A` +
-      `*Items:*%0A${orderLines}%0A%0A*Total:* ৳${total}%0A%0A` +
-      `Payment: ${payInstructions[method].label}%0ATrxID / TxHash: ${form.trxId || "(pending)"}%0A%0A` +
+      `*New Order — CineVault*\n\n` +
+      `Name: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\n\n` +
+      `*Items:*\n${orderLines}\n\n*Total:* ৳${total}\n\n` +
+      `Payment: ${payInstructions[method].label}\nTrxID / TxHash: ${form.trxId || "(pending)"}\n\n` +
       `Notes: ${form.notes || "-"}`;
-    window.open(`https://api.whatsapp.com/send/?phone=8801785897167&text=${msg}&type=phone_number&app_absent=0`, "_blank");
+    window.open(buildWhatsAppUrl(settings.get("contact_phone_intl"), msg), "_blank");
     setPlaced(true);
     clear();
   };

@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useProducts } from "@/lib/products";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
 import footballImg from "@/assets/football.png";
 
@@ -14,6 +15,9 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const products = useProducts();
+  const settings = useSiteSettings();
+  const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
+  const displayPhone = settings.get("contact_phone");
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -94,10 +98,10 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                   </span>
                 </span>
                 <span className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[8px] font-black uppercase tracking-[0.22em] text-white/50 sm:mt-1 sm:gap-2 sm:text-[9px] sm:tracking-[0.3em]">
-                  <span>Since 2026</span>
+                  <span>{settings.get("hero_since_text")}</span>
                   <span className="inline-flex items-center gap-1 rounded-sm border-l border-r border-white/15 px-1.5 py-[1px] tracking-[0.18em] text-[7px] text-amber-200/80 sm:gap-1.5 sm:px-2 sm:text-[8px] sm:tracking-[0.22em]">
                     <span className="block h-1 w-1 rounded-full bg-amber-200/80 sm:h-1.5 sm:w-1.5" />
-                    FIFA WC · 2026
+                    {settings.get("hero_badge_text")}
                   </span>
                 </span>
               </span>
@@ -142,7 +146,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
 
             {/* Support */}
             <a
-              href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`}
+              href={waUrl}
               target="_blank"
               rel="noreferrer"
               className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 text-sm font-semibold text-white/85 transition hover:border-primary/60 hover:text-primary lg:inline-flex"
@@ -311,12 +315,12 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               Support
             </p>
             <a
-              href={`https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`}
+              href={waUrl}
               target="_blank"
               rel="noreferrer"
               className="mx-3 flex h-11 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-[0_0_15px_rgba(229,9,20,0.4)]"
             >
-              WhatsApp: 01785-897167
+              WhatsApp: {displayPhone}
             </a>
           </div>
         </nav>

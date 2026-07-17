@@ -42,6 +42,12 @@ import {
   type ProductInput,
   type ProductRow,
 } from "@/lib/products.functions";
+import {
+  adminUpdateSiteSettings,
+  listSiteSettings,
+  type SettingRow,
+} from "@/lib/site-settings.functions";
+import { Settings as SettingsIcon } from "lucide-react";
 
 
 export const Route = createFileRoute("/admin")({
@@ -122,11 +128,14 @@ function AdminPage() {
   const [submitting, setSubmitting] = useState(false);
   const [data, setData] = useState<Data | null>(null);
   const [products, setProducts] = useState<ProductRow[] | null>(null);
-  const [tab, setTab] = useState<"orders" | "products" | "reviews" | "questions" | "users">("orders");
+  const [settings, setSettings] = useState<SettingRow[] | null>(null);
+  const [tab, setTab] = useState<"orders" | "products" | "reviews" | "questions" | "users" | "settings">("orders");
 
   const listProductsFn = useServerFn(adminListProducts);
   const saveProductFn = useServerFn(adminSaveProduct);
   const delProductFn = useServerFn(adminDeleteProduct);
+  const listSettingsFn = useServerFn(listSiteSettings);
+  const saveSettingsFn = useServerFn(adminUpdateSiteSettings);
 
   useEffect(() => {
     isUnlockedFn()
@@ -138,7 +147,15 @@ function AdminPage() {
     if (!unlocked) return;
     getDataFn().then((d) => setData(d as Data));
     listProductsFn().then((p) => setProducts(p as ProductRow[]));
-  }, [unlocked, getDataFn, listProductsFn]);
+    listSettingsFn().then((s) => setSettings(s as SettingRow[]));
+  }, [unlocked, getDataFn, listProductsFn, listSettingsFn]);
+
+  async function handleSaveSettings(updates: { key: string; value: string }[]) {
+    await saveSettingsFn({ data: { updates } });
+    toast.success("Settings saved");
+    const s = await listSettingsFn();
+    setSettings(s as SettingRow[]);
+  }
 
   async function refreshProducts() {
     const p = await listProductsFn();
@@ -300,6 +317,7 @@ function AdminPage() {
     { key: "reviews" as const, label: "Reviews", icon: Star, count: data?.reviews.length ?? 0 },
     { key: "questions" as const, label: "Q&A", icon: MessageSquare, count: data?.questions.length ?? 0 },
     { key: "users" as const, label: "Users", icon: Users, count: data?.profiles.length ?? 0 },
+    { key: "settings" as const, label: "Settings", icon: SettingsIcon, count: settings?.length ?? 0 },
   ];
 
 
@@ -384,13 +402,15 @@ function AdminPage() {
             onAnswer={handleAnswerQuestion}
             error={data.errors.questions}
           />
-        ) : (
+        ) : tab === "users" ? (
           <UsersTable
             rows={data.profiles}
             onDelete={handleDeleteUser}
             onUpdate={handleUpdateUser}
             error={data.errors.profiles}
           />
+        ) : (
+          <SettingsManager rows={settings ?? []} onSave={handleSaveSettings} />
         )}
 
       </main>
@@ -1110,5 +1130,97 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     </label>
   );
 }
+
+const SETTING_LABELS: Record<string, { label: string; hint?: string; textarea?: boolean }> = {
+  contact_phone: { label: "Contact phone (display)", hint: "e.g. 01785-897167" },
+  contact_phone_intl: { label: "WhatsApp phone (international)", hint: "e.g. 8801785897167 — no + or spaces" },
+  messenger_url: { label: "Messenger URL", hint: "https://m.me/yourpage" },
+  support_message: { label: "Default support message", textarea: true },
+  bkash_number: { label: "bKash number" },
+  nagad_number: { label: "Nagad number" },
+  hero_since_text: { label: "Header 'since' text" },
+  hero_badge_text: { label: "Header FIFA badge text" },
+  footer_tagline: { label: "Footer tagline", textarea: true },
+  footer_address: { label: "Footer address" },
+};
+
+function SettingsManager({
+  rows,
+  onSave,
+}: {
+  rows: SettingRow[];
+  onSave: (updates: { key: string; value: string }[]) => Promise<void>;
+}) {
+  const [draft, setDraft] = useState<Record<string, string>>(() => {
+    const d: Record<string, string> = {};
+    for (const r of rows) d[r.key] = r.value;
+    return d;
+  });
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    const d: Record<string, string> = {};
+    for (const r of rows) d[r.key] = r.value;
+    setDraft(d);
+  }, [rows]);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const updates = rows.map((r) => ({ key: r.key, value: draft[r.key] ?? r.value }));
+      await onSave(updates);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (rows.length === 0) {
+    return <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">No settings yet.</div>;
+  }
+
+  return (
+    <form onSubmit={submit} className="space-y-4">
+      <div className="rounded-2xl border border-border bg-card p-6">
+        <h2 className="mb-4 font-display text-xl uppercase italic tracking-wide">Site Settings</h2>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {rows.map((r) => {
+            const meta = SETTING_LABELS[r.key] ?? { label: r.key };
+            return (
+              <Field key={r.key} label={meta.label}>
+                {meta.textarea ? (
+                  <textarea
+                    value={draft[r.key] ?? ""}
+                    onChange={(e) => setDraft((d) => ({ ...d, [r.key]: e.target.value }))}
+                    rows={3}
+                    className="w-full rounded-lg border border-border bg-background p-2 text-sm"
+                  />
+                ) : (
+                  <input
+                    value={draft[r.key] ?? ""}
+                    onChange={(e) => setDraft((d) => ({ ...d, [r.key]: e.target.value }))}
+                    className="w-full rounded-lg border border-border bg-background p-2 text-sm"
+                  />
+                )}
+                {meta.hint && <span className="mt-1 block text-[10px] text-muted-foreground">{meta.hint}</span>}
+              </Field>
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          disabled={saving}
+          className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-black uppercase tracking-wide text-primary-foreground disabled:opacity-60"
+        >
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <SettingsIcon className="h-4 w-4" />}
+          Save Settings
+        </button>
+      </div>
+    </form>
+  );
+}
+
 
 

@@ -4,13 +4,14 @@ import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  const whatsappSupportUrl = `https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`;
+  const settings = useSiteSettings();
+  const whatsappSupportUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
 
   const handleUser = () => {
     if (user) {

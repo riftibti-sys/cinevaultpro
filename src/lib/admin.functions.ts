@@ -67,7 +67,7 @@ export const adminGetData = createServerFn({ method: "GET" }).handler(
     await requireUnlocked();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const [reviewsRes, questionsRes, profilesRes] = await Promise.all([
+    const [reviewsRes, questionsRes, profilesRes, ordersRes] = await Promise.all([
       supabaseAdmin
         .from("reviews")
         .select("*")
@@ -83,20 +83,51 @@ export const adminGetData = createServerFn({ method: "GET" }).handler(
         .select("*")
         .order("created_at", { ascending: false })
         .limit(500),
+      supabaseAdmin
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(500),
     ]);
 
     return {
       reviews: reviewsRes.data ?? [],
       questions: questionsRes.data ?? [],
       profiles: profilesRes.data ?? [],
+      orders: ordersRes.data ?? [],
       errors: {
         reviews: reviewsRes.error?.message ?? null,
         questions: questionsRes.error?.message ?? null,
         profiles: profilesRes.error?.message ?? null,
+        orders: ordersRes.error?.message ?? null,
       },
     };
   },
 );
+
+export const adminUpdateOrderStatus = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string; status: "new" | "contacted" | "completed" | "cancelled" }) => data)
+  .handler(async ({ data }) => {
+    await requireUnlocked();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("orders")
+      .update({ status: data.status })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+export const adminDeleteOrder = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }) => {
+    await requireUnlocked();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("orders").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
 
 export const adminDeleteReview = createServerFn({ method: "POST" })
   .inputValidator((data: { id: string }) => data)

@@ -188,7 +188,48 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                 </span>
               )}
             </button>
-          </div>
+        </div>
+
+        {/* Mobile quick actions row */}
+        <div className="flex items-center gap-2 overflow-x-auto border-t border-white/10 px-4 py-2 md:hidden">
+          <Link
+            to="/offers"
+            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 text-[11px] font-bold text-primary-foreground shadow-[0_0_12px_-4px_rgba(229,9,20,0.9)]"
+          >
+            <Flame className="h-3.5 w-3.5" strokeWidth={2.75} />
+            Offers
+            <span className="rounded-full bg-white px-1.5 py-0.5 text-[8px] font-black text-primary">HOT</span>
+          </Link>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.get("footer_address") || "Dhaka, Bangladesh")}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 text-[11px] font-semibold text-white/85"
+          >
+            <MapPin className="h-3.5 w-3.5" />
+            Store Locator
+          </a>
+          <button
+            onClick={handleUser}
+            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 text-[11px] font-semibold text-white/85"
+          >
+            {user ? <LogOut className="h-3.5 w-3.5" /> : <User className="h-3.5 w-3.5" />}
+            {user ? "Sign Out" : "Login"}
+          </button>
+          <button
+            onClick={onCartClick}
+            className="relative inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 text-[11px] font-semibold text-white/85"
+          >
+            <ShoppingBag className="h-3.5 w-3.5" />
+            Cart
+            {count > 0 && (
+              <span className="grid h-4 min-w-4 place-items-center rounded-full bg-primary px-1 text-[9px] font-black text-primary-foreground">
+                {count}
+              </span>
+            )}
+          </button>
+        </div>
+
         </div>
       </header>
 

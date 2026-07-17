@@ -226,7 +226,7 @@ function ProductDetail() {
 
           {/* Features */}
           <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-            {features.map((f) => (
+            {features.map((f: string) => (
               <li key={f} className="flex items-start gap-2 rounded-xl border border-border bg-card/50 p-2.5 text-xs">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
                 <span>{f}</span>

@@ -54,11 +54,11 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
       highlight: false,
     },
     {
-      key: "store",
-      label: "Support",
-      icon: MessageCircle,
-      onClick: () =>
-        window.open(whatsappSupportUrl, "_blank"),
+      key: "offers",
+      label: "Offers",
+      icon: Flame,
+      onClick: () => navigate({ to: "/offers" }),
+      highlight: true,
     },
   ];
 

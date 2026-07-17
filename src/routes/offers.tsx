@@ -9,7 +9,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingHelp } from "@/components/FloatingHelp";
 import { Toaster } from "@/components/ui/sonner";
-import { combos, comboToProduct, type Combo } from "@/lib/combos";
+import { useCombos, comboToProduct, type Combo } from "@/lib/combos";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/offers")({
@@ -26,6 +26,7 @@ export const Route = createFileRoute("/offers")({
 
 function OffersPage() {
   const [cartOpen, setCartOpen] = useState(false);
+  const { combos, isLoading } = useCombos();
   return (
     <div className="min-h-screen pb-28">
       <Toaster position="top-center" />
@@ -60,9 +61,13 @@ function OffersPage() {
       {/* COMBOS */}
       <section className="mx-auto max-w-6xl px-4 py-8 sm:px-5 sm:py-12">
         <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
-          {combos.map((c) => (
-            <ComboBanner key={c.id} combo={c} />
-          ))}
+          {isLoading && combos.length === 0 ? (
+            <div className="col-span-full grid place-items-center py-16 text-sm text-white/60">Loading combos…</div>
+          ) : combos.length === 0 ? (
+            <div className="col-span-full grid place-items-center py-16 text-sm text-white/60">No active combos.</div>
+          ) : (
+            combos.map((c: Combo) => <ComboBanner key={c.id} combo={c} />)
+          )}
         </div>
       </section>
 

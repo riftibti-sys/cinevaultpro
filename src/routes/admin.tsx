@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   ShoppingBag,
   Star,
+  Sparkles,
   Trash2,
   Users,
   MessageSquare,
@@ -42,6 +43,13 @@ import {
   type ProductInput,
   type ProductRow,
 } from "@/lib/products.functions";
+import {
+  adminDeleteCombo,
+  adminListCombos,
+  adminSaveCombo,
+  type ComboInput,
+  type ComboRow,
+} from "@/lib/combos.functions";
 import {
   adminUpdateSiteSettings,
   listSiteSettings,
@@ -128,12 +136,16 @@ function AdminPage() {
   const [submitting, setSubmitting] = useState(false);
   const [data, setData] = useState<Data | null>(null);
   const [products, setProducts] = useState<ProductRow[] | null>(null);
+  const [combos, setCombos] = useState<ComboRow[] | null>(null);
   const [settings, setSettings] = useState<SettingRow[] | null>(null);
-  const [tab, setTab] = useState<"orders" | "products" | "reviews" | "questions" | "users" | "settings">("orders");
+  const [tab, setTab] = useState<"orders" | "products" | "combos" | "reviews" | "questions" | "users" | "settings">("orders");
 
   const listProductsFn = useServerFn(adminListProducts);
   const saveProductFn = useServerFn(adminSaveProduct);
   const delProductFn = useServerFn(adminDeleteProduct);
+  const listCombosFn = useServerFn(adminListCombos);
+  const saveComboFn = useServerFn(adminSaveCombo);
+  const delComboFn = useServerFn(adminDeleteCombo);
   const listSettingsFn = useServerFn(listSiteSettings);
   const saveSettingsFn = useServerFn(adminUpdateSiteSettings);
 
@@ -147,8 +159,9 @@ function AdminPage() {
     if (!unlocked) return;
     getDataFn().then((d) => setData(d as Data));
     listProductsFn().then((p) => setProducts(p as ProductRow[]));
+    listCombosFn().then((c) => setCombos(c as ComboRow[]));
     listSettingsFn().then((s) => setSettings(s as SettingRow[]));
-  }, [unlocked, getDataFn, listProductsFn, listSettingsFn]);
+  }, [unlocked, getDataFn, listProductsFn, listCombosFn, listSettingsFn]);
 
   async function handleSaveSettings(updates: { key: string; value: string }[]) {
     await saveSettingsFn({ data: { updates } });
@@ -171,6 +184,22 @@ function AdminPage() {
     await delProductFn({ data: { id } });
     toast.success("Deleted");
     await refreshProducts();
+  }
+
+  async function refreshCombos() {
+    const c = await listCombosFn();
+    setCombos(c as ComboRow[]);
+  }
+  async function handleSaveCombo(combo: ComboInput, isNew: boolean, originalId?: string) {
+    await saveComboFn({ data: { combo, isNew, originalId } });
+    toast.success(isNew ? "Combo created" : "Combo updated");
+    await refreshCombos();
+  }
+  async function handleDeleteCombo(id: string) {
+    if (!confirm(`Delete combo "${id}"?`)) return;
+    await delComboFn({ data: { id } });
+    toast.success("Deleted");
+    await refreshCombos();
   }
 
   async function handleUnlock(e: React.FormEvent) {
@@ -314,6 +343,7 @@ function AdminPage() {
   const tabs = [
     { key: "orders" as const, label: "Orders", icon: Package, count: data?.orders.length ?? 0 },
     { key: "products" as const, label: "Products", icon: ShoppingBag, count: products?.length ?? 0 },
+    { key: "combos" as const, label: "Combos", icon: Sparkles, count: combos?.length ?? 0 },
     { key: "reviews" as const, label: "Reviews", icon: Star, count: data?.reviews.length ?? 0 },
     { key: "questions" as const, label: "Q&A", icon: MessageSquare, count: data?.questions.length ?? 0 },
     { key: "users" as const, label: "Users", icon: Users, count: data?.profiles.length ?? 0 },
@@ -387,6 +417,12 @@ function AdminPage() {
             rows={products ?? []}
             onSave={handleSaveProduct}
             onDelete={handleDeleteProduct}
+          />
+        ) : tab === "combos" ? (
+          <CombosManager
+            rows={combos ?? []}
+            onSave={handleSaveCombo}
+            onDelete={handleDeleteCombo}
           />
         ) : tab === "reviews" ? (
           <ReviewsTable
@@ -1142,6 +1178,10 @@ const SETTING_LABELS: Record<string, { label: string; hint?: string; textarea?: 
   hero_badge_text: { label: "Header FIFA badge text" },
   footer_tagline: { label: "Footer tagline", textarea: true },
   footer_address: { label: "Footer address" },
+  hero_featured_ids: { label: "Hero featured product IDs", hint: "Comma-separated product IDs — e.g. netflix,prime,spotify" },
+  hero_recommended_text: { label: "Hero badge text" },
+  hero_starts_text: { label: "Hero 'Starts at' label" },
+  hero_shop_text: { label: "Hero shop button text" },
 };
 
 function SettingsManager({
@@ -1222,5 +1262,261 @@ function SettingsManager({
   );
 }
 
+const EMPTY_COMBO: ComboInput = {
+  id: "",
+  title: "",
+  subtitle: "",
+  tag: "",
+  duration: "1 Month",
+  price: 0,
+  original_price: 0,
+  gradient: "linear-gradient(135deg, #1a0000 0%, #6b0f14 100%)",
+  glow: "rgba(229,9,20,0.35)",
+  perks: [],
+  services: [],
+  sort_order: 100,
+  is_active: true,
+};
 
+function CombosManager({
+  rows,
+  onSave,
+  onDelete,
+}: {
+  rows: ComboRow[];
+  onSave: (combo: ComboInput, isNew: boolean, originalId?: string) => Promise<void>;
+  onDelete: (id: string) => void;
+}) {
+  const [editing, setEditing] = useState<{ combo: ComboInput; isNew: boolean; originalId?: string } | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  function startEdit(r: ComboRow) {
+    setEditing({
+      combo: {
+        id: r.id,
+        title: r.title,
+        subtitle: r.subtitle,
+        tag: r.tag,
+        duration: r.duration,
+        price: r.price,
+        original_price: r.original_price,
+        gradient: r.gradient,
+        glow: r.glow,
+        perks: r.perks ?? [],
+        services: r.services ?? [],
+        sort_order: r.sort_order,
+        is_active: r.is_active,
+      },
+      isNew: false,
+      originalId: r.id,
+    });
+  }
+
+  async function save() {
+    if (!editing) return;
+    setSaving(true);
+    try {
+      await onSave(editing.combo, editing.isNew, editing.originalId);
+      setEditing(null);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+          Combos ({rows.length})
+        </h2>
+        <button
+          onClick={() => setEditing({ combo: { ...EMPTY_COMBO }, isNew: true })}
+          className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow-[0_10px_25px_-10px_rgba(229,9,20,0.6)]"
+        >
+          <Plus className="h-4 w-4" /> New Combo
+        </button>
+      </div>
+
+      {editing && (
+        <ComboEditor
+          value={editing.combo}
+          isNew={editing.isNew}
+          saving={saving}
+          onChange={(c) => setEditing({ ...editing, combo: c })}
+          onCancel={() => setEditing(null)}
+          onSave={save}
+        />
+      )}
+
+      <div className="grid gap-3">
+        {rows.map((r) => (
+          <div key={r.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+            <div
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-lg text-[10px] font-black text-white"
+              style={{ background: r.gradient }}
+            >
+              {(r.services ?? []).length}×
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-bold text-foreground">{r.title}</span>
+                {r.tag && (
+                  <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold uppercase text-muted-foreground">
+                    {r.tag}
+                  </span>
+                )}
+                {!r.is_active && (
+                  <span className="rounded-full bg-destructive/20 px-2 py-0.5 text-[10px] font-black uppercase text-destructive">
+                    Hidden
+                  </span>
+                )}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                Tk. {r.price}{r.original_price ? ` · was ${r.original_price}` : ""} · {r.duration} · #{r.sort_order}
+              </div>
+              <div className="truncate text-xs text-foreground/60">{r.subtitle}</div>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button
+                onClick={() => startEdit(r)}
+                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                aria-label="Edit"
+              >
+                <Pencil className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => onDelete(r.id)}
+                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                aria-label="Delete"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        ))}
+        {rows.length === 0 && <EmptyBox label="No combos yet — click 'New Combo'" />}
+      </div>
+    </div>
+  );
+}
+
+function ComboEditor({
+  value,
+  isNew,
+  saving,
+  onChange,
+  onCancel,
+  onSave,
+}: {
+  value: ComboInput;
+  isNew: boolean;
+  saving: boolean;
+  onChange: (c: ComboInput) => void;
+  onCancel: () => void;
+  onSave: () => void;
+}) {
+  const perksText = (value.perks ?? []).join("\n");
+  const servicesText = JSON.stringify(value.services ?? [], null, 2);
+  return (
+    <div className="rounded-2xl border border-primary/40 bg-card p-4 shadow-[0_10px_40px_-20px_rgba(229,9,20,0.5)]">
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className="font-bold text-foreground">{isNew ? "New Combo" : `Edit: ${value.title || value.id}`}</h3>
+        <button onClick={onCancel} className="grid h-8 w-8 place-items-center rounded-full border border-border hover:border-primary">
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <Field label="ID (slug)">
+          <input
+            value={value.id}
+            disabled={!isNew}
+            onChange={(e) => onChange({ ...value, id: e.target.value })}
+            placeholder="e.g. combo-netflix-prime"
+            className="input"
+          />
+        </Field>
+        <Field label="Title">
+          <input value={value.title} onChange={(e) => onChange({ ...value, title: e.target.value })} className="input" />
+        </Field>
+        <Field label="Subtitle">
+          <input value={value.subtitle} onChange={(e) => onChange({ ...value, subtitle: e.target.value })} className="input" />
+        </Field>
+        <Field label="Tag (e.g. MOST POPULAR)">
+          <input value={value.tag} onChange={(e) => onChange({ ...value, tag: e.target.value })} className="input" />
+        </Field>
+        <Field label="Duration">
+          <input value={value.duration} onChange={(e) => onChange({ ...value, duration: e.target.value })} className="input" />
+        </Field>
+        <Field label="Price (Tk.)">
+          <input type="number" value={value.price} onChange={(e) => onChange({ ...value, price: Number(e.target.value) })} className="input" />
+        </Field>
+        <Field label="Original Price (Tk.)">
+          <input type="number" value={value.original_price} onChange={(e) => onChange({ ...value, original_price: Number(e.target.value) })} className="input" />
+        </Field>
+        <Field label="Sort Order (lower = first)">
+          <input type="number" value={value.sort_order} onChange={(e) => onChange({ ...value, sort_order: Number(e.target.value) })} className="input" />
+        </Field>
+        <Field label="Gradient (CSS)">
+          <input value={value.gradient} onChange={(e) => onChange({ ...value, gradient: e.target.value })} className="input" />
+        </Field>
+        <Field label="Glow color (rgba)">
+          <input value={value.glow} onChange={(e) => onChange({ ...value, glow: e.target.value })} className="input" />
+        </Field>
+      </div>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <Field label="Perks (one per line)">
+          <textarea
+            value={perksText}
+            onChange={(e) => onChange({ ...value, perks: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })}
+            rows={4}
+            className="input"
+          />
+        </Field>
+        <Field label='Services (JSON array of {name, logo, accent})'>
+          <textarea
+            value={servicesText}
+            onChange={(e) => {
+              try {
+                const parsed = JSON.parse(e.target.value);
+                if (Array.isArray(parsed)) onChange({ ...value, services: parsed });
+              } catch {
+                // ignore until valid JSON
+              }
+            }}
+            rows={6}
+            className="input font-mono text-[11px]"
+          />
+        </Field>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-4">
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={value.is_active} onChange={(e) => onChange({ ...value, is_active: e.target.checked })} />
+          Active (visible on site)
+        </label>
+        <div
+          className="ml-auto grid h-10 w-40 place-items-center rounded-lg text-[10px] font-black uppercase tracking-wider text-white"
+          style={{ background: value.gradient, boxShadow: `0 0 25px -5px ${value.glow}` }}
+        >
+          Preview
+        </div>
+      </div>
+      <div className="mt-4 flex gap-2">
+        <button
+          onClick={onSave}
+          disabled={saving}
+          className="flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-[0_10px_25px_-10px_rgba(229,9,20,0.6)] disabled:opacity-60"
+        >
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+          {isNew ? "Create Combo" : "Save Changes"}
+        </button>
+        <button onClick={onCancel} className="rounded-full border border-border px-5 py-2.5 text-sm font-bold hover:border-primary/60">
+          Cancel
+        </button>
+      </div>
+      <style>{`.input{width:100%;border-radius:0.5rem;border:1px solid hsl(var(--border));background:hsl(var(--background));padding:0.5rem 0.75rem;font-size:0.875rem;color:hsl(var(--foreground));outline:none}.input:focus{border-color:hsl(var(--primary))}`}</style>
+    </div>
+  );
+}
 

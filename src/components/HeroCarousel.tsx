@@ -3,8 +3,7 @@ import { Play, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useProducts, type Product } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
-// Featured products to showcase in the hero (in order)
-const featuredIds = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
+const DEFAULT_FEATURED = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
 
 const AUTO_MS = 7000;
 
@@ -12,9 +11,14 @@ export function HeroCarousel() {
   const products = useProducts();
   const settings = useSiteSettings();
   const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), "Hi CineVault! আমি একটা subscription কিনতে চাই।");
+  const featuredIds = useMemo(() => {
+    const raw = settings.get("hero_featured_ids", "").trim();
+    const ids = raw ? raw.split(",").map((s) => s.trim()).filter(Boolean) : DEFAULT_FEATURED;
+    return ids;
+  }, [settings]);
   const slides = useMemo<Product[]>(
     () => featuredIds.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => Boolean(p)),
-    [products],
+    [products, featuredIds],
   );
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -69,7 +73,7 @@ export function HeroCarousel() {
                       className="mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white sm:mb-3 sm:px-3"
                       style={{ background: p.accent, boxShadow: `0 0 20px -4px ${p.accent}` }}
                     >
-                      ● Recommended
+                      {settings.get("hero_recommended_text", "● Recommended")}
                     </span>
                     <h1 className="font-display text-[26px] uppercase italic leading-[0.9] tracking-wide text-white sm:text-6xl">
                       {p.name}
@@ -79,7 +83,7 @@ export function HeroCarousel() {
                     </p>
                     <div className="mt-2 flex items-baseline gap-2 sm:mt-5">
                       <span className="text-[9px] font-bold uppercase tracking-widest text-white/50 sm:text-[10px]">
-                        Starts at
+                        {settings.get("hero_starts_text", "Starts at")}
                       </span>
                       <span className="font-display text-2xl italic text-white sm:text-4xl">
                         ৳{p.price}
@@ -90,7 +94,7 @@ export function HeroCarousel() {
                         href="#products"
                         className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-bold uppercase tracking-wide text-black transition active:scale-95 sm:h-11 sm:px-6 sm:text-xs"
                       >
-                        <Play className="h-3 w-3 fill-black sm:h-3.5 sm:w-3.5" /> Shop Now
+                        <Play className="h-3 w-3 fill-black sm:h-3.5 sm:w-3.5" /> {settings.get("hero_shop_text", "Shop Now")}
                       </a>
                       <a
                         href={waUrl}

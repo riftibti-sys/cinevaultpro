@@ -35,7 +35,7 @@ export function FloatingHelp() {
       icon: MessageCircle,
     },
     {
-      label: "Call করুন",
+      label: "Call Us",
       sub: "01785-897167",
       href: "tel:+8801785897167",
       color: "#E50914",

@@ -62,8 +62,11 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   ];
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 md:hidden">
-      <nav className="border-t border-white/10 bg-[#0a0a0a] px-2 pb-[max(env(safe-area-inset-bottom),8px)] pt-2 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+    <div
+      className="fixed inset-x-0 bottom-0 z-50 md:hidden"
+      style={{ transform: "translateZ(0)", WebkitBackfaceVisibility: "hidden" }}
+    >
+      <nav className="border-t border-white/10 bg-[#0a0a0a]/95 px-2 pb-[max(env(safe-area-inset-bottom),8px)] pt-2 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl">
         <ul className="mx-auto flex max-w-md items-stretch justify-between gap-1">
           {items.map((it) => (
             <li key={it.key} className="flex-1">

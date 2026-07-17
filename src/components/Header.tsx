@@ -186,10 +186,11 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
       {/* SEARCH OVERLAY */}
       <div
         onClick={() => setSearchOpen(false)}
-        className={`fixed inset-0 z-50 bg-black/80 backdrop-blur-md transition-opacity ${searchOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 z-50 bg-black/80 backdrop-blur-md transition-opacity duration-150 ${searchOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
       />
       <div
-        className={`fixed left-1/2 top-4 z-50 w-[95%] max-w-2xl -translate-x-1/2 transition-all sm:top-10 ${searchOpen ? "opacity-100 translate-y-0" : "pointer-events-none -translate-y-4 opacity-0"}`}
+        className={`fixed left-1/2 top-4 z-50 w-[95%] max-w-4xl -translate-x-1/2 transition-all duration-150 sm:top-8 ${searchOpen ? "opacity-100 translate-y-0" : "pointer-events-none -translate-y-2 opacity-0"}`}
+
       >
         <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
           <div className="flex items-center gap-3 border-b border-border px-4 py-3">

@@ -148,22 +148,61 @@ function ProductDetail() {
 
       {/* HERO */}
       <section className="mx-auto mt-4 grid max-w-6xl gap-6 px-4 sm:px-5 lg:grid-cols-[1.05fr_1fr]">
-        {/* Image */}
+        {/* Image — premium poster frame */}
         <div
           className="relative grid aspect-square w-full place-items-center overflow-hidden rounded-3xl border border-border"
-          style={{ background: `linear-gradient(135deg, ${product.accent}33, ${product.accent}0a)` }}
+          style={{
+            background: `radial-gradient(120% 90% at 30% 20%, ${product.accent}55 0%, ${product.accent}18 45%, #0a0a0a 100%)`,
+          }}
         >
-          <img
-            src={product.logo}
-            alt={product.name}
-            className={product.logoFill ? "h-full w-full object-cover" : "h-40 w-40 object-contain sm:h-56 sm:w-56"}
-            referrerPolicy="no-referrer"
+          {/* soft spotlight */}
+          <div
+            className="pointer-events-none absolute -top-1/3 left-1/2 h-[120%] w-[120%] -translate-x-1/2 rounded-full opacity-60 blur-3xl"
+            style={{ background: `radial-gradient(circle, ${product.accent}66 0%, transparent 60%)` }}
           />
-          <div className="absolute left-4 top-4 rounded-full border border-emerald-500/30 bg-black/70 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-400 backdrop-blur">
+          {/* subtle grid texture */}
+          <div className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:32px_32px]" />
+
+          {/* Logo badge — premium glossy disc */}
+          <div className="relative z-10 flex flex-col items-center gap-5">
+            <div
+              className="relative grid h-40 w-40 place-items-center rounded-3xl border border-white/15 bg-white/[0.06] p-6 shadow-2xl backdrop-blur-xl sm:h-48 sm:w-48"
+              style={{ boxShadow: `0 25px 60px -15px ${product.accent}80, inset 0 1px 0 0 rgba(255,255,255,0.15)` }}
+            >
+              <div className="pointer-events-none absolute inset-x-6 top-1 h-1/2 rounded-2xl bg-gradient-to-b from-white/20 to-transparent" />
+              {product.logoFill ? (
+                <img
+                  src={product.logo}
+                  alt={product.name}
+                  className="h-full w-full rounded-2xl object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <img
+                  src={product.logo}
+                  alt={product.name}
+                  className="relative h-24 w-24 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] sm:h-28 sm:w-28"
+                  referrerPolicy="no-referrer"
+                  style={{ imageRendering: "auto" }}
+                />
+              )}
+            </div>
+            {/* Big brand wordmark */}
+            <div className="text-center">
+              <p className="text-3xl font-black uppercase tracking-tight text-white drop-shadow-lg sm:text-4xl">
+                {product.name}
+              </p>
+              <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.3em] text-white/60">
+                Premium · Official
+              </p>
+            </div>
+          </div>
+
+          <div className="absolute left-4 top-4 z-20 rounded-full border border-emerald-500/30 bg-black/70 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-400 backdrop-blur">
             <Zap className="mr-1 inline h-3 w-3" /> Instant Delivery
           </div>
           {discount > 0 && (
-            <div className="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-[10px] font-black uppercase tracking-widest text-primary-foreground">
+            <div className="absolute right-4 top-4 z-20 rounded-full bg-primary px-3 py-1 text-[10px] font-black uppercase tracking-widest text-primary-foreground">
               Save {discount}%
             </div>
           )}

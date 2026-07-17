@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      combos: {
+        Row: {
+          created_at: string
+          duration: string
+          glow: string
+          gradient: string
+          id: string
+          is_active: boolean
+          original_price: number
+          perks: string[]
+          price: number
+          services: Json
+          sort_order: number
+          subtitle: string
+          tag: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          duration?: string
+          glow?: string
+          gradient?: string
+          id: string
+          is_active?: boolean
+          original_price?: number
+          perks?: string[]
+          price?: number
+          services?: Json
+          sort_order?: number
+          subtitle?: string
+          tag?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          duration?: string
+          glow?: string
+          gradient?: string
+          id?: string
+          is_active?: boolean
+          original_price?: number
+          perks?: string[]
+          price?: number
+          services?: Json
+          sort_order?: number
+          subtitle?: string
+          tag?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string

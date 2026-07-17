@@ -86,11 +86,11 @@
 }
 
 @keyframes cv-football-roll {
-  0%   { transform: translateX(-10px); opacity: 0; }
-  8%   { opacity: 1; }
-  50%  { transform: translateX(60px) translateY(-6px); }
-  92%  { opacity: 1; }
-  100% { transform: translateX(140px); opacity: 0; }
+  0%   { transform: translateX(-8px); opacity: 0; }
+  12%  { opacity: 1; }
+  50%  { transform: translateX(70px) translateY(-4px); }
+  88%  { opacity: 1; }
+  100% { transform: translateX(150px); opacity: 0; }
 }
 
 @keyframes cv-football-spin {
@@ -99,9 +99,9 @@
 }
 
 @utility animate-cv-football-roll {
-  animation: cv-football-roll 4.5s cubic-bezier(.5,0,.5,1) infinite;
+  animation: cv-football-roll 7s cubic-bezier(.45,.05,.55,.95) infinite;
 }
 
 @utility animate-cv-football-spin {
-  animation: cv-football-spin 1s linear infinite;
+  animation: cv-football-spin 1.8s linear infinite;
 }

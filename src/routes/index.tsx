@@ -47,14 +47,15 @@ function Home() {
   ];
 
   return (
-    <div className="min-h-screen pb-28">
-      <div className="sticky top-0 z-40">
+    <div className="fixed inset-0 flex flex-col overflow-hidden bg-background md:static md:block md:min-h-screen md:overflow-visible">
+      <div className="z-40 shrink-0 md:sticky md:top-0">
         <Header onCartClick={() => setCartOpen(true)} />
         <CategoryBar />
       </div>
 
-      {/* HERO — auto-swiping product carousel */}
-      <HeroCarousel />
+      <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-28 [-webkit-overflow-scrolling:touch] md:contents">
+        {/* HERO — auto-swiping product carousel */}
+        <HeroCarousel />
 
       {/* CATEGORIES */}
       <section className="mx-auto mt-6 max-w-6xl px-4 sm:px-5">
@@ -149,7 +150,8 @@ function Home() {
         </div>
       </section>
 
-      <SiteFooter />
+        <SiteFooter />
+      </main>
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <BottomNav onCartClick={() => setCartOpen(true)} />

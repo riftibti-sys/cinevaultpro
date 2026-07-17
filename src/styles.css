@@ -85,28 +85,45 @@
   &::-webkit-scrollbar { display: none; }
 }
 
-/* Gold underline draws in from left, holds, then retracts back to left */
+/* Pitch line: chalk stripe that sweeps in like a goal line */
 @keyframes cv-line-draw {
-  0%   { transform: scaleX(0); }
-  35%  { transform: scaleX(1); }
-  70%  { transform: scaleX(1); }
-  100% { transform: scaleX(0); }
+  0%   { transform: scaleX(0); opacity: 0.85; }
+  30%  { transform: scaleX(1); opacity: 1; }
+  70%  { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(0); opacity: 0.85; }
 }
 
-/* Ball rides the leading edge of the underline (uses left %, synced) */
+/* Ball arcs across like a chip-shot, spins wildly, then bounces on landing */
 @keyframes cv-line-ball {
-  0%   { left: 0%;   transform: translate(-50%, -50%) rotate(0deg); }
-  35%  { left: 100%; transform: translate(-50%, -50%) rotate(720deg); }
-  70%  { left: 100%; transform: translate(-50%, -50%) rotate(720deg); }
-  100% { left: 0%;   transform: translate(-50%, -50%) rotate(0deg); }
+  0%   { left: 0%;   transform: translate(-50%, -50%) translateY(0)     rotate(0deg)    scale(1); }
+  15%  { left: 20%;  transform: translate(-50%, -50%) translateY(-160%) rotate(300deg)  scale(1.05); }
+  30%  { left: 50%;  transform: translate(-50%, -50%) translateY(-220%) rotate(540deg)  scale(1.1); }
+  45%  { left: 80%;  transform: translate(-50%, -50%) translateY(-160%) rotate(780deg)  scale(1.05); }
+  57%  { left: 100%; transform: translate(-50%, -50%) translateY(0)     rotate(1080deg) scale(0.8); }
+  62%  { left: 100%; transform: translate(-50%, -50%) translateY(0)     rotate(1080deg) scale(1.2); }
+  70%  { left: 100%; transform: translate(-50%, -50%) translateY(0)     rotate(1080deg) scale(1); }
+  100% { left: 0%;   transform: translate(-50%, -50%) translateY(0)     rotate(0deg)    scale(1); }
+}
+
+/* Impact shockwave when the ball lands on the goal side */
+@keyframes cv-impact {
+  0%, 55%   { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  60%       { transform: translate(-50%, -50%) scale(0.6); opacity: 0.95; }
+  75%       { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+  100%      { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
 }
 
 @utility animate-cv-line-draw {
-  animation: cv-line-draw 3.5s cubic-bezier(.65,.05,.35,.95) infinite;
+  animation: cv-line-draw 4.2s cubic-bezier(.65,.05,.35,.95) infinite;
 }
 
 @utility animate-cv-line-ball {
-  animation: cv-line-ball 3.5s cubic-bezier(.65,.05,.35,.95) infinite;
+  animation: cv-line-ball 4.2s cubic-bezier(.5,.05,.5,.95) infinite;
+  will-change: transform, left;
+}
+
+@utility animate-cv-impact {
+  animation: cv-impact 4.2s ease-out infinite;
 }
 
 @utility scrollbar-none {

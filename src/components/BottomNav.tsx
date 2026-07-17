@@ -70,6 +70,8 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
             <li key={it.key} className="flex-1">
               <button
                 onClick={it.onClick}
+                onPointerEnter={it.key === "user" ? preloadAuth : undefined}
+                onTouchStart={it.key === "user" ? preloadAuth : undefined}
                 className={`group relative flex w-full flex-col items-center gap-1 rounded-2xl px-2 py-2 transition-colors hover:bg-white/5 active:scale-[0.97] ${
                   it.highlight ? "text-primary" : "text-white/80 hover:text-white"
                 }`}

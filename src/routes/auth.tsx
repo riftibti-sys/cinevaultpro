@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/useAuth";
 import { Toaster } from "@/components/ui/sonner";
+import { SiteFooter } from "@/components/SiteFooter";
 import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
@@ -244,6 +245,8 @@ function AuthPage() {
           Register/Login করে অর্ডারের ইতিহাস track করতে পারবেন।
         </p>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }

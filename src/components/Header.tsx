@@ -73,11 +73,21 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                 <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-cover" />
               </span>
               <span className="hidden flex-col leading-none sm:flex">
-                <span className="font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
+                <span className="relative font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
                   Cine<span className="text-primary">Vault</span>
+                  {/* Rolling football that skims across the wordmark */}
+                  <span aria-hidden className="pointer-events-none absolute -top-3 left-0 animate-cv-football-roll">
+                    <span className="inline-block animate-cv-football-spin text-lg drop-shadow-[0_0_6px_rgba(255,255,255,0.7)]">
+                      ⚽
+                    </span>
+                  </span>
                 </span>
-                <span className="mt-0.5 text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
-                  Since 2026
+                <span className="mt-0.5 flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
+                  <span>Since 2026</span>
+                  <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-gradient-to-r from-primary/30 to-transparent px-1.5 py-[1px] tracking-[0.15em] text-primary">
+                    <span className="inline-block animate-cv-football-spin">⚽</span>
+                    FIFA WC 2026
+                  </span>
                 </span>
               </span>
             </Link>

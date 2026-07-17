@@ -422,7 +422,8 @@ function ProductDetail() {
       </section>
 
       <SiteFooter />
-      <BottomNav />
+      <BottomNav onCartClick={() => setCartOpen(true)} />
+      <CartDrawer open={cartOpen} onOpenChange={setCartOpen} />
     </div>
   );
 }

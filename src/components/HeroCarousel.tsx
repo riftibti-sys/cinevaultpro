@@ -3,8 +3,7 @@ import { Play, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useProducts, type Product } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
-// Featured products to showcase in the hero (in order)
-const featuredIds = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
+const DEFAULT_FEATURED = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
 
 const AUTO_MS = 7000;
 
@@ -12,9 +11,14 @@ export function HeroCarousel() {
   const products = useProducts();
   const settings = useSiteSettings();
   const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), "Hi CineVault! আমি একটা subscription কিনতে চাই।");
+  const featuredIds = useMemo(() => {
+    const raw = settings.get("hero_featured_ids", "").trim();
+    const ids = raw ? raw.split(",").map((s) => s.trim()).filter(Boolean) : DEFAULT_FEATURED;
+    return ids;
+  }, [settings]);
   const slides = useMemo<Product[]>(
     () => featuredIds.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => Boolean(p)),
-    [products],
+    [products, featuredIds],
   );
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);

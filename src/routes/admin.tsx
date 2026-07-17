@@ -159,8 +159,9 @@ function AdminPage() {
     if (!unlocked) return;
     getDataFn().then((d) => setData(d as Data));
     listProductsFn().then((p) => setProducts(p as ProductRow[]));
+    listCombosFn().then((c) => setCombos(c as ComboRow[]));
     listSettingsFn().then((s) => setSettings(s as SettingRow[]));
-  }, [unlocked, getDataFn, listProductsFn, listSettingsFn]);
+  }, [unlocked, getDataFn, listProductsFn, listCombosFn, listSettingsFn]);
 
   async function handleSaveSettings(updates: { key: string; value: string }[]) {
     await saveSettingsFn({ data: { updates } });
@@ -183,6 +184,22 @@ function AdminPage() {
     await delProductFn({ data: { id } });
     toast.success("Deleted");
     await refreshProducts();
+  }
+
+  async function refreshCombos() {
+    const c = await listCombosFn();
+    setCombos(c as ComboRow[]);
+  }
+  async function handleSaveCombo(combo: ComboInput, isNew: boolean, originalId?: string) {
+    await saveComboFn({ data: { combo, isNew, originalId } });
+    toast.success(isNew ? "Combo created" : "Combo updated");
+    await refreshCombos();
+  }
+  async function handleDeleteCombo(id: string) {
+    if (!confirm(`Delete combo "${id}"?`)) return;
+    await delComboFn({ data: { id } });
+    toast.success("Deleted");
+    await refreshCombos();
   }
 
   async function handleUnlock(e: React.FormEvent) {

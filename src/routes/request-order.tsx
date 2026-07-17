@@ -126,7 +126,7 @@ function RequestOrderPage() {
                 </span>
                 <div className="leading-tight">
                   <p className="text-[9px] font-black uppercase tracking-[0.3em] opacity-80">Order Ticket</p>
-                  <p className="font-display text-lg uppercase italic tracking-wide">#CV-{Date.now().toString().slice(-6)}</p>
+                  <p className="font-display text-lg uppercase italic tracking-wide">#CV-{ticketId}</p>
                 </div>
               </div>
               <span className="hidden rounded-full bg-white/20 px-3 py-1 text-[10px] font-black uppercase tracking-widest ring-1 ring-white/30 sm:block">

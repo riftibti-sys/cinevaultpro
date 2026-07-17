@@ -102,9 +102,9 @@
 }
 
 @utility animate-cv-line-draw {
-  animation: cv-line-draw 5s cubic-bezier(.65,.05,.35,.95) infinite;
+  animation: cv-line-draw 3.5s cubic-bezier(.65,.05,.35,.95) infinite;
 }
 
 @utility animate-cv-line-ball {
-  animation: cv-line-ball 5s cubic-bezier(.65,.05,.35,.95) infinite;
+  animation: cv-line-ball 3.5s cubic-bezier(.65,.05,.35,.95) infinite;
 }

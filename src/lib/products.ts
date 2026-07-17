@@ -19,8 +19,8 @@ export type Product = {
   warranty?: string;
 };
 
-// High-resolution brand logos via Clearbit (crisp, transparent PNG ~256px).
-const logo = (domain: string) => `https://logo.clearbit.com/${domain}?size=512`;
+// High-resolution brand icons via Google's favicon service (reliable, 256px app icons).
+const logo = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=256`;
 
 export const products: Product[] = [
   {

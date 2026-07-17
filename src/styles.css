@@ -132,8 +132,3 @@
   isolation: isolate;
 }
 
-@media (max-width: 767px) {
-  body:has(.mobile-bottom-nav) {
-    overflow: hidden;
-  }
-}

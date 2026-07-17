@@ -117,3 +117,66 @@ export const adminDeleteQuestion = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true as const };
   });
+
+export const adminAnswerQuestion = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string; answer: string }) => data)
+  .handler(async ({ data }) => {
+    await requireUnlocked();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const answer = data.answer.trim();
+    const { error } = await supabaseAdmin
+      .from("questions")
+      .update({
+        answer: answer.length ? answer : null,
+        answered_at: answer.length ? new Date().toISOString() : null,
+      })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+export const adminUpdateReview = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string; rating: number; comment: string }) => data)
+  .handler(async ({ data }) => {
+    await requireUnlocked();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const rating = Math.max(1, Math.min(5, Math.round(data.rating)));
+    const comment = data.comment.trim();
+    const { error } = await supabaseAdmin
+      .from("reviews")
+      .update({ rating, comment: comment.length ? comment : null })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+export const adminDeleteUser = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }) => {
+    await requireUnlocked();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // Delete auth user; profile cascades via FK. Also cleanup content by user_id.
+    await supabaseAdmin.from("reviews").delete().eq("user_id", data.id);
+    await supabaseAdmin.from("questions").delete().eq("user_id", data.id);
+    const { error } = await supabaseAdmin.auth.admin.deleteUser(data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+export const adminUpdateUser = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string; full_name: string; phone: string; address: string }) => data)
+  .handler(async ({ data }) => {
+    await requireUnlocked();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({
+        full_name: data.full_name.trim() || null,
+        phone: data.phone.trim() || null,
+        address: data.address.trim() || null,
+      })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+

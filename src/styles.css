@@ -85,23 +85,22 @@
   &::-webkit-scrollbar { display: none; }
 }
 
-/* Ball sweeps L→R (erase), pauses, rolls R→L (repaint) */
+/* Ball waits, sweeps L→R (erase), pauses, rolls R→L (repaint), waits */
 @keyframes cv-ball-sweep {
-  0%   { transform: translateX(-18px); }
-  40%  { transform: translateX(165px); }
-  55%  { transform: translateX(165px); }
-  95%  { transform: translateX(-18px); }
-  100% { transform: translateX(-18px); }
+  0%   { transform: translateX(-22px); }
+  15%  { transform: translateX(-22px); }
+  40%  { transform: translateX(170px); }
+  55%  { transform: translateX(170px); }
+  80%  { transform: translateX(-22px); }
+  100% { transform: translateX(-22px); }
 }
 
-/* Text is erased from the left as ball moves right,
-   then repainted from the left as ball moves back */
+/* Text stays fully visible while ball is parked; wipes only while ball moves */
 @keyframes cv-text-wipe {
-  0%    { clip-path: inset(0 0 0 0); }
-  40%   { clip-path: inset(0 0 0 100%); }
-  55%   { clip-path: inset(0 100% 0 0); }
-  95%   { clip-path: inset(0 0 0 0); }
-  100%  { clip-path: inset(0 0 0 0); }
+  0%,  15% { clip-path: inset(0 0 0 0); }
+  40%      { clip-path: inset(0 0 0 100%); }
+  55%      { clip-path: inset(0 100% 0 0); }
+  80%, 100%{ clip-path: inset(0 0 0 0); }
 }
 
 @keyframes cv-ball-spin {
@@ -110,13 +109,13 @@
 }
 
 @utility animate-cv-ball-sweep {
-  animation: cv-ball-sweep 2.6s cubic-bezier(.5,.05,.5,.95) infinite;
+  animation: cv-ball-sweep 6s cubic-bezier(.55,.05,.45,.95) infinite;
 }
 
 @utility animate-cv-text-wipe {
-  animation: cv-text-wipe 2.6s cubic-bezier(.5,.05,.5,.95) infinite;
+  animation: cv-text-wipe 6s cubic-bezier(.55,.05,.45,.95) infinite;
 }
 
 @utility animate-cv-ball-spin {
-  animation: cv-ball-spin 0.6s linear infinite;
+  animation: cv-ball-spin 1s linear infinite;
 }

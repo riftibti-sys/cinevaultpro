@@ -58,7 +58,6 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
       label: "Offers",
       icon: Flame,
       onClick: () => navigate({ to: "/offers" }),
-      highlight: true,
     },
   ];
 

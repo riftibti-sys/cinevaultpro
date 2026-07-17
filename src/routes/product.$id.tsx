@@ -10,6 +10,7 @@ import { Header } from "@/components/Header";
 import { CategoryBar } from "@/components/CategoryBar";
 import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import { CartDrawer } from "@/components/CartDrawer";
 
 export const Route = createFileRoute("/product/$id")({
   head: ({ params }) => {

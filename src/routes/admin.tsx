@@ -802,3 +802,313 @@ function OrdersTable({
   );
 }
 
+const CATEGORIES: Array<{ value: ProductInput["category"]; label: string }> = [
+  { value: "streaming", label: "Streaming" },
+  { value: "editing", label: "Editing" },
+  { value: "music", label: "Music" },
+  { value: "other", label: "AI & Others" },
+];
+
+const EMPTY_PRODUCT: ProductInput = {
+  id: "",
+  name: "",
+  tagline: "",
+  price: 0,
+  original_price: null,
+  duration: "1 Month",
+  category: "streaming",
+  accent: "#e50914",
+  logo: "",
+  logo_fill: false,
+  logo_large: false,
+  rating: 5.0,
+  reviews: 0,
+  description: "",
+  features: [],
+  warranty: "30-Day Replacement Warranty",
+  sort_order: 100,
+  is_active: true,
+};
+
+function ProductsManager({
+  rows,
+  onSave,
+  onDelete,
+}: {
+  rows: ProductRow[];
+  onSave: (product: ProductInput, isNew: boolean, originalId?: string) => Promise<void>;
+  onDelete: (id: string) => void;
+}) {
+  const [editing, setEditing] = useState<{ product: ProductInput; isNew: boolean; originalId?: string } | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  function startEdit(r: ProductRow) {
+    setEditing({
+      product: {
+        id: r.id,
+        name: r.name,
+        tagline: r.tagline,
+        price: r.price,
+        original_price: r.original_price,
+        duration: r.duration,
+        category: (["streaming", "editing", "music", "other"].includes(r.category) ? r.category : "other") as ProductInput["category"],
+        accent: r.accent,
+        logo: r.logo,
+        logo_fill: r.logo_fill,
+        logo_large: r.logo_large,
+        rating: r.rating,
+        reviews: r.reviews,
+        description: r.description ?? "",
+        features: r.features ?? [],
+        warranty: r.warranty ?? "",
+        sort_order: r.sort_order,
+        is_active: r.is_active,
+      },
+      isNew: false,
+      originalId: r.id,
+    });
+  }
+
+  async function save() {
+    if (!editing) return;
+    setSaving(true);
+    try {
+      await onSave(editing.product, editing.isNew, editing.originalId);
+      setEditing(null);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+          Products ({rows.length})
+        </h2>
+        <button
+          onClick={() => setEditing({ product: { ...EMPTY_PRODUCT }, isNew: true })}
+          className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow-[0_10px_25px_-10px_rgba(229,9,20,0.6)]"
+        >
+          <Plus className="h-4 w-4" /> New Product
+        </button>
+      </div>
+
+      {editing && (
+        <ProductEditor
+          value={editing.product}
+          isNew={editing.isNew}
+          saving={saving}
+          onChange={(p) => setEditing({ ...editing, product: p })}
+          onCancel={() => setEditing(null)}
+          onSave={save}
+        />
+      )}
+
+      <div className="grid gap-3">
+        {rows.map((r) => (
+          <div key={r.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+            <img src={r.logo} alt={r.name} className="h-12 w-12 rounded-lg object-contain bg-white/5 p-1" />
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-bold text-foreground">{r.name}</span>
+                <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold uppercase text-muted-foreground">
+                  {r.category}
+                </span>
+                {!r.is_active && (
+                  <span className="rounded-full bg-destructive/20 px-2 py-0.5 text-[10px] font-black uppercase text-destructive">
+                    Hidden
+                  </span>
+                )}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                Tk. {r.price}{r.original_price ? ` · was ${r.original_price}` : ""} · {r.duration} · #{r.sort_order}
+              </div>
+              <div className="truncate text-xs text-foreground/60">{r.tagline}</div>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button
+                onClick={() => startEdit(r)}
+                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                aria-label="Edit"
+              >
+                <Pencil className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => onDelete(r.id)}
+                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                aria-label="Delete"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        ))}
+        {rows.length === 0 && <EmptyBox label="No products yet — click 'New Product'" />}
+      </div>
+    </div>
+  );
+}
+
+function ProductEditor({
+  value,
+  isNew,
+  saving,
+  onChange,
+  onCancel,
+  onSave,
+}: {
+  value: ProductInput;
+  isNew: boolean;
+  saving: boolean;
+  onChange: (p: ProductInput) => void;
+  onCancel: () => void;
+  onSave: () => void;
+}) {
+  const featuresText = (value.features ?? []).join("\n");
+  return (
+    <div className="rounded-2xl border border-primary/40 bg-card p-4 shadow-[0_10px_40px_-20px_rgba(229,9,20,0.5)]">
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className="font-bold text-foreground">{isNew ? "New Product" : `Edit: ${value.name || value.id}`}</h3>
+        <button onClick={onCancel} className="grid h-8 w-8 place-items-center rounded-full border border-border hover:border-primary">
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <Field label="ID (slug)">
+          <input
+            value={value.id}
+            disabled={!isNew}
+            onChange={(e) => onChange({ ...value, id: e.target.value })}
+            placeholder="e.g. netflix"
+            className="input"
+          />
+        </Field>
+        <Field label="Name">
+          <input value={value.name} onChange={(e) => onChange({ ...value, name: e.target.value })} className="input" />
+        </Field>
+        <Field label="Tagline">
+          <input value={value.tagline} onChange={(e) => onChange({ ...value, tagline: e.target.value })} className="input" />
+        </Field>
+        <Field label="Duration">
+          <input value={value.duration} onChange={(e) => onChange({ ...value, duration: e.target.value })} className="input" />
+        </Field>
+        <Field label="Price (Tk.)">
+          <input type="number" value={value.price} onChange={(e) => onChange({ ...value, price: Number(e.target.value) })} className="input" />
+        </Field>
+        <Field label="Original Price (Tk.)">
+          <input
+            type="number"
+            value={value.original_price ?? ""}
+            onChange={(e) => onChange({ ...value, original_price: e.target.value === "" ? null : Number(e.target.value) })}
+            className="input"
+          />
+        </Field>
+        <Field label="Category">
+          <select
+            value={value.category}
+            onChange={(e) => onChange({ ...value, category: e.target.value as ProductInput["category"] })}
+            className="input"
+          >
+            {CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>{c.label}</option>
+            ))}
+          </select>
+        </Field>
+        <Field label="Accent Color">
+          <div className="flex items-center gap-2">
+            <input type="color" value={value.accent} onChange={(e) => onChange({ ...value, accent: e.target.value })} className="h-10 w-14 cursor-pointer rounded-lg border border-border bg-transparent" />
+            <input value={value.accent} onChange={(e) => onChange({ ...value, accent: e.target.value })} className="input flex-1" />
+          </div>
+        </Field>
+        <Field label="Logo URL">
+          <input value={value.logo} onChange={(e) => onChange({ ...value, logo: e.target.value })} placeholder="https://... or /src/assets/..." className="input" />
+        </Field>
+        <Field label="Rating (0–5)">
+          <input
+            type="number"
+            step="0.1"
+            min="0"
+            max="5"
+            value={value.rating ?? ""}
+            onChange={(e) => onChange({ ...value, rating: e.target.value === "" ? null : Number(e.target.value) })}
+            className="input"
+          />
+        </Field>
+        <Field label="Reviews Count">
+          <input
+            type="number"
+            value={value.reviews ?? ""}
+            onChange={(e) => onChange({ ...value, reviews: e.target.value === "" ? null : Number(e.target.value) })}
+            className="input"
+          />
+        </Field>
+        <Field label="Sort Order (lower = first)">
+          <input type="number" value={value.sort_order} onChange={(e) => onChange({ ...value, sort_order: Number(e.target.value) })} className="input" />
+        </Field>
+        <Field label="Warranty">
+          <input value={value.warranty ?? ""} onChange={(e) => onChange({ ...value, warranty: e.target.value })} className="input" />
+        </Field>
+      </div>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <Field label="Description">
+          <textarea
+            value={value.description ?? ""}
+            onChange={(e) => onChange({ ...value, description: e.target.value })}
+            rows={4}
+            className="input"
+          />
+        </Field>
+        <Field label="Features (one per line)">
+          <textarea
+            value={featuresText}
+            onChange={(e) => onChange({ ...value, features: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })}
+            rows={4}
+            className="input"
+          />
+        </Field>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-4">
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={value.is_active} onChange={(e) => onChange({ ...value, is_active: e.target.checked })} />
+          Active (visible on site)
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={value.logo_fill} onChange={(e) => onChange({ ...value, logo_fill: e.target.checked })} />
+          Logo fill (edge-to-edge)
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={value.logo_large} onChange={(e) => onChange({ ...value, logo_large: e.target.checked })} />
+          Logo large
+        </label>
+      </div>
+      <div className="mt-4 flex gap-2">
+        <button
+          onClick={onSave}
+          disabled={saving}
+          className="flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-[0_10px_25px_-10px_rgba(229,9,20,0.6)] disabled:opacity-60"
+        >
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+          {isNew ? "Create Product" : "Save Changes"}
+        </button>
+        <button onClick={onCancel} className="rounded-full border border-border px-5 py-2.5 text-sm font-bold hover:border-primary/60">
+          Cancel
+        </button>
+      </div>
+      <style>{`.input{width:100%;border-radius:0.5rem;border:1px solid hsl(var(--border));background:hsl(var(--background));padding:0.5rem 0.75rem;font-size:0.875rem;color:hsl(var(--foreground));outline:none}.input:focus{border-color:hsl(var(--primary))}`}</style>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-[10px] font-black uppercase tracking-widest text-muted-foreground">{label}</span>
+      {children}
+    </label>
+  );
+}
+
+

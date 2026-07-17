@@ -96,16 +96,6 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
                   </span>
                 </span>
               </span>
-                <span className="mt-1 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
-                  <span>Since 2026</span>
-                  <span className="inline-flex items-center gap-1 rounded-sm border-l border-r border-white/15 px-2 py-[1px] tracking-[0.22em] text-[8px] text-amber-200/80">
-                    <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="currentColor">
-                      <circle cx="12" cy="12" r="10" />
-                    </svg>
-                    FIFA World Cup · 2026
-                  </span>
-                </span>
-              </span>
             </Link>
           </div>
 

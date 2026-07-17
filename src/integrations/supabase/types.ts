@@ -50,6 +50,7 @@ export type Database = {
           name: string
           product_id: string
           question: string
+          user_id: string | null
         }
         Insert: {
           answer?: string | null
@@ -59,6 +60,7 @@ export type Database = {
           name: string
           product_id: string
           question: string
+          user_id?: string | null
         }
         Update: {
           answer?: string | null
@@ -68,6 +70,7 @@ export type Database = {
           name?: string
           product_id?: string
           question?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -79,6 +82,7 @@ export type Database = {
           name: string
           product_id: string
           rating: number
+          user_id: string | null
         }
         Insert: {
           comment?: string | null
@@ -87,6 +91,7 @@ export type Database = {
           name: string
           product_id: string
           rating: number
+          user_id?: string | null
         }
         Update: {
           comment?: string | null
@@ -95,6 +100,7 @@ export type Database = {
           name?: string
           product_id?: string
           rating?: number
+          user_id?: string | null
         }
         Relationships: []
       }

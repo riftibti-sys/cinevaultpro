@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   ShoppingBag,
   Star,
+  Sparkles,
   Trash2,
   Users,
   MessageSquare,

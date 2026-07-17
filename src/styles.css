@@ -104,5 +104,13 @@
 .cv-script { font-family: "Brush Script MT", "Segoe Script", cursive; font-style: italic; }
 
 @media (prefers-reduced-motion: reduce) {
-  .cv-ball, .cv-shadow { animation: none; }
+  .cv-ball {
+    animation: none !important;
+    transform: rotate(-12deg) !important;
+  }
+  .cv-shadow {
+    animation: none !important;
+    transform: scaleX(1) !important;
+    opacity: .45 !important;
+  }
 }

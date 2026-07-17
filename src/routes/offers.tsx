@@ -28,56 +28,60 @@ function OffersPage() {
   const [cartOpen, setCartOpen] = useState(false);
   const { combos, isLoading } = useCombos();
   return (
-    <div className="min-h-screen pb-28">
+    <div className="fixed inset-0 flex flex-col overflow-hidden bg-background md:static md:block md:min-h-screen md:overflow-visible">
       <Toaster position="top-center" />
-      <div className="sticky top-0 z-40">
+      <div className="z-40 shrink-0 md:sticky md:top-0">
         <Header onCartClick={() => setCartOpen(true)} />
         <CategoryBar />
       </div>
 
-      {/* HERO */}
-      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-[#1a0507] via-black to-[#0a0a0a] px-4 py-10 sm:px-5 sm:py-14">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_50%,rgba(229,9,20,0.22),transparent_55%)]" />
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
-        <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-3">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/85 hover:border-primary/60 hover:text-primary"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> Back
-          </Link>
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-primary">
-            <Flame className="h-3 w-3 animate-pulse" /> Hot Combo Offers
+      <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-28 [-webkit-overflow-scrolling:touch] md:contents">
+        {/* HERO */}
+        <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-[#1a0507] via-black to-[#0a0a0a] px-4 py-10 sm:px-5 sm:py-14">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_50%,rgba(229,9,20,0.22),transparent_55%)]" />
+          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
+          <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-3">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/85 hover:border-primary/60 hover:text-primary"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" /> Back
+            </Link>
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-primary">
+              <Flame className="h-3 w-3 animate-pulse" /> Hot Combo Offers
+            </div>
+            <h1 className="font-display text-3xl uppercase italic leading-none tracking-wide text-white sm:text-5xl">
+              Combo <span className="text-primary">Offers</span>
+            </h1>
+            <p className="max-w-2xl text-sm text-white/70 sm:text-base">
+              দুই বা তিনটা premium subscription একসাথে নিন — আলাদা কেনার চেয়ে অনেক কমে। ১৫ মিনিটে delivery।
+            </p>
           </div>
-          <h1 className="font-display text-3xl uppercase italic leading-none tracking-wide text-white sm:text-5xl">
-            Combo <span className="text-primary">Offers</span>
-          </h1>
-          <p className="max-w-2xl text-sm text-white/70 sm:text-base">
-            দুই বা তিনটা premium subscription একসাথে নিন — আলাদা কেনার চেয়ে অনেক কমে। ১৫ মিনিটে delivery।
-          </p>
-        </div>
-      </section>
+        </section>
 
-      {/* COMBOS */}
-      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-5 sm:py-12">
-        <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
-          {isLoading && combos.length === 0 ? (
-            <div className="col-span-full grid place-items-center py-16 text-sm text-white/60">Loading combos…</div>
-          ) : combos.length === 0 ? (
-            <div className="col-span-full grid place-items-center py-16 text-sm text-white/60">No active combos.</div>
-          ) : (
-            combos.map((c: Combo) => <ComboBanner key={c.id} combo={c} />)
-          )}
-        </div>
-      </section>
+        {/* COMBOS */}
+        <section className="mx-auto max-w-6xl px-4 py-8 sm:px-5 sm:py-12">
+          <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
+            {isLoading && combos.length === 0 ? (
+              <div className="col-span-full grid place-items-center py-16 text-sm text-white/60">Loading combos…</div>
+            ) : combos.length === 0 ? (
+              <div className="col-span-full grid place-items-center py-16 text-sm text-white/60">No active combos.</div>
+            ) : (
+              combos.map((c: Combo) => <ComboBanner key={c.id} combo={c} />)
+            )}
+          </div>
+        </section>
 
-      <SiteFooter />
+        <SiteFooter />
+      </main>
+
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <BottomNav onCartClick={() => setCartOpen(true)} />
       <FloatingHelp />
     </div>
   );
 }
+
 
 function ComboBanner({ combo }: { combo: Combo }) {
   const { add } = useCart();

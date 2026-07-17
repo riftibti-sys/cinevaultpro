@@ -2,10 +2,11 @@ import { useMemo, useState } from "react";
 import { Star, Send } from "lucide-react";
 import { toast } from "sonner";
 import { useReviews } from "@/lib/useReviews";
-import { products } from "@/lib/products";
+import { useProducts } from "@/lib/products";
 
 export function ReviewsSection() {
   const { reviews, submit } = useReviews();
+  const products = useProducts();
   const [productId, setProductId] = useState(products[0]?.id ?? "");
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
@@ -15,7 +16,7 @@ export function ReviewsSection() {
 
   const productName = useMemo(
     () => products.find((p) => p.id === productId)?.name ?? "",
-    [productId],
+    [productId, products],
   );
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -78,16 +78,31 @@
   }
 }
 
-/* CineVault logo — Motion View inspired */
+/* CineVault logo — Motion View inspired (GPU-optimized) */
 @keyframes cv-spin {
-  0%   { transform: rotate(0deg)   translateY(0); }
-  50%  { transform: rotate(180deg) translateY(-3px); }
-  100% { transform: rotate(360deg) translateY(0); }
+  0%   { transform: translate3d(0,0,0)    rotate(0deg); }
+  50%  { transform: translate3d(0,-3px,0) rotate(180deg); }
+  100% { transform: translate3d(0,0,0)    rotate(360deg); }
 }
 @keyframes cv-shadow {
-  0%,100% { transform: scaleX(1);   opacity: .55; }
-  50%     { transform: scaleX(.55); opacity: .2; }
+  0%,100% { transform: translateZ(0) scaleX(1);   opacity: .5; }
+  50%     { transform: translateZ(0) scaleX(.55); opacity: .18; }
 }
-.cv-ball    { animation: cv-spin 2.4s ease-in-out infinite; transform-origin: center; filter: drop-shadow(0 3px 6px rgba(0,0,0,.7)); }
-.cv-shadow  { animation: cv-shadow 2.4s ease-in-out infinite; transform-origin: center; }
-.cv-script  { font-family: "Brush Script MT", "Segoe Script", cursive; font-style: italic; }
+.cv-ball {
+  animation: cv-spin 2.4s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+.cv-shadow {
+  animation: cv-shadow 2.4s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.cv-script { font-family: "Brush Script MT", "Segoe Script", cursive; font-style: italic; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-ball, .cv-shadow { animation: none; }
+}

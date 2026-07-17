@@ -26,6 +26,7 @@ export const Route = createFileRoute("/offers")({
 
 function OffersPage() {
   const [cartOpen, setCartOpen] = useState(false);
+  const { combos, isLoading } = useCombos();
   return (
     <div className="min-h-screen pb-28">
       <Toaster position="top-center" />

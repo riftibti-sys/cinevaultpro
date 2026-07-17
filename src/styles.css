@@ -85,37 +85,26 @@
   &::-webkit-scrollbar { display: none; }
 }
 
-/* Ball waits, sweeps L→R (erase), pauses, rolls R→L (repaint), waits */
-@keyframes cv-ball-sweep {
-  0%   { transform: translateX(-22px); }
-  15%  { transform: translateX(-22px); }
-  40%  { transform: translateX(170px); }
-  55%  { transform: translateX(170px); }
-  80%  { transform: translateX(-22px); }
-  100% { transform: translateX(-22px); }
+/* Gold underline draws in from left, holds, then retracts */
+@keyframes cv-line-draw {
+  0%   { transform: scaleX(0); }
+  35%  { transform: scaleX(1); }
+  70%  { transform: scaleX(1); }
+  100% { transform: scaleX(0); transform-origin: right; }
 }
 
-/* Text stays fully visible while ball is parked; wipes only while ball moves */
-@keyframes cv-text-wipe {
-  0%,  15% { clip-path: inset(0 0 0 0); }
-  40%      { clip-path: inset(0 0 0 100%); }
-  55%      { clip-path: inset(0 100% 0 0); }
-  80%, 100%{ clip-path: inset(0 0 0 0); }
+/* Ball rides the leading edge of the underline (uses left %, synced) */
+@keyframes cv-line-ball {
+  0%   { left: 0%;   transform: translate(-50%, -50%) rotate(0deg); }
+  35%  { left: 100%; transform: translate(-50%, -50%) rotate(720deg); }
+  70%  { left: 100%; transform: translate(-50%, -50%) rotate(720deg); }
+  100% { left: 0%;   transform: translate(-50%, -50%) rotate(0deg); }
 }
 
-@keyframes cv-ball-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+@utility animate-cv-line-draw {
+  animation: cv-line-draw 5s cubic-bezier(.65,.05,.35,.95) infinite;
 }
 
-@utility animate-cv-ball-sweep {
-  animation: cv-ball-sweep 6s cubic-bezier(.55,.05,.45,.95) infinite;
-}
-
-@utility animate-cv-text-wipe {
-  animation: cv-text-wipe 6s cubic-bezier(.55,.05,.45,.95) infinite;
-}
-
-@utility animate-cv-ball-spin {
-  animation: cv-ball-spin 1s linear infinite;
+@utility animate-cv-line-ball {
+  animation: cv-line-ball 5s cubic-bezier(.65,.05,.35,.95) infinite;
 }

@@ -49,8 +49,8 @@ export function ProductCard({ product }: { product: Product }) {
             product.logoFill
               ? "h-full w-full object-cover"
               : product.logoLarge
-                ? "h-24 w-24 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-28 sm:w-28"
-                : "h-16 w-16 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-20 sm:w-20"
+                ? "h-28 w-28 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-32 sm:w-32"
+                : "h-20 w-20 object-contain drop-shadow-sm transition-transform group-hover:scale-105 sm:h-24 sm:w-24"
           }
           loading="lazy"
           decoding="async"
@@ -62,19 +62,19 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
 
       {/* BODY */}
-      <div className="flex flex-1 flex-col p-3">
-        <h3 className="line-clamp-1 text-sm font-bold leading-tight text-foreground">{product.name}</h3>
-        <p className="mt-0.5 line-clamp-1 text-[10px] text-muted-foreground">
+      <div className="flex flex-1 flex-col p-3.5 sm:p-4">
+        <h3 className="line-clamp-1 text-[15px] font-bold leading-tight text-foreground sm:text-base">{product.name}</h3>
+        <p className="mt-1 line-clamp-1 text-[11px] text-muted-foreground sm:text-xs">
           {product.tagline} • {product.duration}
         </p>
 
         {/* PRICE */}
-        <div className="mt-2 flex items-baseline gap-1.5">
-          <span className="text-lg font-black tracking-tight text-primary">
+        <div className="mt-2.5 flex items-baseline gap-1.5">
+          <span className="text-xl font-black tracking-tight text-primary sm:text-[22px]">
             Tk. {product.price.toLocaleString()}
           </span>
           {product.originalPrice && (
-            <span className="text-[11px] font-medium text-muted-foreground line-through">
+            <span className="text-xs font-medium text-muted-foreground line-through">
               Tk. {product.originalPrice.toLocaleString()}
             </span>
           )}
@@ -97,16 +97,16 @@ export function ProductCard({ product }: { product: Product }) {
                   className="p-0.5 transition-transform hover:scale-125"
                 >
                   <Star
-                    className={`h-3.5 w-3.5 ${active ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
+                    className={`h-4 w-4 ${active ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
                   />
                 </button>
               );
             })}
           </div>
-          <span className="text-[10px] font-bold text-foreground">
+          <span className="text-[11px] font-bold text-foreground">
             {avg > 0 ? avg.toFixed(1) : "New"}
           </span>
-          {count > 0 && <span className="text-[9px] text-muted-foreground">· {count}</span>}
+          {count > 0 && <span className="text-[10px] text-muted-foreground">· {count}</span>}
         </div>
 
         {/* BUY NOW */}
@@ -114,7 +114,7 @@ export function ProductCard({ product }: { product: Product }) {
           onClick={() => add(product)}
           disabled={inCart}
           aria-label={inCart ? "Added to cart" : "Buy now"}
-          className={`mt-3 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-full border text-xs font-black uppercase tracking-wider transition ${
+          className={`mt-3.5 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border text-[13px] font-black uppercase tracking-wider transition ${
             inCart
               ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-500"
               : "border-primary/40 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
@@ -122,7 +122,7 @@ export function ProductCard({ product }: { product: Product }) {
         >
           {inCart ? (
             <>
-              <Check className="h-3.5 w-3.5" strokeWidth={3} /> Added
+              <Check className="h-4 w-4" strokeWidth={3} /> Added
             </>
           ) : (
             "Buy Now"

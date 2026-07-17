@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { products } from "@/lib/products";
 import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
+import footballImg from "@/assets/football.png";
 
 export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { count, items, add } = useCart();
@@ -75,23 +76,24 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <span className="hidden flex-col leading-none sm:flex">
                 <span className="relative font-display text-2xl uppercase italic tracking-wider text-white sm:text-[28px]">
                   Cine<span className="text-primary">Vault</span>
-                  {/* Soccer ball that glides across the wordmark */}
+                  {/* Football that kicks & bounces across the wordmark */}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute -top-4 left-0 animate-cv-football-roll"
+                    className="pointer-events-none absolute -top-5 left-0 animate-cv-ball-kick"
                   >
-                    <span className="block h-5 w-5 animate-cv-football-spin rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.55)] ring-1 ring-black/70"
-                      style={{
-                        backgroundImage:
-                          "radial-gradient(circle at 50% 50%, #000 0 3px, transparent 3.5px), radial-gradient(circle at 18% 30%, #000 0 2px, transparent 2.5px), radial-gradient(circle at 82% 30%, #000 0 2px, transparent 2.5px), radial-gradient(circle at 18% 78%, #000 0 2px, transparent 2.5px), radial-gradient(circle at 82% 78%, #000 0 2px, transparent 2.5px), radial-gradient(circle at 50% 92%, #000 0 2px, transparent 2.5px)",
-                      }}
+                    <img
+                      src={footballImg}
+                      alt=""
+                      width={20}
+                      height={20}
+                      className="h-5 w-5 animate-cv-ball-spin drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
                     />
                   </span>
                 </span>
                 <span className="mt-1 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
                   <span>Since 2026</span>
                   <span className="inline-flex items-center gap-1.5 rounded-sm border-l border-r border-white/15 px-2 py-[1px] tracking-[0.22em] text-[8px] text-amber-200/80">
-                    <span className="block h-2 w-2 rounded-full bg-amber-200/80" />
+                    <span className="block h-1.5 w-1.5 rounded-full bg-amber-200/80" />
                     FIFA World Cup · 2026
                   </span>
                 </span>

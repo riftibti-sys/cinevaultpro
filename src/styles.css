@@ -85,23 +85,28 @@
   &::-webkit-scrollbar { display: none; }
 }
 
-@keyframes cv-football-roll {
-  0%   { transform: translateX(-8px); opacity: 0; }
-  12%  { opacity: 1; }
-  50%  { transform: translateX(70px) translateY(-4px); }
-  88%  { opacity: 1; }
-  100% { transform: translateX(150px); opacity: 0; }
+@keyframes cv-ball-kick {
+  0%   { transform: translateX(-14px) translateY(4px);  opacity: 0; }
+  8%   { opacity: 1; }
+  20%  { transform: translateX(20px)  translateY(-14px); }
+  35%  { transform: translateX(50px)  translateY(4px); }
+  50%  { transform: translateX(80px)  translateY(-10px); }
+  65%  { transform: translateX(110px) translateY(4px); }
+  80%  { transform: translateX(140px) translateY(-6px); }
+  92%  { opacity: 1; }
+  100% { transform: translateX(170px) translateY(4px); opacity: 0; }
 }
 
-@keyframes cv-football-spin {
+@keyframes cv-ball-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-@utility animate-cv-football-roll {
-  animation: cv-football-roll 7s cubic-bezier(.45,.05,.55,.95) infinite;
+@utility animate-cv-ball-kick {
+  animation: cv-ball-kick 5s cubic-bezier(.4,.05,.5,.95) infinite;
+  animation-delay: 1.5s;
 }
 
-@utility animate-cv-football-spin {
-  animation: cv-football-spin 1.8s linear infinite;
+@utility animate-cv-ball-spin {
+  animation: cv-ball-spin 0.9s linear infinite;
 }

@@ -2,11 +2,13 @@ import { Phone, Mail, Facebook, Instagram, Youtube, Linkedin } from "lucide-reac
 import { useState } from "react";
 import { toast } from "sonner";
 import paymentMethods from "@/assets/payment-methods.png";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 export function SiteFooter() {
   const [email, setEmail] = useState("");
-
-  const whatsappSupportUrl = `https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent("Hi CineVault! আমার support দরকার।")}&type=phone_number&app_absent=0`;
+  const settings = useSiteSettings();
+  const displayPhone = settings.get("contact_phone");
+  const whatsappSupportUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
 
   const onSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +39,7 @@ export function SiteFooter() {
                 <Phone className="h-4 w-4" strokeWidth={2.6} />
               </span>
               <span className="text-2xl font-bold tracking-tight">
-                01785-897167
+                {displayPhone}
               </span>
             </a>
 
@@ -97,7 +99,7 @@ export function SiteFooter() {
             <div className="mt-6 space-y-3">
               <a href={whatsappSupportUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
                 <Phone className="h-4 w-4 text-primary" strokeWidth={2.4} />
-                01785-897167
+                {displayPhone}
               </a>
               <a href="mailto:support@cinevault.bd" className="flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
                 <Mail className="h-4 w-4 text-primary" strokeWidth={2.4} />

@@ -8,14 +8,14 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       {/* Mobile: centered logo row */}
-      <div className="mx-auto flex max-w-6xl items-center px-5 py-3 sm:hidden">
-        <div className="w-10" />
-        <Link to="/" className="flex-1 flex justify-center">
+      <div className="mx-auto grid max-w-6xl grid-cols-[40px_1fr_40px] items-center gap-2 px-5 py-3 sm:hidden">
+        <div />
+        <Link to="/" className="flex justify-center">
           <Logo />
         </Link>
         <button
           onClick={onCartClick}
-          className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-secondary"
+          className="relative grid h-10 w-10 place-items-center justify-self-end rounded-full border border-border bg-secondary"
           aria-label="Cart"
         >
           <ShoppingBag className="h-4 w-4" />

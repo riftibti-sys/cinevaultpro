@@ -83,7 +83,7 @@ export function HeroCarousel() {
                     </p>
                     <div className="mt-2 flex items-baseline gap-2 sm:mt-5">
                       <span className="text-[9px] font-bold uppercase tracking-widest text-white/50 sm:text-[10px]">
-                        Starts at
+                        {settings.get("hero_starts_text", "Starts at")}
                       </span>
                       <span className="font-display text-2xl italic text-white sm:text-4xl">
                         ৳{p.price}

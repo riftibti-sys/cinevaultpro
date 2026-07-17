@@ -1,8 +1,27 @@
-import { ShoppingCart, ClipboardList, User, MapPin } from "lucide-react";
+import { ShoppingCart, ClipboardList, User, MapPin, LogOut } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleUser = () => {
+    if (user) {
+      // Simple confirm-based sign out for now
+      if (confirm("আপনি কি sign out করতে চান?")) {
+        supabase.auth.signOut().then(() => {
+          toast.success("Sign out হয়েছে");
+        });
+      }
+    } else {
+      navigate({ to: "/auth" });
+    }
+  };
 
   const items: Array<{
     key: string;
@@ -10,6 +29,7 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
     icon: typeof ShoppingCart;
     onClick: () => void;
     badge?: number;
+    highlight?: boolean;
   }> = [
     { key: "cart", label: "Cart", icon: ShoppingCart, onClick: onCartClick, badge: count },
     {
@@ -21,9 +41,10 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
     },
     {
       key: "user",
-      label: "User",
-      icon: User,
-      onClick: () => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }),
+      label: user ? "Sign Out" : "Login",
+      icon: user ? LogOut : User,
+      onClick: handleUser,
+      highlight: !user,
     },
     {
       key: "store",
@@ -42,7 +63,9 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
             <li key={it.key} className="flex-1">
               <button
                 onClick={it.onClick}
-                className="group relative flex w-full flex-col items-center gap-1 rounded-2xl px-2 py-2 text-white/80 transition-colors hover:bg-white/5 hover:text-white active:scale-[0.97]"
+                className={`group relative flex w-full flex-col items-center gap-1 rounded-2xl px-2 py-2 transition-colors hover:bg-white/5 active:scale-[0.97] ${
+                  it.highlight ? "text-primary" : "text-white/80 hover:text-white"
+                }`}
               >
                 <span className="relative grid h-6 w-6 place-items-center">
                   <it.icon className="h-5 w-5" strokeWidth={2} />

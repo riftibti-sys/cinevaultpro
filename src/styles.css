@@ -114,3 +114,14 @@
   -ms-overflow-style: none;
   &::-webkit-scrollbar { display: none; }
 }
+
+.mobile-bottom-nav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 80;
+  width: 100%;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  contain: layout paint;
+}

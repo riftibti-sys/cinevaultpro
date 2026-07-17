@@ -116,7 +116,7 @@ function RequestOrderPage() {
         <Header onCartClick={() => setCartOpen(true)} />
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-28 [-webkit-overflow-scrolling:touch] md:contents">
+      <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-28 [-webkit-overflow-scrolling:touch] [touch-action:pan-y] md:contents">
         {/* HERO */}
         <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-[#1a0507] via-black to-[#0a0a0a] px-4 py-10 sm:px-5 sm:py-14">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(229,9,20,0.18),transparent_50%)]" />

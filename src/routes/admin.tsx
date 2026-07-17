@@ -72,12 +72,26 @@ type Profile = {
   created_at: string;
 };
 
+type Order = {
+  id: string;
+  product_name: string;
+  full_name: string;
+  phone: string;
+  email: string | null;
+  address: string;
+  notes: string | null;
+  status: string;
+  created_at: string;
+};
+
 type Data = {
   reviews: Review[];
   questions: Question[];
   profiles: Profile[];
-  errors: { reviews: string | null; questions: string | null; profiles: string | null };
+  orders: Order[];
+  errors: { reviews: string | null; questions: string | null; profiles: string | null; orders: string | null };
 };
+
 
 function AdminPage() {
   const isUnlockedFn = useServerFn(adminIsUnlocked);

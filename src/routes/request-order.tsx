@@ -8,6 +8,7 @@ import { CartDrawer } from "@/components/CartDrawer";
 import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { supabase } from "@/integrations/supabase/client";
+import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 
 export const Route = createFileRoute("/request-order")({
@@ -101,7 +102,7 @@ function RequestOrderPage() {
       .filter(Boolean)
       .join("\n");
 
-    const url = `https://api.whatsapp.com/send/?phone=8801785897167&text=${encodeURIComponent(msg)}&type=phone_number&app_absent=0`;
+    const url = buildWhatsAppUrl(settings.get("contact_phone_intl"), msg);
     window.open(url, "_blank");
     toast.success("🎬 Request পাঠানো হয়েছে! WhatsApp-এ image attach করুন।");
     setTimeout(() => setSubmitting(false), 800);

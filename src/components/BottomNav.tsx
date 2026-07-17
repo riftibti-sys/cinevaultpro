@@ -1,32 +1,60 @@
-import { Home, Store, ShoppingCart, User } from "lucide-react";
+import { ShoppingCart, ClipboardList, User, MapPin } from "lucide-react";
 import { useCart } from "@/lib/cart";
 
 export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
-  const items: Array<{ key: string; label: string; icon: typeof Home; active?: boolean; onClick: () => void; badge?: number }> = [
-    { key: "home", label: "Home", icon: Home, active: true, onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
-    { key: "store", label: "Store", icon: Store, onClick: () => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" }) },
+
+  const items: Array<{
+    key: string;
+    label: string;
+    icon: typeof ShoppingCart;
+    onClick: () => void;
+    badge?: number;
+  }> = [
     { key: "cart", label: "Cart", icon: ShoppingCart, onClick: onCartClick, badge: count },
-    { key: "user", label: "Support", icon: User, onClick: () => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }) },
+    {
+      key: "request",
+      label: "Request Order",
+      icon: ClipboardList,
+      onClick: () =>
+        window.open("https://wa.me/8801785897167?text=Hi%2C%20I%20want%20to%20request%20an%20order", "_blank"),
+    },
+    {
+      key: "user",
+      label: "User",
+      icon: User,
+      onClick: () => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }),
+    },
+    {
+      key: "store",
+      label: "Store Locator",
+      icon: MapPin,
+      onClick: () =>
+        window.open("https://www.facebook.com/share/1HTm4Rz58F/", "_blank"),
+    },
   ];
 
   return (
-    <div className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 sm:hidden">
-      <nav className="w-full max-w-[380px] rounded-full border border-white/10 bg-[oklch(0.11_0_0/0.9)] p-2 shadow-[0_15px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
-        <ul className="flex items-center justify-between px-2">
+    <div className="fixed inset-x-0 bottom-0 z-50 sm:hidden">
+      <nav className="border-t border-white/10 bg-[#0a0a0a] px-2 pb-[max(env(safe-area-inset-bottom),8px)] pt-2 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <ul className="mx-auto flex max-w-md items-stretch justify-between gap-1">
           {items.map((it) => (
             <li key={it.key} className="flex-1">
               <button
                 onClick={it.onClick}
-                className={`relative flex w-full flex-col items-center py-2 transition-colors ${it.active ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                className="group relative flex w-full flex-col items-center gap-1 rounded-2xl px-2 py-2 text-white/80 transition-colors hover:bg-white/5 hover:text-white active:scale-[0.97]"
               >
-                <it.icon className="mb-1 h-5 w-5" />
-                <span className="text-[9px] font-black uppercase tracking-widest">{it.label}</span>
-                {"badge" in it && it.badge && it.badge > 0 ? (
-                  <span className="absolute right-2 top-1 grid h-4 min-w-4 place-items-center rounded-full bg-primary px-1 text-[9px] font-bold text-primary-foreground">
-                    {it.badge}
-                  </span>
-                ) : null}
+                <span className="relative grid h-6 w-6 place-items-center">
+                  <it.icon className="h-5 w-5" strokeWidth={2} />
+                  {"badge" in it && it.badge && it.badge > 0 ? (
+                    <span className="absolute -right-2 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-primary px-1 text-[9px] font-bold text-primary-foreground shadow-[0_0_10px_rgba(229,9,20,0.7)]">
+                      {it.badge}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-[10px] font-semibold leading-none tracking-wide">
+                  {it.label}
+                </span>
               </button>
             </li>
           ))}

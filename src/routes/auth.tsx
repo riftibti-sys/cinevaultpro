@@ -9,7 +9,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
 
 export const Route = createFileRoute("/auth")({
-  ssr: false,
   head: () => ({
     meta: [
       { title: "Login / Register — CineVault" },

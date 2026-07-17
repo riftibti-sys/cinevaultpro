@@ -1,5 +1,5 @@
 import { ShoppingCart, ClipboardList, User, MessageCircle, LogOut } from "lucide-react";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,8 +10,13 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const { count } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const router = useRouter();
   const settings = useSiteSettings();
   const whatsappSupportUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
+
+  const preloadAuth = () => {
+    if (!user) router.preloadRoute({ to: "/auth" }).catch(() => {});
+  };
 
   const handleUser = () => {
     if (user) {
@@ -65,6 +70,8 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
             <li key={it.key} className="flex-1">
               <button
                 onClick={it.onClick}
+                onPointerEnter={it.key === "user" ? preloadAuth : undefined}
+                onTouchStart={it.key === "user" ? preloadAuth : undefined}
                 className={`group relative flex w-full flex-col items-center gap-1 rounded-2xl px-2 py-2 transition-colors hover:bg-white/5 active:scale-[0.97] ${
                   it.highlight ? "text-primary" : "text-white/80 hover:text-white"
                 }`}

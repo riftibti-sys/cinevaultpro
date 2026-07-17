@@ -147,7 +147,7 @@ export function HeroCarousel() {
           </button>
 
           {/* Dots */}
-          <div className="absolute inset-x-0 bottom-3 z-10 flex items-center justify-center gap-1.5 sm:bottom-5">
+          <div className="absolute inset-x-0 bottom-2 z-10 flex items-center justify-center gap-1.5 sm:bottom-5">
             {slides.map((s, i) => (
               <button
                 key={s.id}

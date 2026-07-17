@@ -53,7 +53,7 @@ function Home() {
         <CategoryBar />
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-28 [-webkit-overflow-scrolling:touch] md:contents">
+      <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-28 [-webkit-overflow-scrolling:touch] [touch-action:pan-y] md:contents">
         {/* HERO — auto-swiping product carousel */}
         <HeroCarousel />
 

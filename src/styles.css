@@ -108,3 +108,9 @@
 @utility animate-cv-line-ball {
   animation: cv-line-ball 3.5s cubic-bezier(.65,.05,.35,.95) infinite;
 }
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}

@@ -296,6 +296,7 @@ function AdminPage() {
 
   const tabs = [
     { key: "orders" as const, label: "Orders", icon: Package, count: data?.orders.length ?? 0 },
+    { key: "products" as const, label: "Products", icon: ShoppingBag, count: products?.length ?? 0 },
     { key: "reviews" as const, label: "Reviews", icon: Star, count: data?.reviews.length ?? 0 },
     { key: "questions" as const, label: "Q&A", icon: MessageSquare, count: data?.questions.length ?? 0 },
     { key: "users" as const, label: "Users", icon: Users, count: data?.profiles.length ?? 0 },
@@ -362,6 +363,12 @@ function AdminPage() {
             onDelete={handleDeleteOrder}
             onStatus={handleUpdateOrderStatus}
             error={data.errors.orders}
+          />
+        ) : tab === "products" ? (
+          <ProductsManager
+            rows={products ?? []}
+            onSave={handleSaveProduct}
+            onDelete={handleDeleteProduct}
           />
         ) : tab === "reviews" ? (
           <ReviewsTable

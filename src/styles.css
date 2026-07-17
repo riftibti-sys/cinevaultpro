@@ -84,3 +84,24 @@
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
+
+@keyframes cv-football-roll {
+  0%   { transform: translateX(-10px); opacity: 0; }
+  8%   { opacity: 1; }
+  50%  { transform: translateX(60px) translateY(-6px); }
+  92%  { opacity: 1; }
+  100% { transform: translateX(140px); opacity: 0; }
+}
+
+@keyframes cv-football-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@utility animate-cv-football-roll {
+  animation: cv-football-roll 4.5s cubic-bezier(.5,0,.5,1) infinite;
+}
+
+@utility animate-cv-football-spin {
+  animation: cv-football-spin 1s linear infinite;
+}

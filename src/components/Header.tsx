@@ -106,7 +106,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
           {/* Center: long pill search bar (desktop only) */}
           <button
             onClick={() => setSearchOpen(true)}
-            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/15 bg-white/[0.06] pl-6 pr-2 py-2 text-left text-white/50 transition hover:border-primary/50 hover:bg-white/[0.09] focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
+            className="group hidden min-w-0 flex-1 items-center gap-3 rounded-full border border-white/15 bg-white/[0.06] pl-6 pr-2 py-3 text-left text-white/50 transition hover:border-primary/50 hover:bg-white/[0.09] focus:outline-none focus:ring-2 focus:ring-primary/40 md:flex"
           >
             <span className="flex-1 truncate text-base font-medium">
               Search product

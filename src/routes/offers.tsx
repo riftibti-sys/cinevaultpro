@@ -61,9 +61,13 @@ function OffersPage() {
       {/* COMBOS */}
       <section className="mx-auto max-w-6xl px-4 py-8 sm:px-5 sm:py-12">
         <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
-          {combos.map((c) => (
-            <ComboBanner key={c.id} combo={c} />
-          ))}
+          {isLoading && combos.length === 0 ? (
+            <div className="col-span-full grid place-items-center py-16 text-sm text-white/60">Loading combos…</div>
+          ) : combos.length === 0 ? (
+            <div className="col-span-full grid place-items-center py-16 text-sm text-white/60">No active combos.</div>
+          ) : (
+            combos.map((c: Combo) => <ComboBanner key={c.id} combo={c} />)
+          )}
         </div>
       </section>
 

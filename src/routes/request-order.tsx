@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { ArrowLeft, Package, Upload, User, Phone, Mail, MapPin, Send, X, Ticket, Sparkles } from "lucide-react";

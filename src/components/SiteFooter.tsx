@@ -129,18 +129,19 @@ export function SiteFooter() {
             Copyright @ {new Date().getFullYear()} CineVault Bangladesh. All rights reserved.
           </p>
           <div
-            className="flex items-center justify-center gap-2 bg-white px-3"
+            className="flex items-center bg-white"
             style={{ height: "40px", width: "360px" }}
           >
             <img
               src={paymentMethods}
               alt="bKash, Nagad, Rocket, Upay, Visa, Mastercard, Amex, DBBL"
-              className="block h-7 w-auto object-contain"
+              className="block h-full w-full object-fill"
               loading="lazy"
               width={1920}
               height={640}
             />
           </div>
+
 
 
         </div>

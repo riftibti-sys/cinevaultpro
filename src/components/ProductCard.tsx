@@ -64,11 +64,11 @@ export function ProductCard({ product }: { product: Product }) {
         {/* PRICE */}
         <div className="mt-2 flex items-baseline gap-1.5">
           <span className="text-lg font-black tracking-tight text-primary">
-            Taka {product.price.toLocaleString()}
+            Tk. {product.price.toLocaleString()}
           </span>
           {product.originalPrice && (
             <span className="text-[11px] font-medium text-muted-foreground line-through">
-              Taka {product.originalPrice.toLocaleString()}
+              Tk. {product.originalPrice.toLocaleString()}
             </span>
           )}
         </div>

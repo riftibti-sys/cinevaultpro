@@ -128,11 +128,11 @@ export function SiteFooter() {
           <p className="text-[15px] font-semibold text-white">
             Copyright @ {new Date().getFullYear()} CineVault Bangladesh. All rights reserved.
           </p>
-          <div className="w-full rounded-xl bg-white px-3 py-1.5 shadow-[0_4px_20px_-6px_rgba(229,9,20,0.4)] sm:w-auto">
+          <div className="rounded-md bg-white px-2 py-1">
             <img
               src={paymentMethods}
               alt="bKash, Nagad, Rocket, Upay, Visa, Mastercard, Binance, PayPal"
-              className="block h-10 w-full object-contain sm:h-11 sm:w-[380px] lg:w-[440px]"
+              className="block h-6 w-auto object-contain sm:h-7"
               loading="lazy"
               width={1920}
               height={640}

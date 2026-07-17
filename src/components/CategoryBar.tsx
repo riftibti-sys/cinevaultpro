@@ -15,28 +15,32 @@ const categories = [
 
 export function CategoryBar() {
   return (
-    <div className="border-b border-white/10 bg-[#0a0a0a] text-white">
-      <div className="mx-auto max-w-7xl">
-        <nav
-          className="scrollbar-none flex items-center gap-1 overflow-x-auto px-3 py-2 sm:justify-center sm:gap-2 sm:px-6 sm:py-2.5"
-          aria-label="Categories"
-        >
-          {categories.map((c) => (
-            <a
-              key={c.label}
-              href={c.href}
-              className={`group inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-bold uppercase tracking-wide transition sm:px-4 sm:text-sm ${
-                c.hot
-                  ? "border-primary/60 bg-primary/15 text-primary hover:bg-primary hover:text-primary-foreground"
-                  : "border-white/10 bg-white/5 text-white/80 hover:border-primary/60 hover:text-primary"
-              }`}
-            >
-              <c.icon className={`h-3.5 w-3.5 ${c.hot ? "animate-pulse" : ""}`} strokeWidth={2.5} />
-              {c.label}
-            </a>
-          ))}
-        </nav>
-      </div>
+    <div className="relative border-b border-white/10 bg-[#0a0a0a] text-white">
+      {/* edge fades so text never looks clipped */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-[#0a0a0a] to-transparent lg:hidden" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-[#0a0a0a] to-transparent lg:hidden" />
+
+      <nav
+        className="scrollbar-none mx-auto flex w-full items-center gap-2 overflow-x-auto px-4 py-2.5 lg:max-w-7xl lg:justify-center lg:gap-2 lg:px-6"
+        aria-label="Categories"
+      >
+        {categories.map((c) => (
+          <a
+            key={c.label}
+            href={c.href}
+            className={`group inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-wide transition sm:text-[13px] lg:px-4 lg:text-sm ${
+              c.hot
+                ? "border-primary/60 bg-primary/15 text-primary hover:bg-primary hover:text-primary-foreground"
+                : "border-white/10 bg-white/5 text-white/85 hover:border-primary/60 hover:text-primary"
+            }`}
+          >
+            <c.icon className={`h-3.5 w-3.5 ${c.hot ? "animate-pulse" : ""}`} strokeWidth={2.5} />
+            <span className="whitespace-nowrap">{c.label}</span>
+          </a>
+        ))}
+        {/* trailing spacer so last chip isn't hugged by edge fade */}
+        <span className="w-2 shrink-0 lg:hidden" aria-hidden />
+      </nav>
     </div>
   );
 }

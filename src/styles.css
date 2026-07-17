@@ -86,15 +86,13 @@
 }
 
 @keyframes cv-ball-kick {
-  0%   { transform: translateX(-14px) translateY(4px);  opacity: 0; }
-  8%   { opacity: 1; }
-  20%  { transform: translateX(20px)  translateY(-14px); }
-  35%  { transform: translateX(50px)  translateY(4px); }
-  50%  { transform: translateX(80px)  translateY(-10px); }
-  65%  { transform: translateX(110px) translateY(4px); }
-  80%  { transform: translateX(140px) translateY(-6px); }
+  0%   { transform: translateX(-6px) translateY(4px);  opacity: 0; }
+  10%  { opacity: 1; }
+  30%  { transform: translateX(25px) translateY(-12px); }
+  55%  { transform: translateX(55px) translateY(4px); }
+  75%  { transform: translateX(80px) translateY(-8px); }
   92%  { opacity: 1; }
-  100% { transform: translateX(170px) translateY(4px); opacity: 0; }
+  100% { transform: translateX(105px) translateY(4px); opacity: 0; }
 }
 
 @keyframes cv-ball-spin {

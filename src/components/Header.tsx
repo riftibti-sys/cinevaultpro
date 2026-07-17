@@ -77,11 +77,12 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             </Link>
           </div>
 
-          <nav className="hidden gap-8 text-sm text-white/70 md:flex">
+          <nav className="hidden gap-8 text-sm text-white/70 xl:flex">
             <a href="#products" className="transition hover:text-white">Products</a>
             <a href="#how" className="transition hover:text-white">How it works</a>
             <a href="#contact" className="transition hover:text-white">Contact</a>
           </nav>
+
 
           <div className="flex items-center gap-2">
             <button

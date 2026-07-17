@@ -418,6 +418,12 @@ function AdminPage() {
             onSave={handleSaveProduct}
             onDelete={handleDeleteProduct}
           />
+        ) : tab === "combos" ? (
+          <CombosManager
+            rows={combos ?? []}
+            onSave={handleSaveCombo}
+            onDelete={handleDeleteCombo}
+          />
         ) : tab === "reviews" ? (
           <ReviewsTable
             rows={data.reviews}

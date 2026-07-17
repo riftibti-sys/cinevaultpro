@@ -97,16 +97,16 @@ export function ProductCard({ product }: { product: Product }) {
                   className="p-0.5 transition-transform hover:scale-125"
                 >
                   <Star
-                    className={`h-3.5 w-3.5 ${active ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
+                    className={`h-4 w-4 ${active ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
                   />
                 </button>
               );
             })}
           </div>
-          <span className="text-[10px] font-bold text-foreground">
+          <span className="text-[11px] font-bold text-foreground">
             {avg > 0 ? avg.toFixed(1) : "New"}
           </span>
-          {count > 0 && <span className="text-[9px] text-muted-foreground">· {count}</span>}
+          {count > 0 && <span className="text-[10px] text-muted-foreground">· {count}</span>}
         </div>
 
         {/* BUY NOW */}
@@ -114,7 +114,7 @@ export function ProductCard({ product }: { product: Product }) {
           onClick={() => add(product)}
           disabled={inCart}
           aria-label={inCart ? "Added to cart" : "Buy now"}
-          className={`mt-3 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-full border text-xs font-black uppercase tracking-wider transition ${
+          className={`mt-3.5 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border text-[13px] font-black uppercase tracking-wider transition ${
             inCart
               ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-500"
               : "border-primary/40 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
@@ -122,7 +122,7 @@ export function ProductCard({ product }: { product: Product }) {
         >
           {inCart ? (
             <>
-              <Check className="h-3.5 w-3.5" strokeWidth={3} /> Added
+              <Check className="h-4 w-4" strokeWidth={3} /> Added
             </>
           ) : (
             "Buy Now"

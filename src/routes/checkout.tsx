@@ -84,8 +84,10 @@ function Checkout() {
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto max-w-5xl px-5 py-8">
+    <main
+      className="h-[100dvh] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] [touch-action:pan-y]"
+    >
+      <div className="mx-auto max-w-5xl px-5 py-8 pb-32">
         <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Continue shopping
         </Link>

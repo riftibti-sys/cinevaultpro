@@ -30,9 +30,17 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4 pb-5 [-webkit-overflow-scrolling:touch] [touch-action:pan-y]">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4 pb-6 [-webkit-overflow-scrolling:touch] [touch-action:pan-y]">
           {items.length === 0 ? (
-            <p className="mt-20 text-center text-sm text-muted-foreground">Your cart is empty</p>
+            <div className="mt-20 flex flex-col items-center gap-3 text-center">
+              <div className="grid h-16 w-16 place-items-center rounded-full bg-secondary text-muted-foreground">
+                <Zap className="h-7 w-7" />
+              </div>
+              <p className="text-sm text-muted-foreground">Your cart is empty</p>
+              <button onClick={onClose} className="mt-2 text-sm font-semibold text-primary underline-offset-4 hover:underline">
+                Browse subscriptions
+              </button>
+            </div>
           ) : (
             <ul className="space-y-3">
               {items.map(({ product, qty }) => (
@@ -73,18 +81,33 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
         </div>
 
         {items.length > 0 && (
-          <div className="shrink-0 border-t border-border bg-background px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4 shadow-[0_-12px_30px_rgba(0,0,0,0.08)]">
-            <div className="mb-3 flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Total</span>
-              <span className="text-xl font-bold">৳{total}</span>
+          <div className="shrink-0 border-t border-border bg-gradient-to-b from-background to-secondary/40 px-5 pb-[calc(env(safe-area-inset-bottom)+5.5rem)] pt-4 shadow-[0_-12px_30px_rgba(0,0,0,0.10)] sm:pb-[calc(env(safe-area-inset-bottom)+1rem)]">
+            <div className="mb-3 flex items-center justify-between gap-3 text-[11px] text-muted-foreground">
+              <span className="inline-flex items-center gap-1"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> Secure checkout</span>
+              <span className="inline-flex items-center gap-1"><Zap className="h-3.5 w-3.5 text-primary" /> Instant delivery</span>
+            </div>
+            <div className="mb-3 flex items-end justify-between">
+              <div>
+                <p className="text-[11px] uppercase tracking-wider text-muted-foreground">Total ({count} {count === 1 ? "item" : "items"})</p>
+                <p className="text-2xl font-extrabold leading-tight">৳{total}</p>
+              </div>
+              <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-primary">No hidden fees</span>
             </div>
             <Link
               to="/checkout"
               onClick={onClose}
-              className="flex h-12 items-center justify-center rounded-lg bg-primary font-semibold text-primary-foreground transition hover:brightness-110"
+              className="group flex h-14 items-center justify-between rounded-2xl bg-primary px-5 font-semibold text-primary-foreground shadow-[0_10px_30px_-10px_hsl(var(--primary))] transition hover:brightness-110 active:scale-[0.99]"
             >
-              Proceed to Checkout
+              <span className="inline-flex items-center gap-2">
+                <ShieldCheck className="h-5 w-5" />
+                Checkout Securely
+              </span>
+              <span className="inline-flex items-center gap-2">
+                ৳{total}
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </span>
             </Link>
+            <p className="mt-2 text-center text-[11px] text-muted-foreground">bKash · Nagad · Card — takes under a minute</p>
           </div>
         )}
       </aside>

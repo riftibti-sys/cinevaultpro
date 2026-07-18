@@ -67,7 +67,7 @@ export function HeroCarousel() {
         >
           {/* Slides track */}
           <div
-            className="flex h-[13rem] transition-transform duration-700 ease-out sm:h-[16rem] lg:h-[19rem]"
+            className="flex h-[17rem] transition-transform duration-700 ease-out sm:h-[16rem] lg:h-[19rem]"
             style={{ transform: `translateX(-${index * 100}%)` }}
           >
             {slides.map((slide, i) =>
@@ -194,13 +194,13 @@ function ProductSlide({
             style={{ background: p.accent, opacity: 0.5 }}
           />
           <div
-            className="grid h-24 w-24 place-items-center overflow-hidden rounded-3xl bg-black/40 ring-2 ring-white/10 backdrop-blur-sm sm:h-52 sm:w-52"
+            className="grid h-28 w-28 place-items-center overflow-hidden rounded-3xl bg-black/40 ring-2 ring-white/10 backdrop-blur-sm sm:h-52 sm:w-52"
             style={{ boxShadow: `0 20px 60px -10px ${p.accent}` }}
           >
             <img
               src={p.logo}
               alt={p.name}
-              className={p.logoFill ? "h-full w-full object-cover" : "h-14 w-14 object-contain sm:h-32 sm:w-32"}
+              className={p.logoFill ? "h-full w-full object-cover" : "h-16 w-16 object-contain sm:h-32 sm:w-32"}
               referrerPolicy="no-referrer"
             />
           </div>
@@ -273,7 +273,7 @@ function ComboSlide({ c }: { c: Combo }) {
         </div>
 
         {/* Right: floating stacked logos */}
-        <div className="relative h-24 w-24 shrink-0 sm:h-52 sm:w-52">
+        <div className="relative h-32 w-32 shrink-0 sm:h-52 sm:w-52">
           {services.map((s, i) => {
             const positions = [
               { top: "0%", left: "0%", delay: "0s" },

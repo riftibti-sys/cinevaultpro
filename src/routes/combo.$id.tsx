@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, Check, Sparkles, Zap, ShoppingCart, ShieldCheck, Clock, MessageCircle } from "lucide-react";
+import { ArrowLeft, Check, Sparkles, Zap, ShoppingCart, ShieldCheck, Clock, MessageCircle, Monitor, Download, Radio, PlayCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Header } from "@/components/Header";
 import { CartDrawer } from "@/components/CartDrawer";

@@ -39,11 +39,23 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/70 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-[0_10px_30px_-15px_rgba(229,9,20,0.45)] active:scale-[0.98]">
-      {/* IMAGE — clickable to detail */}
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={goToDetails}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          goToDetails();
+        }
+      }}
+      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border bg-card/70 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-[0_10px_30px_-15px_rgba(229,9,20,0.45)] active:scale-[0.98]"
+    >
+      {/* IMAGE */}
       <Link
         to="/product/$id"
         params={{ id: product.id }}
+        onClick={stop}
         className="relative grid aspect-[5/4] place-items-center overflow-hidden border-b border-border"
         style={{ background: `linear-gradient(135deg, ${product.accent}22, ${product.accent}05)` }}
         aria-label={`View ${product.name} details`}
@@ -73,6 +85,7 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="mt-1 line-clamp-1 text-[11px] text-muted-foreground sm:text-xs">
           {product.tagline} • {product.duration}
         </p>
+
 
         {/* PRICE */}
         <div className="mt-2.5 flex flex-nowrap items-baseline gap-1.5">

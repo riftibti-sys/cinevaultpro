@@ -153,22 +153,6 @@ export function ProductCard({ product }: { product: Product }) {
             "Buy Now"
           )}
         </button>
-          disabled={inCart}
-          aria-label={inCart ? "Added to cart" : "Buy now"}
-          className={`mt-3.5 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border text-[13px] font-black uppercase tracking-wider transition ${
-            inCart
-              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-500"
-              : "border-primary/40 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
-          }`}
-        >
-          {inCart ? (
-            <>
-              <Check className="h-4 w-4" strokeWidth={3} /> Added
-            </>
-          ) : (
-            "Buy Now"
-          )}
-        </button>
       </div>
     </div>
   );

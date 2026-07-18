@@ -16,9 +16,9 @@ import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CineVault — Premium Subscriptions at Best Price in BD" },
+      { title: "CineVault" },
       { name: "description", content: "Netflix, Prime Video, YouTube Premium, CapCut Pro, Chorki, Hoichoi ও আরও অনেক প্রিমিয়াম সাবস্ক্রিপশন সবচেয়ে কম দামে। bKash, Nagad, Card বা Binance দিয়ে পেমেন্ট।" },
-      { property: "og:title", content: "CineVault — Premium Subscriptions at Best Price in BD" },
+      { property: "og:title", content: "CineVault" },
       { property: "og:description", content: "Netflix, Prime Video, YouTube Premium, CapCut Pro, Chorki, Hoichoi ও আরও অনেক প্রিমিয়াম সাবস্ক্রিপশন সবচেয়ে কম দামে। bKash, Nagad, Card বা Binance দিয়ে পেমেন্ট।" },
     ],
   }),

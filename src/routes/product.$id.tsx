@@ -150,12 +150,13 @@ function ProductDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24 text-foreground md:pb-8">
-      <div className="sticky top-0 z-40">
+    <div className="mobile-fixed-shell min-h-screen bg-background text-foreground md:pb-8">
+      <div className="mobile-fixed-top sticky top-0 z-40">
         <Header onCartClick={() => setCartOpen(true)} />
         <CategoryBar />
       </div>
 
+      <main className="mobile-scroll-area">
       {/* Breadcrumb */}
       <div className="mx-auto max-w-6xl px-4 pt-4 sm:px-5">
         <Link
@@ -481,6 +482,7 @@ function ProductDetail() {
       </section>
 
       <SiteFooter />
+      </main>
       <BottomNav onCartClick={() => setCartOpen(true)} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </div>

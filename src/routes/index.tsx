@@ -47,13 +47,13 @@ function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-28 md:pb-0">
-      <div className="sticky top-0 z-40">
+    <div className="mobile-fixed-shell min-h-screen bg-background">
+      <div className="mobile-fixed-top sticky top-0 z-40">
         <Header onCartClick={() => setCartOpen(true)} />
         <CategoryBar />
       </div>
 
-      <main>
+      <main className="mobile-scroll-area">
         {/* HERO — auto-swiping product carousel */}
         <HeroCarousel />
 

@@ -160,7 +160,7 @@ function Checkout() {
                       <img
                         src={meta.logo}
                         alt={`${meta.label} logo`}
-                        className="h-12 w-auto object-contain sm:h-14"
+                        className="h-16 w-auto object-contain sm:h-20"
                         loading="lazy"
                       />
                       <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">

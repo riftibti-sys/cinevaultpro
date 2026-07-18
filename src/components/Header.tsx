@@ -92,13 +92,14 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <Link to="/" className="flex items-center gap-2 leading-none">
-              <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary/70 shadow-[0_0_20px_-4px_rgba(229,9,20,0.8)] sm:h-14 sm:w-14">
-                <img src={logoAsset.url} alt="CineVault" className="h-full w-full scale-[1.15] object-contain" />
-              </span>
+            <Link to="/" className="flex min-w-[142px] items-center leading-none sm:min-w-[184px]">
               <span className="flex flex-col leading-none">
-                <span className="relative inline-block font-display text-xl uppercase italic tracking-wider text-white sm:text-[28px]">
-                  Cine<span className="text-primary">Vault</span>
+                <span className="relative block h-9 w-[132px] sm:h-11 sm:w-[174px]">
+                  <img
+                    src={logoAsset.url}
+                    alt="CineVault"
+                    className="h-full w-full object-contain object-left drop-shadow-[0_0_10px_rgba(229,9,20,0.45)]"
+                  />
                   {/* Broadcast-style pitch line with an arcing football chip-shot */}
                   <span
                     aria-hidden

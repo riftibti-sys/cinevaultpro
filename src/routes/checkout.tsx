@@ -16,12 +16,13 @@ export const Route = createFileRoute("/checkout")({
 
 type PayMethod = "bkash" | "nagad" | "binance" | "card";
 
-const METHOD_META: Record<PayMethod, { label: string; hint: string; color: string }> = {
-  bkash:   { label: "bKash",   hint: "Send Money",  color: "#E2136E" },
-  nagad:   { label: "Nagad",   hint: "Send Money",  color: "#EE1C25" },
-  binance: { label: "Binance", hint: "USDT Pay",    color: "#F3BA2F" },
-  card:    { label: "Card",    hint: "Secure link", color: "#3B82F6" },
+const METHOD_META: Record<PayMethod, { label: string; hint: string; color: string; logo: string }> = {
+  bkash:   { label: "bKash",   hint: "Send Money",  color: "#E2136E", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/BKash_logo.svg/1200px-BKash_logo.svg.png" },
+  nagad:   { label: "Nagad",   hint: "Send Money",  color: "#EE1C25", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Nagad-Logo.wine.svg/1200px-Nagad-Logo.wine.svg.png" },
+  binance: { label: "Binance", hint: "USDT Pay",    color: "#F3BA2F", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Binance_logo.svg/1200px-Binance_logo.svg.png" },
+  card:    { label: "Card",    hint: "Secure link", color: "#1A1F71", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" },
 };
+
 
 function Checkout() {
   const { items, total, clear } = useCart();

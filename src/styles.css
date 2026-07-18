@@ -203,7 +203,6 @@
   .mobile-bottom-nav {
     height: calc(68px + env(safe-area-inset-bottom));
     background: #0a0a0a;
-    contain: layout paint style;
     isolation: isolate;
     overflow: hidden;
   }

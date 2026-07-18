@@ -146,15 +146,15 @@ function Checkout() {
                       }`}
                     >
                       <span
-                        className="grid h-11 w-16 place-items-center rounded-xl bg-white ring-1 ring-black/5 shadow-sm"
+                        className="grid h-12 w-20 place-items-center rounded-xl bg-white ring-1 ring-black/5 shadow-sm overflow-hidden"
                         style={{ borderTop: `3px solid ${meta.color}` }}
                       >
-                        <span
-                          className="text-[13px] font-black leading-none tracking-tight"
-                          style={{ color: meta.color, fontStyle: meta.markStyle === "italic" ? "italic" : "normal" }}
-                        >
-                          {meta.mark}
-                        </span>
+                        <img
+                          src={meta.logo}
+                          alt={`${meta.label} logo`}
+                          className="max-h-8 max-w-[68px] object-contain"
+                          loading="lazy"
+                        />
                       </span>
                       <span className="mt-0.5 text-xs font-bold">{meta.label}</span>
                       <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{meta.hint}</span>

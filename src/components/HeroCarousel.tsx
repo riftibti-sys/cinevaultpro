@@ -1,14 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
-import { Play, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, MessageCircle, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useProducts, type Product } from "@/lib/products";
+import { useCombos, type Combo } from "@/lib/combos";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 const DEFAULT_FEATURED = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
 
-const AUTO_MS = 7000;
+const AUTO_MS = 6000;
+
+type Slide =
+  | { kind: "product"; product: Product }
+  | { kind: "combo"; combo: Combo };
 
 export function HeroCarousel() {
   const products = useProducts();
+  const { combos } = useCombos();
   const settings = useSiteSettings();
   const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), "Hi CineVault! আমি একটা subscription কিনতে চাই।");
   const featuredIds = useMemo(() => {
@@ -16,10 +23,24 @@ export function HeroCarousel() {
     const ids = raw ? raw.split(",").map((s) => s.trim()).filter(Boolean) : DEFAULT_FEATURED;
     return ids;
   }, [settings]);
-  const slides = useMemo<Product[]>(
-    () => featuredIds.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => Boolean(p)),
-    [products, featuredIds],
-  );
+
+  const slides = useMemo<Slide[]>(() => {
+    const productSlides: Slide[] = featuredIds
+      .map((id) => products.find((p) => p.id === id))
+      .filter((p): p is Product => Boolean(p))
+      .map((p) => ({ kind: "product", product: p }));
+    const comboSlides: Slide[] = combos.map((c) => ({ kind: "combo", combo: c }));
+    // Interleave: combo, product, product, combo, product, product...
+    const out: Slide[] = [];
+    let ci = 0, pi = 0;
+    while (ci < comboSlides.length || pi < productSlides.length) {
+      if (ci < comboSlides.length) out.push(comboSlides[ci++]);
+      if (pi < productSlides.length) out.push(productSlides[pi++]);
+      if (pi < productSlides.length) out.push(productSlides[pi++]);
+    }
+    return out;
+  }, [products, featuredIds, combos]);
+
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -31,8 +52,13 @@ export function HeroCarousel() {
     return () => clearInterval(t);
   }, [paused, slides.length]);
 
+  useEffect(() => {
+    if (index >= slides.length) setIndex(0);
+  }, [slides.length, index]);
+
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length);
   if (slides.length === 0) return null;
+
 
   return (
     <section className="px-3 pt-3 sm:px-8 sm:pt-4 lg:px-16">

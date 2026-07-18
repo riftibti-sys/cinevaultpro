@@ -111,7 +111,7 @@ export function HeroCarousel() {
           <div className="absolute inset-x-0 bottom-2 z-10 flex items-center justify-center gap-1.5 sm:bottom-5">
             {slides.map((s, i) => (
               <button
-                key={s.id}
+                key={`dot-${i}`}
                 onClick={() => setIndex(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 className={`h-1.5 rounded-full transition-all ${
@@ -119,6 +119,7 @@ export function HeroCarousel() {
                 }`}
               />
             ))}
+
           </div>
         </div>
       </div>

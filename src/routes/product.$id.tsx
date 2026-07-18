@@ -14,10 +14,11 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { CartDrawer } from "@/components/CartDrawer";
 
 const productsQuery = {
-  queryKey: ["products"] as const,
+  queryKey: ["products", "public"] as const,
   queryFn: () => listProducts(),
   staleTime: 60_000,
 };
+
 
 async function findProduct(id: string, ctx: { queryClient: import("@tanstack/react-query").QueryClient }): Promise<Product | undefined> {
   try {

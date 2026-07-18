@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { X, Minus, Plus, Trash2 } from "lucide-react";
+import { X, Minus, Plus, Trash2, ShieldCheck, Zap, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useCart } from "@/lib/cart";

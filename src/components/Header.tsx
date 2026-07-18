@@ -92,23 +92,6 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <button
-              onClick={handleBack}
-              disabled={!canGoBack}
-              aria-label="Go back"
-              title="Back"
-              className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-primary/60 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-white/15 disabled:hover:text-white"
-            >
-              <ArrowLeft className="h-4.5 w-4.5" />
-            </button>
-            <button
-              onClick={handleReload}
-              aria-label="Reload page"
-              title="Reload"
-              className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-primary/60 hover:text-primary"
-            >
-              <RotateCw className={`h-4 w-4 ${reloading ? "animate-spin" : ""}`} strokeWidth={2.5} />
-            </button>
             <Link to="/" className="flex items-center gap-2 leading-none">
               <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-black ring-1 ring-primary/50 shadow-[0_0_18px_-4px_rgba(229,9,20,0.6)] sm:h-10 sm:w-10">
                 <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-cover" />

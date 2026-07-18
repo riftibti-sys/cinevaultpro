@@ -1,6 +1,7 @@
 import { Link, useNavigate, useRouter, useRouterState } from "@tanstack/react-router";
 import { Search, ShoppingBag, Menu, X, Home, Store, HelpCircle, MessageCircle, Plus, Check, MapPin, ClipboardList, User, LogOut, Flame, ArrowLeft, RotateCw } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -377,67 +378,73 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
         </div>
       </div>
 
-      {/* SIDE MENU */}
-      <div
-        onClick={() => setMenuOpen(false)}
-        style={{ zIndex: 2147483645 }}
-        className={`fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity ${menuOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
-      />
-      <aside
-        style={{ zIndex: 2147483646 }}
-        className={`fixed left-0 top-0 flex h-full w-[85%] max-w-sm flex-col border-r border-border bg-background transition-transform ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
-      >
-        <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 leading-none">
-            <CvMark className="h-10 w-10" />
-            <span className="font-display text-xl uppercase italic tracking-wider text-foreground">
-              Cine<span className="text-primary">Vault</span>
-            </span>
-          </Link>
-          <button
-            onClick={() => setMenuOpen(false)}
-            aria-label="Close menu"
-            className="grid h-9 w-9 place-items-center rounded-full border border-border hover:border-primary/60 hover:text-primary"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-
-        <nav className="flex-1 overflow-y-auto px-3 py-4">
-          <ul className="space-y-1">
-            {menuItems.map((it) => (
-              <li key={it.label}>
-                <button
-                  type="button"
-                  onClick={() => handleMenuClick(it)}
-                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-foreground transition hover:bg-secondary/60 hover:text-primary"
-                >
-                  <it.icon className="h-4 w-4 text-primary" />
-                  {it.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-6 border-t border-border pt-6">
-            <p className="mb-3 px-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-              Support
-            </p>
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mx-3 flex h-11 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-[0_0_15px_rgba(229,9,20,0.4)]"
+      {/* SIDE MENU — portalled to body to escape the sticky header stacking context */}
+      {typeof document !== "undefined" &&
+        createPortal(
+          <>
+            <div
+              onClick={() => setMenuOpen(false)}
+              style={{ zIndex: 2147483645 }}
+              className={`fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity ${menuOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
+            />
+            <aside
+              style={{ zIndex: 2147483646 }}
+              className={`fixed left-0 top-0 flex h-full w-[85%] max-w-sm flex-col border-r border-border bg-background transition-transform ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
             >
-              WhatsApp: {displayPhone}
-            </a>
-          </div>
-        </nav>
+              <div className="flex items-center justify-between border-b border-border px-5 py-4">
+                <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 leading-none">
+                  <CvMark className="h-10 w-10" />
+                  <span className="font-display text-xl uppercase italic tracking-wider text-foreground">
+                    Cine<span className="text-primary">Vault</span>
+                  </span>
+                </Link>
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  aria-label="Close menu"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border hover:border-primary/60 hover:text-primary"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
 
-        <div className="border-t border-border px-5 py-4 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
-          © {new Date().getFullYear()} CineVault
-        </div>
-      </aside>
+              <nav className="flex-1 overflow-y-auto px-3 py-4">
+                <ul className="space-y-1">
+                  {menuItems.map((it) => (
+                    <li key={it.label}>
+                      <button
+                        type="button"
+                        onClick={() => handleMenuClick(it)}
+                        className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-foreground transition hover:bg-secondary/60 hover:text-primary"
+                      >
+                        <it.icon className="h-4 w-4 text-primary" />
+                        {it.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 border-t border-border pt-6">
+                  <p className="mb-3 px-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                    Support
+                  </p>
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mx-3 flex h-11 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-[0_0_15px_rgba(229,9,20,0.4)]"
+                  >
+                    WhatsApp: {displayPhone}
+                  </a>
+                </div>
+              </nav>
+
+              <div className="border-t border-border px-5 py-4 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
+                © {new Date().getFullYear()} CineVault
+              </div>
+            </aside>
+          </>,
+          document.body,
+        )}
     </>
   );
 }

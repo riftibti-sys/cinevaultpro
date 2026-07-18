@@ -14,14 +14,32 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { count, items, add } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const router = useRouter();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const canGoBack = pathname !== "/";
   const products = useProducts();
   const settings = useSiteSettings();
   const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), settings.get("support_message"));
   const displayPhone = settings.get("contact_phone");
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [reloading, setReloading] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleBack = () => {
+    if (canGoBack && window.history.length > 1) window.history.back();
+    else navigate({ to: "/" });
+  };
+
+  const handleReload = async () => {
+    setReloading(true);
+    try {
+      await router.invalidate();
+    } finally {
+      setTimeout(() => setReloading(false), 500);
+    }
+  };
 
   const handleUser = () => {
     if (user) {

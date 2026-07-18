@@ -142,10 +142,18 @@ function Checkout() {
                       }`}
                     >
                       <span
-                        className="h-7 w-7 rounded-full ring-2 ring-white"
-                        style={{ background: meta.color }}
-                      />
-                      <span className="text-xs font-bold">{meta.label}</span>
+                        className="grid h-11 w-11 place-items-center rounded-xl bg-white p-1.5 ring-1 ring-black/5 shadow-sm"
+                        style={{ borderTop: `3px solid ${meta.color}` }}
+                      >
+                        <img
+                          src={meta.logo}
+                          alt={`${meta.label} logo`}
+                          className="max-h-full max-w-full object-contain"
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                        />
+                      </span>
+                      <span className="mt-0.5 text-xs font-bold">{meta.label}</span>
                       <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{meta.hint}</span>
                       {active && <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />}
                     </button>

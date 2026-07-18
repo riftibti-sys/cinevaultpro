@@ -11,6 +11,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { useCombos, comboToProduct, type Combo } from "@/lib/combos";
 import { useCart } from "@/lib/cart";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
+import { getServiceSpec } from "@/lib/service-specs";
+
 
 export const Route = createFileRoute("/combo/$id")({
   head: ({ params }) => ({

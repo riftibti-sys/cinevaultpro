@@ -16,12 +16,13 @@ export const Route = createFileRoute("/checkout")({
 
 type PayMethod = "bkash" | "nagad" | "binance" | "card";
 
-const METHOD_META: Record<PayMethod, { label: string; hint: string; color: string }> = {
-  bkash:   { label: "bKash",   hint: "Send Money",  color: "#E2136E" },
-  nagad:   { label: "Nagad",   hint: "Send Money",  color: "#EE1C25" },
-  binance: { label: "Binance", hint: "USDT Pay",    color: "#F3BA2F" },
-  card:    { label: "Card",    hint: "Secure link", color: "#3B82F6" },
+const METHOD_META: Record<PayMethod, { label: string; hint: string; color: string; logo: string }> = {
+  bkash:   { label: "bKash",   hint: "Send Money",  color: "#E2136E", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/BKash_logo.svg/1200px-BKash_logo.svg.png" },
+  nagad:   { label: "Nagad",   hint: "Send Money",  color: "#EE1C25", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Nagad-Logo.wine.svg/1200px-Nagad-Logo.wine.svg.png" },
+  binance: { label: "Binance", hint: "USDT Pay",    color: "#F3BA2F", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Binance_logo.svg/1200px-Binance_logo.svg.png" },
+  card:    { label: "Card",    hint: "Secure link", color: "#1A1F71", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" },
 };
+
 
 function Checkout() {
   const { items, total, clear } = useCart();
@@ -141,10 +142,18 @@ function Checkout() {
                       }`}
                     >
                       <span
-                        className="h-7 w-7 rounded-full ring-2 ring-white"
-                        style={{ background: meta.color }}
-                      />
-                      <span className="text-xs font-bold">{meta.label}</span>
+                        className="grid h-11 w-11 place-items-center rounded-xl bg-white p-1.5 ring-1 ring-black/5 shadow-sm"
+                        style={{ borderTop: `3px solid ${meta.color}` }}
+                      >
+                        <img
+                          src={meta.logo}
+                          alt={`${meta.label} logo`}
+                          className="max-h-full max-w-full object-contain"
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                        />
+                      </span>
+                      <span className="mt-0.5 text-xs font-bold">{meta.label}</span>
                       <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{meta.hint}</span>
                       {active && <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />}
                     </button>

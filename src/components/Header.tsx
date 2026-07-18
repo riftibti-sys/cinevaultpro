@@ -91,11 +91,11 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <Link to="/" className="flex h-14 w-24 shrink-0 items-center overflow-hidden sm:h-16 sm:w-28">
+            <Link to="/" className="flex h-16 w-28 shrink-0 items-center overflow-visible sm:h-20 sm:w-36">
               <img
                 src={logoAsset.url}
                 alt="CineVault"
-                className="h-full w-auto object-contain"
+                className="h-full w-auto object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.12)]"
               />
             </Link>
           </div>

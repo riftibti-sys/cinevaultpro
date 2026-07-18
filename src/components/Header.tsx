@@ -7,8 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useProducts } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
-import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
-import footballImg from "@/assets/football.png";
+import logoAsset from "@/assets/cinevault-wordmark.jpg.asset.json";
 
 export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { count, items, add } = useCart();
@@ -92,51 +91,12 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <Link to="/" className="flex min-w-[190px] items-center gap-2 leading-none sm:min-w-[238px] sm:gap-2.5">
-              <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary shadow-[0_0_18px_-3px_rgba(229,9,20,0.9)] sm:h-12 sm:w-12">
-                <img
-                  src={logoAsset.url}
-                  alt=""
-                  aria-hidden="true"
-                  className="h-full w-full object-cover object-center"
-                />
-              </span>
-              <span className="flex min-w-0 flex-col leading-none">
-                <span className="relative block h-8 w-[132px] sm:h-10 sm:w-[170px]">
-                  <img
-                    src={logoAsset.url}
-                    alt="CineVault"
-                    className="sr-only"
-                  />
-                  <span className="block font-display text-[28px] uppercase italic text-white drop-shadow-[0_0_10px_rgba(229,9,20,0.45)] sm:text-[36px]">
-                    Cine<span className="text-primary">Vault</span>
-                  </span>
-                  {/* Broadcast-style pitch line with an arcing football chip-shot */}
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute -bottom-1 left-0 h-[1.5px] w-full overflow-visible sm:-bottom-1.5"
-                  >
-                    <span className="absolute inset-y-0 left-0 h-full w-full bg-white/10" />
-                    <span className="absolute inset-y-0 left-0 h-full w-full origin-left animate-cv-line-draw bg-gradient-to-r from-primary via-amber-300 to-amber-100 shadow-[0_0_6px_rgba(229,9,20,0.55)]" />
-                    {/* Goal-side impact shockwave */}
-                    <span className="absolute left-full top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 animate-cv-impact rounded-full border-2 border-amber-300/90 shadow-[0_0_10px_rgba(252,211,77,0.9)]" />
-                    <img
-                      src={footballImg}
-                      alt=""
-                      width={14}
-                      height={14}
-                      className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 animate-cv-line-ball drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)] sm:h-3.5 sm:w-3.5"
-                    />
-                  </span>
-                </span>
-                <span className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[8px] font-black uppercase tracking-[0.22em] text-white/50 sm:mt-1 sm:gap-2 sm:text-[9px] sm:tracking-[0.3em]">
-                  <span>{settings.get("hero_since_text")}</span>
-                  <span className="inline-flex items-center gap-1 rounded-sm border-l border-r border-white/15 px-1.5 py-[1px] tracking-[0.18em] text-[7px] text-amber-200/80 sm:gap-1.5 sm:px-2 sm:text-[8px] sm:tracking-[0.22em]">
-                    <span className="block h-1 w-1 rounded-full bg-amber-200/80 sm:h-1.5 sm:w-1.5" />
-                    {settings.get("hero_badge_text")}
-                  </span>
-                </span>
-              </span>
+            <Link to="/" className="flex h-12 w-[148px] shrink-0 items-center overflow-hidden sm:h-14 sm:w-[190px]">
+              <img
+                src={logoAsset.url}
+                alt="CineVault"
+                className="h-full w-full object-contain object-left"
+              />
             </Link>
           </div>
 

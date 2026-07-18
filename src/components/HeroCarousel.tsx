@@ -194,13 +194,13 @@ function ProductSlide({
             style={{ background: p.accent, opacity: 0.5 }}
           />
           <div
-            className="grid h-24 w-24 place-items-center overflow-hidden rounded-3xl bg-black/40 ring-2 ring-white/10 backdrop-blur-sm sm:h-52 sm:w-52"
+            className="grid h-28 w-28 place-items-center overflow-hidden rounded-3xl bg-black/40 ring-2 ring-white/10 backdrop-blur-sm sm:h-52 sm:w-52"
             style={{ boxShadow: `0 20px 60px -10px ${p.accent}` }}
           >
             <img
               src={p.logo}
               alt={p.name}
-              className={p.logoFill ? "h-full w-full object-cover" : "h-14 w-14 object-contain sm:h-32 sm:w-32"}
+              className={p.logoFill ? "h-full w-full object-cover" : "h-16 w-16 object-contain sm:h-32 sm:w-32"}
               referrerPolicy="no-referrer"
             />
           </div>

@@ -448,5 +448,3 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
     </>
   );
 }
-  );
-}

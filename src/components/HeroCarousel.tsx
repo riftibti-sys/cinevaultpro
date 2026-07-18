@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Play, MessageCircle, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Play, MessageCircle, ChevronLeft, ChevronRight, Sparkles, Zap, Info } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useProducts, type Product } from "@/lib/products";
-import { useCombos, type Combo } from "@/lib/combos";
+import { useCombos, comboToProduct, type Combo } from "@/lib/combos";
+import { useCart } from "@/lib/cart";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
+
 
 const DEFAULT_FEATURED = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
 

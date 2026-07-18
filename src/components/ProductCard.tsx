@@ -100,7 +100,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* INTERACTIVE RATING */}
-        <div className="mt-1.5 flex items-center gap-1" onMouseLeave={() => setHover(0)}>
+        <div className="mt-1.5 flex items-center gap-1" onMouseLeave={() => setHover(0)} onClick={stop}>
           <div className="flex">
             {Array.from({ length: 5 }).map((_, i) => {
               const value = i + 1;
@@ -110,7 +110,10 @@ export function ProductCard({ product }: { product: Product }) {
                   key={i}
                   type="button"
                   onMouseEnter={() => setHover(value)}
-                  onClick={() => handleRate(value)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRate(value);
+                  }}
                   disabled={submitting}
                   aria-label={`Rate ${value} star${value > 1 ? "s" : ""}`}
                   className="p-0.5 transition-transform hover:scale-125"
@@ -130,7 +133,26 @@ export function ProductCard({ product }: { product: Product }) {
 
         {/* BUY NOW */}
         <button
-          onClick={() => add(product)}
+          onClick={(e) => {
+            e.stopPropagation();
+            add(product);
+          }}
+          disabled={inCart}
+          aria-label={inCart ? "Added to cart" : "Buy now"}
+          className={`mt-3.5 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border text-[13px] font-black uppercase tracking-wider transition ${
+            inCart
+              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-500"
+              : "border-primary/40 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
+          }`}
+        >
+          {inCart ? (
+            <>
+              <Check className="h-4 w-4" strokeWidth={3} /> Added
+            </>
+          ) : (
+            "Buy Now"
+          )}
+        </button>
           disabled={inCart}
           aria-label={inCart ? "Added to cart" : "Buy now"}
           className={`mt-3.5 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border text-[13px] font-black uppercase tracking-wider transition ${

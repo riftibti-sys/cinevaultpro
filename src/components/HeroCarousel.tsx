@@ -255,13 +255,21 @@ function ComboSlide({ c }: { c: Combo }) {
             ) : null}
           </div>
           <div className="mt-3 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
-            <Link
-              to="/offers"
-              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-bold uppercase tracking-wide text-black transition active:scale-95 sm:h-11 sm:px-6 sm:text-xs"
+            <button
+              onClick={buyNow}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-black uppercase tracking-wide text-black transition active:scale-95 hover:scale-[1.03] sm:h-11 sm:px-6 sm:text-xs"
             >
-              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Grab Combo
+              <Zap className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Buy Now
+            </button>
+            <Link
+              to="/combo/$id"
+              params={{ id: c.id }}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 text-[11px] font-bold uppercase tracking-wide text-white backdrop-blur transition hover:bg-white/20 sm:h-11 sm:px-6 sm:text-xs"
+            >
+              <Info className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Details
             </Link>
           </div>
+
         </div>
 
         {/* Right: floating stacked logos */}

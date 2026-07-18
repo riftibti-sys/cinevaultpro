@@ -91,12 +91,35 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
     );
   }, [query, products]);
 
-  const menuItems = [
-    { label: "Home", href: "#", icon: Home },
-    { label: "Products", href: "#products", icon: Store },
-    { label: "How it works", href: "#how", icon: HelpCircle },
-    { label: "Contact", href: "#contact", icon: MessageCircle },
+  const menuItems: { label: string; to?: string; hash?: string; icon: typeof Home }[] = [
+    { label: "Home", to: "/", icon: Home },
+    { label: "Products", hash: "products", icon: Store },
+    { label: "Offers", to: "/offers", icon: Flame },
+    { label: "Request Order", to: "/request-order", icon: ClipboardList },
+    { label: "Store Locator", hash: "contact", icon: MapPin },
+    { label: "How it works", hash: "how", icon: HelpCircle },
+    { label: "Contact", hash: "contact", icon: MessageCircle },
   ];
+
+  const handleMenuClick = (item: (typeof menuItems)[number]) => {
+    setMenuOpen(false);
+    if (item.to) {
+      navigate({ to: item.to });
+      return;
+    }
+    if (item.hash) {
+      const scroll = () => {
+        const el = document.getElementById(item.hash!);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+      if (pathname !== "/") {
+        navigate({ to: "/" });
+        setTimeout(scroll, 250);
+      } else {
+        setTimeout(scroll, 120);
+      }
+    }
+  };
 
   return (
     <>
@@ -384,14 +407,14 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
           <ul className="space-y-1">
             {menuItems.map((it) => (
               <li key={it.label}>
-                <a
-                  href={it.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-foreground transition hover:bg-secondary/60 hover:text-primary"
+                <button
+                  type="button"
+                  onClick={() => handleMenuClick(it)}
+                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-foreground transition hover:bg-secondary/60 hover:text-primary"
                 >
                   <it.icon className="h-4 w-4 text-primary" />
                   {it.label}
-                </a>
+                </button>
               </li>
             ))}
           </ul>

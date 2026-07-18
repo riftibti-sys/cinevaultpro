@@ -210,6 +210,13 @@ function ProductSlide({
 
 function ComboSlide({ c }: { c: Combo }) {
   const services = c.services.slice(0, 4);
+  const { add } = useCart();
+  const navigate = useNavigate();
+  const buyNow = () => {
+    add(comboToProduct(c));
+    navigate({ to: "/checkout" });
+  };
+
   return (
     <div
       className="relative h-full w-full shrink-0 overflow-hidden"

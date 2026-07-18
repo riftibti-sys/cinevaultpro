@@ -273,7 +273,7 @@ function ComboSlide({ c }: { c: Combo }) {
         </div>
 
         {/* Right: floating stacked logos */}
-        <div className="relative h-24 w-24 shrink-0 sm:h-52 sm:w-52">
+        <div className="relative h-32 w-32 shrink-0 sm:h-52 sm:w-52">
           {services.map((s, i) => {
             const positions = [
               { top: "0%", left: "0%", delay: "0s" },

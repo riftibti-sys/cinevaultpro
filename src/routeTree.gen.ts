@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
+import { Route as ComboIdRouteImport } from './routes/combo.$id'
 
 const RequestOrderRoute = RequestOrderRouteImport.update({
   id: '/request-order',
@@ -52,6 +53,11 @@ const ProductIdRoute = ProductIdRouteImport.update({
   path: '/product/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComboIdRoute = ComboIdRouteImport.update({
+  id: '/combo/$id',
+  path: '/combo/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/offers': typeof OffersRoute
   '/request-order': typeof RequestOrderRoute
+  '/combo/$id': typeof ComboIdRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/offers': typeof OffersRoute
   '/request-order': typeof RequestOrderRoute
+  '/combo/$id': typeof ComboIdRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/offers': typeof OffersRoute
   '/request-order': typeof RequestOrderRoute
+  '/combo/$id': typeof ComboIdRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/offers'
     | '/request-order'
+    | '/combo/$id'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/offers'
     | '/request-order'
+    | '/combo/$id'
     | '/product/$id'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/offers'
     | '/request-order'
+    | '/combo/$id'
     | '/product/$id'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   OffersRoute: typeof OffersRoute
   RequestOrderRoute: typeof RequestOrderRoute
+  ComboIdRoute: typeof ComboIdRoute
   ProductIdRoute: typeof ProductIdRoute
 }
 
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/combo/$id': {
+      id: '/combo/$id'
+      path: '/combo/$id'
+      fullPath: '/combo/$id'
+      preLoaderRoute: typeof ComboIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   OffersRoute: OffersRoute,
   RequestOrderRoute: RequestOrderRoute,
+  ComboIdRoute: ComboIdRoute,
   ProductIdRoute: ProductIdRoute,
 }
 export const routeTree = rootRouteImport

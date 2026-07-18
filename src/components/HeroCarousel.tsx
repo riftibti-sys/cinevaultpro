@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Play, MessageCircle, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Play, MessageCircle, ChevronLeft, ChevronRight, Sparkles, Zap, Info } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useProducts, type Product } from "@/lib/products";
-import { useCombos, type Combo } from "@/lib/combos";
+import { useCombos, comboToProduct, type Combo } from "@/lib/combos";
+import { useCart } from "@/lib/cart";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
+
 
 const DEFAULT_FEATURED = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
 
@@ -30,16 +32,10 @@ export function HeroCarousel() {
       .filter((p): p is Product => Boolean(p))
       .map((p) => ({ kind: "product", product: p }));
     const comboSlides: Slide[] = combos.map((c) => ({ kind: "combo", combo: c }));
-    // Interleave: combo, product, product, combo, product, product...
-    const out: Slide[] = [];
-    let ci = 0, pi = 0;
-    while (ci < comboSlides.length || pi < productSlides.length) {
-      if (ci < comboSlides.length) out.push(comboSlides[ci++]);
-      if (pi < productSlides.length) out.push(productSlides[pi++]);
-      if (pi < productSlides.length) out.push(productSlides[pi++]);
-    }
-    return out;
+    // All combos first, then products.
+    return [...comboSlides, ...productSlides];
   }, [products, featuredIds, combos]);
+
 
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -216,6 +212,13 @@ function ProductSlide({
 
 function ComboSlide({ c }: { c: Combo }) {
   const services = c.services.slice(0, 4);
+  const { add } = useCart();
+  const navigate = useNavigate();
+  const buyNow = () => {
+    add(comboToProduct(c));
+    navigate({ to: "/checkout" });
+  };
+
   return (
     <div
       className="relative h-full w-full shrink-0 overflow-hidden"
@@ -252,13 +255,21 @@ function ComboSlide({ c }: { c: Combo }) {
             ) : null}
           </div>
           <div className="mt-3 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
-            <Link
-              to="/offers"
-              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-bold uppercase tracking-wide text-black transition active:scale-95 sm:h-11 sm:px-6 sm:text-xs"
+            <button
+              onClick={buyNow}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-black uppercase tracking-wide text-black transition active:scale-95 hover:scale-[1.03] sm:h-11 sm:px-6 sm:text-xs"
             >
-              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Grab Combo
+              <Zap className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Buy Now
+            </button>
+            <Link
+              to="/combo/$id"
+              params={{ id: c.id }}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 text-[11px] font-bold uppercase tracking-wide text-white backdrop-blur transition hover:bg-white/20 sm:h-11 sm:px-6 sm:text-xs"
+            >
+              <Info className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Details
             </Link>
           </div>
+
         </div>
 
         {/* Right: floating stacked logos */}

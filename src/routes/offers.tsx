@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles, Check, ShoppingCart, Flame, ArrowLeft } from "lucide-react";
+import { Sparkles, Check, ShoppingCart, Flame, ArrowLeft, Zap, Info } from "lucide-react";
+
 import { toast } from "sonner";
 import { Header } from "@/components/Header";
 import { CategoryBar } from "@/components/CategoryBar";
@@ -85,6 +86,7 @@ function OffersPage() {
 
 function ComboBanner({ combo }: { combo: Combo }) {
   const { add } = useCart();
+  const navigate = useNavigate();
   const savings = combo.originalPrice - combo.price;
   const savingsPct = Math.round((savings / combo.originalPrice) * 100);
 
@@ -92,6 +94,11 @@ function ComboBanner({ combo }: { combo: Combo }) {
     add(comboToProduct(combo));
     toast.success(`${combo.title} কার্টে যোগ হয়েছে!`);
   };
+  const buyNow = () => {
+    add(comboToProduct(combo));
+    navigate({ to: "/checkout" });
+  };
+
 
   return (
     <article
@@ -173,13 +180,31 @@ function ComboBanner({ combo }: { combo: Combo }) {
               {combo.duration} • Save Tk. {savings}
             </p>
           </div>
-          <button
-            onClick={handleAdd}
-            className="group/btn inline-flex h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-black uppercase tracking-wide text-black shadow-xl transition hover:scale-[1.03] active:scale-95 sm:h-12 sm:px-5"
-          >
-            <ShoppingCart className="h-4 w-4" />
-            Add
-          </button>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button
+              onClick={buyNow}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-4 text-sm font-black uppercase tracking-wide text-black shadow-xl transition hover:scale-[1.03] active:scale-95 sm:h-12 sm:px-5"
+            >
+              <Zap className="h-4 w-4" /> Buy Now
+            </button>
+            <div className="flex gap-2">
+              <Link
+                to="/combo/$id"
+                params={{ id: combo.id }}
+                className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 text-xs font-bold uppercase tracking-wide text-white backdrop-blur transition hover:bg-white/20 sm:h-12 sm:px-4"
+              >
+                <Info className="h-3.5 w-3.5" /> Details
+              </Link>
+              <button
+                onClick={handleAdd}
+                aria-label="Add to cart"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 sm:h-12 sm:w-12"
+              >
+                <ShoppingCart className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </article>

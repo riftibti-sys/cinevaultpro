@@ -21,7 +21,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
         className={`fixed inset-0 z-[90] bg-black/70 backdrop-blur-sm transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
       />
       <aside
-        className={`fixed right-0 top-0 z-[100] flex h-[100dvh] max-h-[100dvh] w-full max-w-md flex-col overflow-hidden border-l border-border bg-background shadow-[-24px_0_60px_rgba(0,0,0,0.25)] transition-transform ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed inset-y-0 left-0 right-0 z-[100] flex h-[100dvh] max-h-[100dvh] w-full flex-col overflow-hidden bg-background shadow-[-24px_0_60px_rgba(0,0,0,0.25)] transition-transform duration-300 sm:left-auto sm:max-w-md sm:border-l sm:border-border ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="shrink-0 flex items-center justify-between border-b border-border px-5 py-4">
           <h2 className="text-lg font-semibold">Your Cart ({count})</h2>

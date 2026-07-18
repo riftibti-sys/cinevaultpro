@@ -1,6 +1,6 @@
 import { ShoppingCart, ClipboardList, User, Flame, LogOut } from "lucide-react";
 import { useNavigate, useRouter } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/useAuth";
@@ -13,10 +13,56 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
   const navigate = useNavigate();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const nav = navRef.current;
+    if (!nav) return;
+
+    let frame = 0;
+
+    const lockToScreenBottom = () => {
+      frame = 0;
+
+      const viewport = window.visualViewport;
+      const navHeight = nav.offsetHeight;
+
+      if (viewport) {
+        const top = Math.round(viewport.offsetTop + viewport.height - navHeight);
+        nav.style.top = `${Math.max(0, top)}px`;
+        nav.style.bottom = "auto";
+      } else {
+        nav.style.top = "auto";
+        nav.style.bottom = "0px";
+      }
+    };
+
+    const scheduleLock = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(lockToScreenBottom);
+    };
+
+    lockToScreenBottom();
+
+    window.addEventListener("scroll", scheduleLock, { passive: true });
+    window.addEventListener("resize", scheduleLock, { passive: true });
+    window.visualViewport?.addEventListener("scroll", scheduleLock, { passive: true });
+    window.visualViewport?.addEventListener("resize", scheduleLock, { passive: true });
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleLock);
+      window.removeEventListener("resize", scheduleLock);
+      window.visualViewport?.removeEventListener("scroll", scheduleLock);
+      window.visualViewport?.removeEventListener("resize", scheduleLock);
+    };
+  }, [mounted]);
 
   const preloadAuth = () => {
     if (!user) router.preloadRoute({ to: "/auth" }).catch(() => {});
@@ -67,6 +113,7 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
 
   const nav = (
     <div
+      ref={navRef}
       className="mobile-bottom-nav md:hidden"
     >
       <nav className="border-t border-white/10 bg-[#0a0a0a]/95 px-2 pb-[max(env(safe-area-inset-bottom),8px)] pt-2 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl">

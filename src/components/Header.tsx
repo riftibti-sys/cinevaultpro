@@ -92,14 +92,25 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <Link to="/" className="flex min-w-[142px] items-center leading-none sm:min-w-[184px]">
-              <span className="flex flex-col leading-none">
-                <span className="relative block h-9 w-[132px] sm:h-11 sm:w-[174px]">
+            <Link to="/" className="flex min-w-[190px] items-center gap-2 leading-none sm:min-w-[238px] sm:gap-2.5">
+              <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary shadow-[0_0_18px_-3px_rgba(229,9,20,0.9)] sm:h-12 sm:w-12">
+                <img
+                  src={logoAsset.url}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-full w-full object-cover object-center"
+                />
+              </span>
+              <span className="flex min-w-0 flex-col leading-none">
+                <span className="relative block h-8 w-[132px] sm:h-10 sm:w-[170px]">
                   <img
                     src={logoAsset.url}
                     alt="CineVault"
-                    className="h-full w-full object-contain object-left drop-shadow-[0_0_10px_rgba(229,9,20,0.45)]"
+                    className="sr-only"
                   />
+                  <span className="block font-display text-[28px] uppercase italic text-white drop-shadow-[0_0_10px_rgba(229,9,20,0.45)] sm:text-[36px]">
+                    Cine<span className="text-primary">Vault</span>
+                  </span>
                   {/* Broadcast-style pitch line with an arcing football chip-shot */}
                   <span
                     aria-hidden

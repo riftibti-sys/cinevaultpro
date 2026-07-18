@@ -86,6 +86,7 @@ function OffersPage() {
 
 function ComboBanner({ combo }: { combo: Combo }) {
   const { add } = useCart();
+  const navigate = useNavigate();
   const savings = combo.originalPrice - combo.price;
   const savingsPct = Math.round((savings / combo.originalPrice) * 100);
 
@@ -93,6 +94,11 @@ function ComboBanner({ combo }: { combo: Combo }) {
     add(comboToProduct(combo));
     toast.success(`${combo.title} কার্টে যোগ হয়েছে!`);
   };
+  const buyNow = () => {
+    add(comboToProduct(combo));
+    navigate({ to: "/checkout" });
+  };
+
 
   return (
     <article

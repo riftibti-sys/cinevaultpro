@@ -20,6 +20,7 @@ export const getRouter = () => {
     defaultPreload: "intent",
     defaultPreloadDelay: 0,
     defaultPreloadStaleTime: 0,
+    defaultViewTransition: true,
   });
 
   return router;

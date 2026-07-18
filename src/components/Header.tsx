@@ -9,18 +9,48 @@ import { useProducts } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 import footballImg from "@/assets/football.png";
 
-import cvMarkAsset from "@/assets/cinevault-cv-mark-tight.png.asset.json";
-
 function CvMark({ className = "" }: { className?: string }) {
   return (
-    <img
-      src={cvMarkAsset.url}
-      alt="CineVault"
-      aria-hidden="true"
-      className={`shrink-0 object-contain drop-shadow-[0_0_10px_rgba(229,9,20,0.55)] ${className}`}
-      loading="eager"
-      decoding="async"
-    />
+    <svg
+      viewBox="0 0 96 96"
+      role="img"
+      aria-label="CineVault logo"
+      className={`shrink-0 overflow-visible drop-shadow-[0_0_10px_rgba(229,9,20,0.55)] ${className}`}
+    >
+      <defs>
+        <filter id="cv-logo-ink" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" />
+        </filter>
+      </defs>
+      <rect x="0" y="0" width="96" height="96" rx="22" fill="transparent" />
+      <text
+        x="50%"
+        y="62%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        filter="url(#cv-logo-ink)"
+        style={{
+          fill: "currentColor",
+          fontFamily: "Georgia, 'Times New Roman', serif",
+          fontSize: 58,
+          fontWeight: 900,
+          fontStyle: "italic",
+          letterSpacing: -8,
+        }}
+      >
+        CV
+      </text>
+      <path
+        d="M18 70 C34 58, 55 56, 80 63"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+        opacity="0.95"
+        filter="url(#cv-logo-ink)"
+      />
+    </svg>
   );
 }
 
@@ -107,7 +137,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <Menu className="h-5 w-5" />
             </button>
             <Link to="/" className="flex min-w-[210px] items-center gap-2.5 leading-none sm:min-w-[258px] sm:gap-3">
-              <CvMark className="h-12 w-12 sm:h-13 sm:w-13" />
+              <CvMark className="h-10 w-10 text-white sm:h-12 sm:w-12" />
               <span className="flex min-w-0 flex-col leading-none">
                 <span className="relative block h-8 w-[148px] sm:h-10 sm:w-[185px]">
                   <span className="sr-only">CineVault</span>

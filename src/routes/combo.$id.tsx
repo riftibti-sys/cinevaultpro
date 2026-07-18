@@ -326,18 +326,21 @@ function ComboDetail() {
           </div>
         </section>
 
-        {/* STICKY BOTTOM CTA (mobile) */}
-        <div className="sticky bottom-[calc(68px+env(safe-area-inset-bottom))] z-30 mx-auto max-w-5xl px-3 pb-3 sm:hidden">
-          <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#0a0a0a] p-3 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.7)]">
-            <div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-white/60">Total</div>
-              <div className="text-xl font-black text-white">৳{combo.price}</div>
+        {/* STICKY BOTTOM CTA (mobile) — slim glass pill */}
+        <div className="pointer-events-none sticky bottom-[calc(72px+env(safe-area-inset-bottom))] z-30 mx-auto max-w-md px-4 pb-2 sm:hidden">
+          <div className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/15 bg-black/70 py-1.5 pl-4 pr-1.5 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+            <div className="flex min-w-0 flex-1 items-baseline gap-1.5">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-white/50">Total</span>
+              <span className="text-base font-black text-white">৳{combo.price}</span>
+              {combo.originalPrice > combo.price && (
+                <span className="text-[10px] text-white/40 line-through">৳{combo.originalPrice}</span>
+              )}
             </div>
             <button
               onClick={buyNow}
-              className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-black uppercase tracking-wide text-primary-foreground shadow-[0_0_20px_rgba(229,9,20,0.5)]"
+              className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-primary px-4 text-xs font-black uppercase tracking-wide text-primary-foreground shadow-[0_0_16px_rgba(229,9,20,0.55)] active:scale-95"
             >
-              <Zap className="h-4 w-4" /> Buy Now
+              <Zap className="h-3.5 w-3.5" /> Buy Now
             </button>
           </div>
         </div>

@@ -130,7 +130,7 @@ function Checkout() {
 
             {/* Step 2 — Payment */}
             <Section step="2" title="Pay with">
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {(Object.keys(METHOD_META) as PayMethod[]).map((m) => {
                   const meta = METHOD_META[m];
                   const active = method === m;
@@ -139,26 +139,18 @@ function Checkout() {
                       key={m}
                       type="button"
                       onClick={() => setMethod(m)}
-                      className={`group relative flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-center transition ${
+                      className={`flex items-center justify-center rounded-lg border bg-white px-3 py-3 transition ${
                         active
-                          ? "border-primary bg-primary/5 shadow-[0_6px_20px_-10px_hsl(var(--primary))]"
-                          : "border-border bg-secondary/40 hover:border-primary/40"
+                          ? "border-primary ring-2 ring-primary/30"
+                          : "border-border hover:border-primary/40"
                       }`}
                     >
-                      <span
-                        className="grid h-12 w-20 place-items-center rounded-xl bg-white ring-1 ring-black/5 shadow-sm overflow-hidden"
-                        style={{ borderTop: `3px solid ${meta.color}` }}
-                      >
-                        <img
-                          src={meta.logo}
-                          alt={`${meta.label} logo`}
-                          className="max-h-8 max-w-[68px] object-contain"
-                          loading="lazy"
-                        />
-                      </span>
-                      <span className="mt-0.5 text-xs font-bold">{meta.label}</span>
-                      <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{meta.hint}</span>
-                      {active && <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />}
+                      <img
+                        src={meta.logo}
+                        alt={`${meta.label} logo`}
+                        className="h-7 w-auto object-contain"
+                        loading="lazy"
+                      />
                     </button>
                   );
                 })}

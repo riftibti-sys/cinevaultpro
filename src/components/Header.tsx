@@ -9,33 +9,21 @@ import { useProducts } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 import footballImg from "@/assets/football.png";
 
+import cvMarkAsset from "@/assets/cv-mark.jpg.asset.json";
+
 function CvMark({ className = "" }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
       className={`grid shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary shadow-[0_0_18px_-3px_rgba(229,9,20,0.9)] ${className}`}
     >
-      <svg viewBox="0 0 100 100" className="h-[76%] w-[76%] text-white" role="img">
-        <path
-          d="M64.5 28.5C55 20.8 35.7 24 24.8 38.6 15.4 51.2 18 65 30.8 67.1c10.1 1.7 20.6-5.1 29.3-18.1"
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="8.5"
-        />
-        <path
-          d="M47.2 61.8 61.6 38c2.9-4.8 8.7-4.1 8.6 1.6-.1 3.4-2.4 7.1-5.3 10.5L47.9 70.4c-2.1 2.5-5.9.1-4.4-2.9l3.7-5.7Z"
-          fill="currentColor"
-        />
-        <path
-          d="M67.4 45.2 80.5 31.8"
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeWidth="5.2"
-        />
-      </svg>
+      <img
+        src={cvMarkAsset.url}
+        alt=""
+        className="h-full w-full object-cover"
+        loading="eager"
+        decoding="async"
+      />
     </span>
   );
 }

@@ -407,14 +407,14 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
           <ul className="space-y-1">
             {menuItems.map((it) => (
               <li key={it.label}>
-                <a
-                  href={it.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-foreground transition hover:bg-secondary/60 hover:text-primary"
+                <button
+                  type="button"
+                  onClick={() => handleMenuClick(it)}
+                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-foreground transition hover:bg-secondary/60 hover:text-primary"
                 >
                   <it.icon className="h-4 w-4 text-primary" />
                   {it.label}
-                </a>
+                </button>
               </li>
             ))}
           </ul>

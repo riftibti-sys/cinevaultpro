@@ -130,7 +130,7 @@ function Checkout() {
 
             {/* Step 2 — Payment */}
             <Section step="2" title="Pay with">
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
                 {(Object.keys(METHOD_META) as PayMethod[]).map((m) => {
                   const meta = METHOD_META[m];
                   const active = method === m;
@@ -139,18 +139,33 @@ function Checkout() {
                       key={m}
                       type="button"
                       onClick={() => setMethod(m)}
-                      className={`flex items-center justify-center rounded-lg border bg-white px-3 py-3 transition ${
-                        active
-                          ? "border-primary ring-2 ring-primary/30"
-                          : "border-border hover:border-primary/40"
+                      style={{
+                        background: active
+                          ? `linear-gradient(160deg, #ffffff 0%, ${meta.color}14 100%)`
+                          : "linear-gradient(160deg, #ffffff 0%, #f6f6f8 100%)",
+                        borderColor: active ? meta.color : undefined,
+                        boxShadow: active
+                          ? `0 8px 20px -10px ${meta.color}66, inset 0 1px 0 #fff`
+                          : "0 1px 2px rgba(15,15,20,0.05), inset 0 1px 0 #fff",
+                      }}
+                      className={`group relative flex flex-col items-center justify-center gap-1.5 overflow-hidden rounded-xl border px-3 py-3 transition-all ${
+                        active ? "border-2 -translate-y-0.5" : "border border-border/70 hover:-translate-y-0.5"
                       }`}
                     >
+                      <span
+                        aria-hidden
+                        className="absolute inset-x-0 top-0 h-[3px]"
+                        style={{ background: `linear-gradient(90deg, transparent, ${meta.color}, transparent)`, opacity: active ? 1 : 0.6 }}
+                      />
                       <img
                         src={meta.logo}
                         alt={`${meta.label} logo`}
                         className="h-7 w-auto object-contain"
                         loading="lazy"
                       />
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        {meta.hint}
+                      </span>
                     </button>
                   );
                 })}

@@ -1,14 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
-import { Play, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, MessageCircle, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useProducts, type Product } from "@/lib/products";
+import { useCombos, type Combo } from "@/lib/combos";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 
 const DEFAULT_FEATURED = ["netflix", "prime", "yt-premium", "hbo", "spotify", "capcut", "chatgpt", "chorki"];
 
-const AUTO_MS = 7000;
+const AUTO_MS = 6000;
+
+type Slide =
+  | { kind: "product"; product: Product }
+  | { kind: "combo"; combo: Combo };
 
 export function HeroCarousel() {
   const products = useProducts();
+  const { combos } = useCombos();
   const settings = useSiteSettings();
   const waUrl = buildWhatsAppUrl(settings.get("contact_phone_intl"), "Hi CineVault! আমি একটা subscription কিনতে চাই।");
   const featuredIds = useMemo(() => {
@@ -16,10 +23,24 @@ export function HeroCarousel() {
     const ids = raw ? raw.split(",").map((s) => s.trim()).filter(Boolean) : DEFAULT_FEATURED;
     return ids;
   }, [settings]);
-  const slides = useMemo<Product[]>(
-    () => featuredIds.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => Boolean(p)),
-    [products, featuredIds],
-  );
+
+  const slides = useMemo<Slide[]>(() => {
+    const productSlides: Slide[] = featuredIds
+      .map((id) => products.find((p) => p.id === id))
+      .filter((p): p is Product => Boolean(p))
+      .map((p) => ({ kind: "product", product: p }));
+    const comboSlides: Slide[] = combos.map((c) => ({ kind: "combo", combo: c }));
+    // Interleave: combo, product, product, combo, product, product...
+    const out: Slide[] = [];
+    let ci = 0, pi = 0;
+    while (ci < comboSlides.length || pi < productSlides.length) {
+      if (ci < comboSlides.length) out.push(comboSlides[ci++]);
+      if (pi < productSlides.length) out.push(productSlides[pi++]);
+      if (pi < productSlides.length) out.push(productSlides[pi++]);
+    }
+    return out;
+  }, [products, featuredIds, combos]);
+
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -31,8 +52,13 @@ export function HeroCarousel() {
     return () => clearInterval(t);
   }, [paused, slides.length]);
 
+  useEffect(() => {
+    if (index >= slides.length) setIndex(0);
+  }, [slides.length, index]);
+
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length);
   if (slides.length === 0) return null;
+
 
   return (
     <section className="px-3 pt-3 sm:px-8 sm:pt-4 lg:px-16">
@@ -48,86 +74,21 @@ export function HeroCarousel() {
             className="flex h-[13rem] transition-transform duration-700 ease-out sm:h-[16rem] lg:h-[19rem]"
             style={{ transform: `translateX(-${index * 100}%)` }}
           >
-            {slides.map((p) => (
-              <div
-                key={p.id}
-                className="relative h-full w-full shrink-0"
-                style={{
-                  background: `radial-gradient(circle at 20% 30%, ${p.accent}55, transparent 60%), radial-gradient(circle at 80% 70%, ${p.accent}33, transparent 55%), #0a0a0a`,
-                }}
-              >
-                {/* Subtle grid pattern */}
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-[0.08]"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
-                    backgroundSize: "40px 40px",
-                  }}
+            {slides.map((slide, i) =>
+              slide.kind === "product" ? (
+                <ProductSlide
+                  key={`p-${slide.product.id}-${i}`}
+                  p={slide.product}
+                  waUrl={waUrl}
+                  recommended={settings.get("hero_recommended_text", "● Recommended")}
+                  startsAt={settings.get("hero_starts_text", "Starts at")}
+                  shopText={settings.get("hero_shop_text", "Shop Now")}
                 />
+              ) : (
+                <ComboSlide key={`c-${slide.combo.id}-${i}`} c={slide.combo} />
+              ),
+            )}
 
-                <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-14 pt-5 sm:px-12 sm:py-10">
-                  {/* Left: copy */}
-                  <div className="min-w-0 flex-1">
-                    <span
-                      className="mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white sm:mb-3 sm:px-3"
-                      style={{ background: p.accent, boxShadow: `0 0 20px -4px ${p.accent}` }}
-                    >
-                      {settings.get("hero_recommended_text", "● Recommended")}
-                    </span>
-                    <h1 className="font-display text-[26px] uppercase italic leading-[0.9] tracking-wide text-white sm:text-6xl">
-                      {p.name}
-                    </h1>
-                    <p className="mt-1.5 line-clamp-2 text-[11px] font-medium text-white/70 sm:mt-3 sm:text-sm">
-                      {p.tagline} · {p.duration}
-                    </p>
-                    <div className="mt-2 flex items-baseline gap-2 sm:mt-5">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/50 sm:text-[10px]">
-                        {settings.get("hero_starts_text", "Starts at")}
-                      </span>
-                      <span className="font-display text-2xl italic text-white sm:text-4xl">
-                        ৳{p.price}
-                      </span>
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
-                      <a
-                        href="#products"
-                        className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-bold uppercase tracking-wide text-black transition active:scale-95 sm:h-11 sm:px-6 sm:text-xs"
-                      >
-                        <Play className="h-3 w-3 fill-black sm:h-3.5 sm:w-3.5" /> {settings.get("hero_shop_text", "Shop Now")}
-                      </a>
-                      <a
-                        href={waUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex h-9 items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-4 text-[11px] font-bold uppercase tracking-wide text-white backdrop-blur-md transition hover:bg-white/10 sm:h-11 sm:px-6 sm:text-xs"
-                      >
-                        <MessageCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> WhatsApp
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Right: giant logo */}
-                  <div className="relative shrink-0">
-                    <div
-                      className="absolute inset-0 -z-10 rounded-full blur-3xl"
-                      style={{ background: p.accent, opacity: 0.5 }}
-                    />
-                    <div
-                      className="grid h-24 w-24 place-items-center overflow-hidden rounded-3xl bg-black/40 ring-2 ring-white/10 backdrop-blur-sm sm:h-52 sm:w-52"
-                      style={{ boxShadow: `0 20px 60px -10px ${p.accent}` }}
-                    >
-                      <img
-                        src={p.logo}
-                        alt={p.name}
-                        className={p.logoFill ? "h-full w-full object-cover" : "h-14 w-14 object-contain sm:h-32 sm:w-32"}
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
 
           {/* Prev / Next — desktop only; mobile uses swipe + dots */}
@@ -150,7 +111,7 @@ export function HeroCarousel() {
           <div className="absolute inset-x-0 bottom-2 z-10 flex items-center justify-center gap-1.5 sm:bottom-5">
             {slides.map((s, i) => (
               <button
-                key={s.id}
+                key={`dot-${i}`}
                 onClick={() => setIndex(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 className={`h-1.5 rounded-full transition-all ${
@@ -158,9 +119,181 @@ export function HeroCarousel() {
                 }`}
               />
             ))}
+
           </div>
         </div>
       </div>
     </section>
   );
 }
+
+function ProductSlide({
+  p,
+  waUrl,
+  recommended,
+  startsAt,
+  shopText,
+}: {
+  p: Product;
+  waUrl: string;
+  recommended: string;
+  startsAt: string;
+  shopText: string;
+}) {
+  return (
+    <div
+      className="relative h-full w-full shrink-0"
+      style={{
+        background: `radial-gradient(circle at 20% 30%, ${p.accent}55, transparent 60%), radial-gradient(circle at 80% 70%, ${p.accent}33, transparent 55%), #0a0a0a`,
+      }}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+      />
+      <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-14 pt-5 sm:px-12 sm:py-10">
+        <div className="min-w-0 flex-1">
+          <span
+            className="mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white sm:mb-3 sm:px-3"
+            style={{ background: p.accent, boxShadow: `0 0 20px -4px ${p.accent}` }}
+          >
+            {recommended}
+          </span>
+          <h1 className="font-display text-[26px] uppercase italic leading-[0.9] tracking-wide text-white sm:text-6xl">
+            {p.name}
+          </h1>
+          <p className="mt-1.5 line-clamp-2 text-[11px] font-medium text-white/70 sm:mt-3 sm:text-sm">
+            {p.tagline} · {p.duration}
+          </p>
+          <div className="mt-2 flex items-baseline gap-2 sm:mt-5">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-white/50 sm:text-[10px]">
+              {startsAt}
+            </span>
+            <span className="font-display text-2xl italic text-white sm:text-4xl">৳{p.price}</span>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
+            <a
+              href="#products"
+              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-bold uppercase tracking-wide text-black transition active:scale-95 sm:h-11 sm:px-6 sm:text-xs"
+            >
+              <Play className="h-3 w-3 fill-black sm:h-3.5 sm:w-3.5" /> {shopText}
+            </a>
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-9 items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-4 text-[11px] font-bold uppercase tracking-wide text-white backdrop-blur-md transition hover:bg-white/10 sm:h-11 sm:px-6 sm:text-xs"
+            >
+              <MessageCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> WhatsApp
+            </a>
+          </div>
+        </div>
+        <div className="relative shrink-0">
+          <div
+            className="absolute inset-0 -z-10 rounded-full blur-3xl"
+            style={{ background: p.accent, opacity: 0.5 }}
+          />
+          <div
+            className="grid h-24 w-24 place-items-center overflow-hidden rounded-3xl bg-black/40 ring-2 ring-white/10 backdrop-blur-sm sm:h-52 sm:w-52"
+            style={{ boxShadow: `0 20px 60px -10px ${p.accent}` }}
+          >
+            <img
+              src={p.logo}
+              alt={p.name}
+              className={p.logoFill ? "h-full w-full object-cover" : "h-14 w-14 object-contain sm:h-32 sm:w-32"}
+              referrerPolicy="no-referrer"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ComboSlide({ c }: { c: Combo }) {
+  const services = c.services.slice(0, 4);
+  return (
+    <div
+      className="relative h-full w-full shrink-0 overflow-hidden"
+      style={{ background: c.gradient || "linear-gradient(135deg,#0a0a0a,#1a1a1a)" }}
+    >
+      {/* Animated glow orbs */}
+      <div
+        className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full blur-3xl animate-pulse"
+        style={{ background: c.glow || "#e50914", opacity: 0.35 }}
+      />
+      <div
+        className="pointer-events-none absolute -bottom-20 -right-10 h-60 w-60 rounded-full blur-3xl animate-pulse [animation-delay:1s]"
+        style={{ background: c.glow || "#e50914", opacity: 0.28 }}
+      />
+
+      <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-14 pt-5 sm:px-12 sm:py-10">
+        {/* Left copy */}
+        <div className="min-w-0 flex-1">
+          <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white backdrop-blur sm:mb-3 sm:px-3">
+            <Sparkles className="h-3 w-3" /> Combo · {c.tag || "Best Value"}
+          </span>
+          <h1 className="font-display text-[24px] uppercase italic leading-[0.9] tracking-wide text-white sm:text-5xl">
+            {c.title}
+          </h1>
+          <p className="mt-1.5 line-clamp-2 text-[11px] font-medium text-white/80 sm:mt-3 sm:text-sm">
+            {c.subtitle} · {c.duration}
+          </p>
+          <div className="mt-2 flex items-baseline gap-2 sm:mt-5">
+            <span className="font-display text-2xl italic text-white sm:text-4xl">৳{c.price}</span>
+            {c.originalPrice > c.price ? (
+              <span className="text-xs font-semibold text-white/60 line-through sm:text-sm">
+                ৳{c.originalPrice}
+              </span>
+            ) : null}
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
+            <Link
+              to="/offers"
+              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[11px] font-bold uppercase tracking-wide text-black transition active:scale-95 sm:h-11 sm:px-6 sm:text-xs"
+            >
+              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Grab Combo
+            </Link>
+          </div>
+        </div>
+
+        {/* Right: floating stacked logos */}
+        <div className="relative h-24 w-24 shrink-0 sm:h-52 sm:w-52">
+          {services.map((s, i) => {
+            const positions = [
+              { top: "0%", left: "0%", delay: "0s" },
+              { top: "0%", left: "55%", delay: "0.4s" },
+              { top: "55%", left: "0%", delay: "0.8s" },
+              { top: "55%", left: "55%", delay: "1.2s" },
+            ];
+            const pos = positions[i] ?? positions[0];
+            return (
+              <div
+                key={`${s.name}-${i}`}
+                className="absolute grid h-[45%] w-[45%] place-items-center overflow-hidden rounded-2xl bg-black/50 ring-2 ring-white/15 backdrop-blur-md animate-[float_3.6s_ease-in-out_infinite]"
+                style={{
+                  top: pos.top,
+                  left: pos.left,
+                  animationDelay: pos.delay,
+                  boxShadow: `0 15px 40px -10px ${s.accent || c.glow || "#e50914"}`,
+                }}
+              >
+                <img
+                  src={s.logo}
+                  alt={s.name}
+                  className="h-[70%] w-[70%] object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+

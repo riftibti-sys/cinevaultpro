@@ -199,7 +199,7 @@ function Checkout() {
           </aside>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

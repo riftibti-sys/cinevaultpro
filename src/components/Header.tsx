@@ -13,18 +13,14 @@ import cvMarkAsset from "@/assets/cinevault-cv-mark-tight.png.asset.json";
 
 function CvMark({ className = "" }: { className?: string }) {
   return (
-    <span
+    <img
+      src={cvMarkAsset.url}
+      alt="CineVault"
       aria-hidden="true"
-      className={`grid shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary shadow-[0_0_18px_-3px_rgba(229,9,20,0.9)] ${className}`}
-    >
-      <img
-        src={cvMarkAsset.url}
-        alt=""
-        className="h-full w-full object-cover"
-        loading="eager"
-        decoding="async"
-      />
-    </span>
+      className={`shrink-0 object-contain drop-shadow-[0_0_10px_rgba(229,9,20,0.55)] ${className}`}
+      loading="eager"
+      decoding="async"
+    />
   );
 }
 

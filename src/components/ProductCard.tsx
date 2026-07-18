@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Check, Star } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { useReviews } from "@/lib/useReviews";
 import type { Product } from "@/lib/products";
 import { toast } from "sonner";
+
 
 export function ProductCard({ product }: { product: Product }) {
   const { items, add } = useCart();
@@ -12,6 +13,11 @@ export function ProductCard({ product }: { product: Product }) {
   const { statsFor, submit } = useReviews();
   const [hover, setHover] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const goToDetails = () => navigate({ to: "/product/$id", params: { id: product.id } });
+  const stop = (e: React.MouseEvent | React.TouchEvent) => e.stopPropagation();
+
 
   const stats = statsFor(product.id);
   const avg = stats.count > 0 ? stats.avg : (product.rating ?? 0);
@@ -33,11 +39,23 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/70 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-[0_10px_30px_-15px_rgba(229,9,20,0.45)] active:scale-[0.98]">
-      {/* IMAGE — clickable to detail */}
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={goToDetails}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          goToDetails();
+        }
+      }}
+      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border bg-card/70 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-[0_10px_30px_-15px_rgba(229,9,20,0.45)] active:scale-[0.98]"
+    >
+      {/* IMAGE */}
       <Link
         to="/product/$id"
         params={{ id: product.id }}
+        onClick={stop}
         className="relative grid aspect-[5/4] place-items-center overflow-hidden border-b border-border"
         style={{ background: `linear-gradient(135deg, ${product.accent}22, ${product.accent}05)` }}
         aria-label={`View ${product.name} details`}
@@ -68,6 +86,7 @@ export function ProductCard({ product }: { product: Product }) {
           {product.tagline} • {product.duration}
         </p>
 
+
         {/* PRICE */}
         <div className="mt-2.5 flex flex-nowrap items-baseline gap-1.5">
           <span className="whitespace-nowrap text-lg font-black tracking-tight text-primary sm:text-[22px]">
@@ -81,7 +100,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* INTERACTIVE RATING */}
-        <div className="mt-1.5 flex items-center gap-1" onMouseLeave={() => setHover(0)}>
+        <div className="mt-1.5 flex items-center gap-1" onMouseLeave={() => setHover(0)} onClick={stop}>
           <div className="flex">
             {Array.from({ length: 5 }).map((_, i) => {
               const value = i + 1;
@@ -91,7 +110,10 @@ export function ProductCard({ product }: { product: Product }) {
                   key={i}
                   type="button"
                   onMouseEnter={() => setHover(value)}
-                  onClick={() => handleRate(value)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRate(value);
+                  }}
                   disabled={submitting}
                   aria-label={`Rate ${value} star${value > 1 ? "s" : ""}`}
                   className="p-0.5 transition-transform hover:scale-125"
@@ -111,7 +133,10 @@ export function ProductCard({ product }: { product: Product }) {
 
         {/* BUY NOW */}
         <button
-          onClick={() => add(product)}
+          onClick={(e) => {
+            e.stopPropagation();
+            add(product);
+          }}
           disabled={inCart}
           aria-label={inCart ? "Added to cart" : "Buy now"}
           className={`mt-3.5 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border text-[13px] font-black uppercase tracking-wider transition ${

@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useProducts } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 import footballImg from "@/assets/football.png";
+import cvUploadMark from "@/assets/cinevault-cv-upload-tight.png.asset.json";
 
 function CvMark({ className = "" }: { className?: string }) {
   return (
@@ -16,43 +17,14 @@ function CvMark({ className = "" }: { className?: string }) {
       aria-label="CineVault logo"
       role="img"
     >
-      <svg
-        viewBox="0 0 112 112"
-        aria-hidden="true"
-        className="h-full w-full p-[6px]"
-        focusable="false"
-      >
-        <defs>
-          <filter id="cv-red-glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="0" stdDeviation="2.2" floodColor="#e50914" floodOpacity="0.95" />
-          </filter>
-        </defs>
-        <circle cx="56" cy="56" r="51" fill="#030303" />
-        <path
-          d="M55 25C44 15 25 21 20 41c-6 25 15 45 37 34"
-          fill="none"
-          stroke="#ffffff"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="11"
-          filter="url(#cv-red-glow)"
-        />
-        <path
-          d="M61 24l14 55 20-55"
-          fill="none"
-          stroke="#ffffff"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="12"
-          filter="url(#cv-red-glow)"
-        />
-        <path
-          d="M17 18 31 12"
-          stroke="#e50914"
-          strokeLinecap="round"
-          strokeWidth="4"
-        />
-      </svg>
+      <img
+        src={cvUploadMark.url}
+        alt=""
+        className="h-full w-full object-cover"
+        draggable={false}
+        loading="eager"
+        decoding="async"
+      />
     </span>
   );
 }

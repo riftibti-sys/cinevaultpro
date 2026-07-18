@@ -13,9 +13,15 @@ import { BottomNav } from "@/components/BottomNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CartDrawer } from "@/components/CartDrawer";
 
-async function findProduct(id: string): Promise<Product | undefined> {
+const productsQuery = {
+  queryKey: ["products"] as const,
+  queryFn: () => listProducts(),
+  staleTime: 60_000,
+};
+
+async function findProduct(id: string, ctx: { queryClient: import("@tanstack/react-query").QueryClient }): Promise<Product | undefined> {
   try {
-    const rows = await listProducts();
+    const rows = await ctx.queryClient.ensureQueryData(productsQuery);
     const found = rows.find((r) => r.id === id);
     if (found) return rowToProduct(found);
   } catch {
@@ -39,11 +45,12 @@ export const Route = createFileRoute("/product/$id")({
       ],
     };
   },
-  loader: async ({ params }) => {
-    const p = await findProduct(params.id);
+  loader: async ({ params, context }) => {
+    const p = await findProduct(params.id, context);
     if (!p) throw notFound();
     return { product: p };
   },
+
   component: ProductDetail,
   errorComponent: ({ error }) => (
     <div className="grid min-h-screen place-items-center bg-background p-6 text-center text-foreground">

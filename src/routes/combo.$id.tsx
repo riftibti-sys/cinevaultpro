@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, Check, Sparkles, Zap, ShoppingCart, ShieldCheck, Clock, MessageCircle } from "lucide-react";
+import { ArrowLeft, Check, Sparkles, Zap, ShoppingCart, ShieldCheck, Clock, MessageCircle, Monitor, Download, Radio, PlayCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Header } from "@/components/Header";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -11,6 +11,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { useCombos, comboToProduct, type Combo } from "@/lib/combos";
 import { useCart } from "@/lib/cart";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
+import { getServiceSpec } from "@/lib/service-specs";
+
 
 export const Route = createFileRoute("/combo/$id")({
   head: ({ params }) => ({
@@ -178,32 +180,115 @@ function ComboDetail() {
           </div>
         </section>
 
-        {/* WHAT'S INCLUDED */}
+        {/* WHAT'S INCLUDED — premium per-service specs */}
         <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-          <h2 className="text-xl font-bold text-foreground sm:text-2xl">What's Included</h2>
-          <p className="mt-1 text-sm text-muted-foreground">এই combo-তে যা যা পাচ্ছেন</p>
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-foreground sm:text-2xl">প্রতিটা Service-এর বৈশিষ্ট্য</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                কী কী পাচ্ছেন, কোথায় দেখবেন, কয় screen — সব বিস্তারিত
+              </p>
+            </div>
+            <span className="hidden rounded-full border border-border bg-secondary/70 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-muted-foreground sm:inline-block">
+              {combo.services.length} Premium Services
+            </span>
+          </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {combo.services.map((s, i) => (
-              <div
-                key={`${s.name}-${i}`}
-                className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm"
-              >
-                <div
-                  className="grid h-14 w-14 place-items-center overflow-hidden rounded-2xl bg-black/5"
-                  style={{ boxShadow: `0 8px 25px -12px ${s.accent || combo.glow}` }}
+          <div className="mt-6 space-y-4">
+            {combo.services.map((s, i) => {
+              const spec = getServiceSpec(s.name);
+              const accent = s.accent || combo.glow;
+              return (
+                <article
+                  key={`${s.name}-${i}`}
+                  className="group relative overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition hover:shadow-xl"
                 >
-                  <img src={s.logo} alt={s.name} className="h-10 w-10 object-contain" loading="lazy" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-base font-bold text-foreground">{s.name}</div>
-                  <div className="text-xs text-muted-foreground">Premium · {combo.duration}</div>
-                </div>
-                <Check className="h-5 w-5 text-emerald-500" />
-              </div>
-            ))}
+                  {/* accent edge */}
+                  <div
+                    className="absolute inset-y-0 left-0 w-1"
+                    style={{ background: `linear-gradient(180deg, ${accent}, transparent)` }}
+                  />
+                  <div
+                    className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-20 blur-3xl"
+                    style={{ background: accent }}
+                  />
+
+                  <div className="relative p-4 sm:p-6">
+                    {/* header */}
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl bg-black/5 ring-1 ring-border sm:h-20 sm:w-20"
+                        style={{ boxShadow: `0 15px 40px -18px ${accent}` }}
+                      >
+                        <img src={s.logo} alt={s.name} className="h-12 w-12 object-contain sm:h-14 sm:w-14" loading="lazy" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-lg font-black text-foreground sm:text-xl">{s.name}</h3>
+                          <span
+                            className="rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-white"
+                            style={{ background: accent }}
+                          >
+                            Premium
+                          </span>
+                        </div>
+                        <div className="mt-1 text-xs text-muted-foreground">
+                          Duration · <span className="font-semibold text-foreground">{combo.duration}</span>
+                        </div>
+                      </div>
+                      <Check className="hidden h-6 w-6 text-emerald-500 sm:block" />
+                    </div>
+
+                    {/* spec grid */}
+                    <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
+                      <SpecTile icon={PlayCircle} label="Quality" value={spec.quality} accent={accent} />
+                      <SpecTile icon={Monitor} label="Screens" value={spec.screens} accent={accent} />
+                      <SpecTile icon={Download} label="Downloads" value={spec.downloads} accent={accent} />
+                      <SpecTile icon={Radio} label="Devices" value={spec.devices} accent={accent} />
+                    </div>
+
+                    {/* highlights + how-to */}
+                    <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                      <div className="rounded-2xl border border-border bg-secondary/40 p-4">
+                        <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                          ✦ Highlights
+                        </div>
+                        <ul className="mt-2 space-y-1.5">
+                          {spec.highlights.map((h) => (
+                            <li key={h} className="flex items-start gap-2 text-xs text-foreground sm:text-sm">
+                              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                              <span>{h}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="rounded-2xl border border-border bg-secondary/40 p-4">
+                        <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                          ▶ কীভাবে ব্যবহার করবেন
+                        </div>
+                        <ol className="mt-2 space-y-1.5">
+                          {spec.howTo.map((step, idx) => (
+                            <li key={step} className="flex items-start gap-2 text-xs text-foreground sm:text-sm">
+                              <span
+                                className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full text-[10px] font-black text-white"
+                                style={{ background: accent }}
+                              >
+                                {idx + 1}
+                              </span>
+                              <span>{step}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
+
 
         {/* PERKS */}
         {combo.perks.length > 0 && (
@@ -263,6 +348,37 @@ function ComboDetail() {
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <BottomNav onCartClick={() => setCartOpen(true)} />
       <FloatingHelp />
+    </div>
+  );
+}
+
+function SpecTile({
+  icon: Icon,
+  label,
+  value,
+  accent,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+  accent: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-border bg-background/60 p-3 backdrop-blur transition hover:border-foreground/20">
+      <div className="flex items-center gap-2">
+        <div
+          className="grid h-7 w-7 place-items-center rounded-lg text-white"
+          style={{ background: accent }}
+        >
+          <Icon className="h-3.5 w-3.5" />
+        </div>
+        <div className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">
+          {label}
+        </div>
+      </div>
+      <div className="mt-2 text-xs font-bold leading-tight text-foreground sm:text-sm">
+        {value}
+      </div>
     </div>
   );
 }

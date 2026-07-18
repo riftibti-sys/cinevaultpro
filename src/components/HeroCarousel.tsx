@@ -234,7 +234,7 @@ function ComboSlide({ c }: { c: Combo }) {
         style={{ background: c.glow || "#e50914", opacity: 0.28 }}
       />
 
-      <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-14 pt-5 sm:px-12 sm:py-10">
+      <div className="relative flex h-full items-center justify-between gap-3 px-4 pb-14 pt-10 sm:px-12 sm:py-10">
         {/* Left copy */}
         <div className="min-w-0 flex-1">
           <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white backdrop-blur sm:mb-3 sm:px-3">

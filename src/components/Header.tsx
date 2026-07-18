@@ -9,21 +9,50 @@ import { useProducts } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 import footballImg from "@/assets/football.png";
 
-import cvMarkAsset from "@/assets/cinevault-cv-mark.png.asset.json";
-
 function CvMark({ className = "" }: { className?: string }) {
   return (
     <span
-      className={`relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary/70 shadow-[0_0_14px_rgba(229,9,20,0.55)] ${className}`}
+      className={`relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary shadow-[0_0_16px_rgba(229,9,20,0.62)] ${className}`}
       aria-label="CineVault logo"
       role="img"
     >
-      <img
-        src={cvMarkAsset.url}
-        alt=""
-        className="h-full w-full object-contain"
-        draggable={false}
-      />
+      <svg
+        viewBox="0 0 112 112"
+        aria-hidden="true"
+        className="h-full w-full p-[6px]"
+        focusable="false"
+      >
+        <defs>
+          <filter id="cv-red-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="0" stdDeviation="2.2" floodColor="#e50914" floodOpacity="0.95" />
+          </filter>
+        </defs>
+        <circle cx="56" cy="56" r="51" fill="#030303" />
+        <path
+          d="M55 25C44 15 25 21 20 41c-6 25 15 45 37 34"
+          fill="none"
+          stroke="#ffffff"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="11"
+          filter="url(#cv-red-glow)"
+        />
+        <path
+          d="M61 24l14 55 20-55"
+          fill="none"
+          stroke="#ffffff"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="12"
+          filter="url(#cv-red-glow)"
+        />
+        <path
+          d="M17 18 31 12"
+          stroke="#e50914"
+          strokeLinecap="round"
+          strokeWidth="4"
+        />
+      </svg>
     </span>
   );
 }

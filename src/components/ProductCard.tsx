@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Check, Star } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { useReviews } from "@/lib/useReviews";
 import type { Product } from "@/lib/products";
 import { toast } from "sonner";
+
 
 export function ProductCard({ product }: { product: Product }) {
   const { items, add } = useCart();

@@ -93,8 +93,8 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <Menu className="h-5 w-5" />
             </button>
             <Link to="/" className="flex items-center gap-2 leading-none">
-              <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-black ring-1 ring-primary/50 shadow-[0_0_18px_-4px_rgba(229,9,20,0.6)] sm:h-10 sm:w-10">
-                <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-cover" />
+              <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary/60 shadow-[0_0_18px_-4px_rgba(229,9,20,0.7)] sm:h-14 sm:w-14">
+                <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-contain p-0.5" />
               </span>
               <span className="flex flex-col leading-none">
                 <span className="relative inline-block font-display text-xl uppercase italic tracking-wider text-white sm:text-[28px]">

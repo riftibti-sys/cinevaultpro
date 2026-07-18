@@ -1,27 +1,36 @@
 import { Link } from "@tanstack/react-router";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useCart } from "@/lib/cart";
 
 export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { items, setQty, remove, total, count } = useCart();
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  const drawer = (
     <>
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-50 bg-black/70 backdrop-blur-sm transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 z-[90] bg-black/70 backdrop-blur-sm transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
       />
       <aside
-        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-background transition-transform ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed right-0 top-0 z-[100] flex h-[100dvh] max-h-[100dvh] w-full max-w-md flex-col overflow-hidden border-l border-border bg-background shadow-[-24px_0_60px_rgba(0,0,0,0.25)] transition-transform ${open ? "translate-x-0" : "translate-x-full"}`}
       >
-        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+        <div className="shrink-0 flex items-center justify-between border-b border-border px-5 py-4">
           <h2 className="text-lg font-semibold">Your Cart ({count})</h2>
           <button onClick={onClose} className="rounded-md p-2 hover:bg-secondary">
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 py-4">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4 pb-5 [-webkit-overflow-scrolling:touch] [touch-action:pan-y]">
           {items.length === 0 ? (
             <p className="mt-20 text-center text-sm text-muted-foreground">Your cart is empty</p>
           ) : (
@@ -64,7 +73,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
         </div>
 
         {items.length > 0 && (
-          <div className="border-t border-border px-5 py-4">
+          <div className="shrink-0 border-t border-border bg-background px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4 shadow-[0_-12px_30px_rgba(0,0,0,0.08)]">
             <div className="mb-3 flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Total</span>
               <span className="text-xl font-bold">৳{total}</span>
@@ -72,7 +81,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
             <Link
               to="/checkout"
               onClick={onClose}
-              className="flex h-11 items-center justify-center rounded-lg bg-primary font-semibold text-primary-foreground transition hover:brightness-110"
+              className="flex h-12 items-center justify-center rounded-lg bg-primary font-semibold text-primary-foreground transition hover:brightness-110"
             >
               Proceed to Checkout
             </Link>
@@ -81,4 +90,6 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
       </aside>
     </>
   );
+
+  return createPortal(drawer, document.body);
 }

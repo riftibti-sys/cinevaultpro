@@ -3,6 +3,10 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, CheckCircle2, Copy, ShieldCheck, Zap, ArrowRight, Lock } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
+import bkashLogo from "@/assets/pay-bkash.png";
+import nagadLogo from "@/assets/pay-nagad.png";
+import binanceLogo from "@/assets/pay-binance.png";
+import visaLogo from "@/assets/pay-visa.png";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -16,11 +20,11 @@ export const Route = createFileRoute("/checkout")({
 
 type PayMethod = "bkash" | "nagad" | "binance" | "card";
 
-const METHOD_META: Record<PayMethod, { label: string; hint: string; color: string; mark: string; markStyle?: string }> = {
-  bkash:   { label: "bKash",   hint: "Send Money",  color: "#E2136E", mark: "bKash",   markStyle: "italic" },
-  nagad:   { label: "Nagad",   hint: "Send Money",  color: "#EE1C25", mark: "Nagad" },
-  binance: { label: "Binance", hint: "USDT Pay",    color: "#F3BA2F", mark: "BINANCE" },
-  card:    { label: "Card",    hint: "Secure link", color: "#1A1F71", mark: "VISA" },
+const METHOD_META: Record<PayMethod, { label: string; hint: string; color: string; logo: string }> = {
+  bkash:   { label: "bKash",   hint: "Send Money",  color: "#E2136E", logo: bkashLogo },
+  nagad:   { label: "Nagad",   hint: "Send Money",  color: "#EE1C25", logo: nagadLogo },
+  binance: { label: "Binance", hint: "USDT Pay",    color: "#F3BA2F", logo: binanceLogo },
+  card:    { label: "Card",    hint: "Secure link", color: "#1A1F71", logo: visaLogo },
 };
 
 
@@ -142,15 +146,15 @@ function Checkout() {
                       }`}
                     >
                       <span
-                        className="grid h-11 w-16 place-items-center rounded-xl bg-white ring-1 ring-black/5 shadow-sm"
+                        className="grid h-12 w-20 place-items-center rounded-xl bg-white ring-1 ring-black/5 shadow-sm overflow-hidden"
                         style={{ borderTop: `3px solid ${meta.color}` }}
                       >
-                        <span
-                          className="text-[13px] font-black leading-none tracking-tight"
-                          style={{ color: meta.color, fontStyle: meta.markStyle === "italic" ? "italic" : "normal" }}
-                        >
-                          {meta.mark}
-                        </span>
+                        <img
+                          src={meta.logo}
+                          alt={`${meta.label} logo`}
+                          className="max-h-8 max-w-[68px] object-contain"
+                          loading="lazy"
+                        />
                       </span>
                       <span className="mt-0.5 text-xs font-bold">{meta.label}</span>
                       <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{meta.hint}</span>

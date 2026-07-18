@@ -357,10 +357,12 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
       {/* SIDE MENU */}
       <div
         onClick={() => setMenuOpen(false)}
-        className={`fixed inset-0 z-50 bg-black/70 backdrop-blur-sm transition-opacity ${menuOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        style={{ zIndex: 2147483645 }}
+        className={`fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity ${menuOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
       />
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-full w-[85%] max-w-sm flex-col border-r border-border bg-background transition-transform ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        style={{ zIndex: 2147483646 }}
+        className={`fixed left-0 top-0 flex h-full w-[85%] max-w-sm flex-col border-r border-border bg-background transition-transform ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 leading-none">

@@ -13,6 +13,11 @@ export function ProductCard({ product }: { product: Product }) {
   const { statsFor, submit } = useReviews();
   const [hover, setHover] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const goToDetails = () => navigate({ to: "/product/$id", params: { id: product.id } });
+  const stop = (e: React.MouseEvent | React.TouchEvent) => e.stopPropagation();
+
 
   const stats = statsFor(product.id);
   const avg = stats.count > 0 ? stats.avg : (product.rating ?? 0);

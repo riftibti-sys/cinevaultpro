@@ -9,48 +9,22 @@ import { useProducts } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 import footballImg from "@/assets/football.png";
 
+import cvMarkAsset from "@/assets/cinevault-cv-mark.png.asset.json";
+
 function CvMark({ className = "" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 96 96"
-      role="img"
+    <span
+      className={`relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary/70 shadow-[0_0_14px_rgba(229,9,20,0.55)] ${className}`}
       aria-label="CineVault logo"
-      className={`shrink-0 overflow-visible drop-shadow-[0_0_10px_rgba(229,9,20,0.55)] ${className}`}
+      role="img"
     >
-      <defs>
-        <filter id="cv-logo-ink" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" />
-        </filter>
-      </defs>
-      <rect x="0" y="0" width="96" height="96" rx="22" fill="transparent" />
-      <text
-        x="50%"
-        y="62%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        filter="url(#cv-logo-ink)"
-        style={{
-          fill: "currentColor",
-          fontFamily: "Georgia, 'Times New Roman', serif",
-          fontSize: 58,
-          fontWeight: 900,
-          fontStyle: "italic",
-          letterSpacing: -8,
-        }}
-      >
-        CV
-      </text>
-      <path
-        d="M18 70 C34 58, 55 56, 80 63"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-        opacity="0.95"
-        filter="url(#cv-logo-ink)"
+      <img
+        src={cvMarkAsset.url}
+        alt=""
+        className="h-full w-full object-contain"
+        draggable={false}
       />
-    </svg>
+    </span>
   );
 }
 

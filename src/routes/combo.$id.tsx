@@ -351,3 +351,34 @@ function ComboDetail() {
     </div>
   );
 }
+
+function SpecTile({
+  icon: Icon,
+  label,
+  value,
+  accent,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+  accent: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-border bg-background/60 p-3 backdrop-blur transition hover:border-foreground/20">
+      <div className="flex items-center gap-2">
+        <div
+          className="grid h-7 w-7 place-items-center rounded-lg text-white"
+          style={{ background: accent }}
+        >
+          <Icon className="h-3.5 w-3.5" />
+        </div>
+        <div className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">
+          {label}
+        </div>
+      </div>
+      <div className="mt-2 text-xs font-bold leading-tight text-foreground sm:text-sm">
+        {value}
+      </div>
+    </div>
+  );
+}

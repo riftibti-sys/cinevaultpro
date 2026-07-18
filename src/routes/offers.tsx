@@ -28,14 +28,14 @@ function OffersPage() {
   const [cartOpen, setCartOpen] = useState(false);
   const { combos, isLoading } = useCombos();
   return (
-    <div className="min-h-screen bg-background pb-28 md:pb-0">
+    <div className="mobile-fixed-shell min-h-screen bg-background">
       <Toaster position="top-center" />
-      <div className="sticky top-0 z-40">
+      <div className="mobile-fixed-top sticky top-0 z-40">
         <Header onCartClick={() => setCartOpen(true)} />
         <CategoryBar />
       </div>
 
-      <main>
+      <main className="mobile-scroll-area">
         {/* HERO */}
         <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-[#1a0507] via-black to-[#0a0a0a] px-4 py-10 sm:px-5 sm:py-14">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_50%,rgba(229,9,20,0.22),transparent_55%)]" />

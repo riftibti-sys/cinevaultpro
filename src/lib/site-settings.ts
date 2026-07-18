@@ -4,7 +4,7 @@ import { listSiteSettings, type SettingRow } from "@/lib/site-settings.functions
 export const DEFAULT_SETTINGS: Record<string, string> = {
   contact_phone: "01785-897167",
   contact_phone_intl: "8801785897167",
-  messenger_url: "https://m.me/cinevault",
+  messenger_url: "https://www.facebook.com/share/1HTm4Rz58F/",
   support_message: "Hi CineVault! আমার support দরকার।",
   bkash_number: "01785-897167",
   nagad_number: "01785-897167",

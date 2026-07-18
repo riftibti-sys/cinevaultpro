@@ -123,7 +123,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
 
   return (
     <>
-      <header className="border-b border-white/10 bg-[#0a0a0a] text-white backdrop-blur-xl">
+      <header className="relative z-40 border-b border-white/10 bg-[#0a0a0a] text-white backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 sm:py-4">
           {/* Left: menu + back + reload + logo */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">

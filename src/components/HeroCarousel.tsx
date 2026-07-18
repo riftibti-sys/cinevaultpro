@@ -30,16 +30,10 @@ export function HeroCarousel() {
       .filter((p): p is Product => Boolean(p))
       .map((p) => ({ kind: "product", product: p }));
     const comboSlides: Slide[] = combos.map((c) => ({ kind: "combo", combo: c }));
-    // Interleave: combo, product, product, combo, product, product...
-    const out: Slide[] = [];
-    let ci = 0, pi = 0;
-    while (ci < comboSlides.length || pi < productSlides.length) {
-      if (ci < comboSlides.length) out.push(comboSlides[ci++]);
-      if (pi < productSlides.length) out.push(productSlides[pi++]);
-      if (pi < productSlides.length) out.push(productSlides[pi++]);
-    }
-    return out;
+    // All combos first, then products.
+    return [...comboSlides, ...productSlides];
   }, [products, featuredIds, combos]);
+
 
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);

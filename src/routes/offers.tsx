@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles, Check, ShoppingCart, Flame, ArrowLeft } from "lucide-react";
+import { Sparkles, Check, ShoppingCart, Flame, ArrowLeft, Zap, Info } from "lucide-react";
+
 import { toast } from "sonner";
 import { Header } from "@/components/Header";
 import { CategoryBar } from "@/components/CategoryBar";

@@ -9,7 +9,7 @@ import { useProducts } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
 import footballImg from "@/assets/football.png";
 
-import cvMarkAsset from "@/assets/cinevault-cv-mark.png.asset.json";
+import cvMarkAsset from "@/assets/cinevault-cv-mark-tight.png.asset.json";
 
 function CvMark({ className = "" }: { className?: string }) {
   return (

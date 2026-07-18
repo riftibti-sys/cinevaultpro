@@ -7,8 +7,38 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useProducts } from "@/lib/products";
 import { useSiteSettings, buildWhatsAppUrl } from "@/lib/site-settings";
-import logoAsset from "@/assets/cinevault-logo.jpg.asset.json";
 import footballImg from "@/assets/football.png";
+
+function CvMark({ className = "" }: { className?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`grid shrink-0 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary shadow-[0_0_18px_-3px_rgba(229,9,20,0.9)] ${className}`}
+    >
+      <svg viewBox="0 0 100 100" className="h-[76%] w-[76%] text-white" role="img">
+        <path
+          d="M64.5 28.5C55 20.8 35.7 24 24.8 38.6 15.4 51.2 18 65 30.8 67.1c10.1 1.7 20.6-5.1 29.3-18.1"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="8.5"
+        />
+        <path
+          d="M47.2 61.8 61.6 38c2.9-4.8 8.7-4.1 8.6 1.6-.1 3.4-2.4 7.1-5.3 10.5L47.9 70.4c-2.1 2.5-5.9.1-4.4-2.9l3.7-5.7Z"
+          fill="currentColor"
+        />
+        <path
+          d="M67.4 45.2 80.5 31.8"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeWidth="5.2"
+        />
+      </svg>
+    </span>
+  );
+}
 
 export function Header({ onCartClick }: { onCartClick: () => void }) {
   const { count, items, add } = useCart();
@@ -93,21 +123,10 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
               <Menu className="h-5 w-5" />
             </button>
             <Link to="/" className="flex min-w-[210px] items-center gap-2.5 leading-none sm:min-w-[258px] sm:gap-3">
-              <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-black p-1 ring-2 ring-primary shadow-[0_0_18px_-3px_rgba(229,9,20,0.9)] sm:h-13 sm:w-13">
-                <img
-                  src={logoAsset.url}
-                  alt=""
-                  aria-hidden="true"
-                  className="h-full w-full object-contain object-center"
-                />
-              </span>
+              <CvMark className="h-12 w-12 sm:h-13 sm:w-13" />
               <span className="flex min-w-0 flex-col leading-none">
                 <span className="relative block h-8 w-[148px] sm:h-10 sm:w-[185px]">
-                  <img
-                    src={logoAsset.url}
-                    alt="CineVault"
-                    className="sr-only"
-                  />
+                  <span className="sr-only">CineVault</span>
                   <span className="block font-display text-[31px] uppercase italic text-white drop-shadow-[0_0_10px_rgba(229,9,20,0.45)] sm:text-[39px]">
                     Cine<span className="text-primary">Vault</span>
                   </span>
@@ -356,9 +375,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 leading-none">
-            <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary/60">
-              <img src={logoAsset.url} alt="CineVault" className="h-full w-full scale-[1.15] object-contain" />
-            </span>
+            <CvMark className="h-10 w-10" />
             <span className="font-display text-xl uppercase italic tracking-wider text-foreground">
               Cine<span className="text-primary">Vault</span>
             </span>

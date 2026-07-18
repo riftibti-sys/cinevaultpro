@@ -344,8 +344,8 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 leading-none">
-            <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-black ring-1 ring-primary/40">
-              <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-cover" />
+            <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-black ring-2 ring-primary/50">
+              <img src={logoAsset.url} alt="CineVault" className="h-full w-full object-contain p-0.5" />
             </span>
             <span className="font-display text-xl uppercase italic tracking-wider text-foreground">
               Cine<span className="text-primary">Vault</span>

@@ -33,7 +33,7 @@ async function findProduct(id: string, ctx: { queryClient: import("@tanstack/rea
 
 export const Route = createFileRoute("/product/$id")({
   head: ({ loaderData }) => {
-    const p = (loaderData as { product?: Product } | undefined)?.product;
+    const p = (loaderData as { product: Product })?.product;
     const title = p ? `${p.name} — CineVault` : "Product — CineVault";
     const desc = p ? `${p.name} ${p.duration} — Tk. ${p.price}. ${p.tagline}. Instant delivery.` : "Premium subscription details.";
     return {
@@ -46,7 +46,7 @@ export const Route = createFileRoute("/product/$id")({
       ],
     };
   },
-  loader: async ({ params, context }) => {
+  loader: async ({ params, context }): Promise<{ product: Product }> => {
     const p = await findProduct(params.id, context);
     if (!p) throw notFound();
     return { product: p };
@@ -73,12 +73,7 @@ export const Route = createFileRoute("/product/$id")({
 });
 
 function ProductDetail() {
-  const data = Route.useLoaderData();
-  const product = data?.product;
-
-  if (!product) {
-    return null;
-  }
+  const { product } = Route.useLoaderData();
   const { items, add } = useCart();
   const inCart = items.some((i) => i.product.id === product.id);
   const { reviews, submit, statsFor } = useReviews();

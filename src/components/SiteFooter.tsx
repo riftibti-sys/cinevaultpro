@@ -23,27 +23,30 @@ export function SiteFooter() {
     "mb-6 text-lg font-semibold text-white";
 
   return (
-    <footer className="relative mt-20 bg-black text-white">
-      <div className="mx-auto max-w-7xl px-5 pt-14 pb-6 sm:px-8">
+    <footer className="relative mt-20 bg-black text-white overflow-hidden">
+      <div className="mx-auto max-w-7xl px-5 pt-14 pb-14 sm:px-8">
         {/* Top grid */}
-        <div className="grid gap-10 lg:grid-cols-[auto_1fr_1fr_1.4fr]">
-          {/* Phone button + Company column */}
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1.4fr]">
+          {/* Helpline + Company */}
           <div>
-            <a
-              href={whatsappSupportUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-3 rounded-2xl border-2 border-primary bg-transparent px-5 py-4 text-primary transition hover:bg-primary/10"
-            >
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground">
-                <Phone className="h-4 w-4" strokeWidth={2.6} />
-              </span>
-              <span className="text-2xl font-bold tracking-tight">
-                {displayPhone}
-              </span>
-            </a>
+            <div className="mb-10">
+              <a
+                href={whatsappSupportUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex w-full items-center gap-4 rounded-xl border-2 border-primary bg-transparent p-4 text-primary transition hover:bg-primary/10"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                  <Phone className="h-6 w-6" strokeWidth={2.5} />
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider opacity-80">Helpline</p>
+                  <p className="text-2xl font-black">{displayPhone}</p>
+                </div>
+              </a>
+            </div>
 
-            <h4 className={`${headingCls} mt-10`}>Company</h4>
+            <h4 className={headingCls}>Company</h4>
             <ul className="space-y-4">
               <li><a href="#" className={linkCls}>Our Brands</a></li>
               <li><a href="#" className={linkCls}>Careers</a></li>
@@ -75,77 +78,80 @@ export function SiteFooter() {
           {/* Newsletter */}
           <div>
             <h4 className={headingCls}>Newsletter</h4>
-            <p className="mb-4 text-[15px] text-white/85">
+            <p className="mb-5 text-[15px] text-white/85 leading-relaxed">
               Sign up for get latest news and update
             </p>
-            <form onSubmit={onSubscribe} className="flex overflow-hidden rounded-xl">
+            <form onSubmit={onSubscribe} className="mb-8 flex overflow-hidden rounded-xl bg-white p-1">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="min-w-0 flex-1 bg-white px-4 py-3 text-sm text-black placeholder:text-black/40 focus:outline-none"
+                className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-black placeholder:text-black/40 focus:outline-none"
               />
               <button
                 type="submit"
-                className="bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:brightness-110"
+                className="rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition hover:brightness-110"
               >
                 Subscribe
               </button>
             </form>
 
-            {/* Contact row */}
-            <div className="mt-6 space-y-3">
-              <a href={whatsappSupportUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
-                <Phone className="h-4 w-4 text-primary" strokeWidth={2.4} />
-                {displayPhone}
+            <div className="space-y-4">
+              <a href={whatsappSupportUrl} target="_blank" rel="noreferrer" className="group flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 transition group-hover:bg-primary/20">
+                  <Phone className="h-4 w-4 text-primary" strokeWidth={2.4} />
+                </div>
+                <span className="font-medium">{displayPhone}</span>
               </a>
-              <a href="mailto:cinevault136@gmail.com" className="flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
-                <Mail className="h-4 w-4 text-primary" strokeWidth={2.4} />
-                cinevault136@gmail.com
+              <a href="mailto:cinevault136@gmail.com" className="group flex items-center gap-3 text-[15px] text-white/85 hover:text-primary">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 transition group-hover:bg-primary/20">
+                  <Mail className="h-4 w-4 text-primary" strokeWidth={2.4} />
+                </div>
+                <span className="font-medium lowercase">cinevault136@gmail.com</span>
               </a>
             </div>
 
-            {/* Socials */}
-            <div className="mt-6 flex items-center gap-5 text-white/85">
-              <a href="https://www.facebook.com/share/1HTm4Rz58F/" target="_blank" rel="noreferrer" aria-label="Facebook" className="transition hover:text-primary">
-                <Facebook className="h-6 w-6" />
-              </a>
-              <a href="#" aria-label="Instagram" className="transition hover:text-primary">
-                <Instagram className="h-6 w-6" />
-              </a>
-              <a href="#" aria-label="YouTube" className="transition hover:text-primary">
-                <Youtube className="h-6 w-6" />
-              </a>
-              <a href="#" aria-label="LinkedIn" className="transition hover:text-primary">
-                <Linkedin className="h-6 w-6" />
-              </a>
+            <div className="mt-8 flex items-center gap-4">
+              {[
+                { Icon: Facebook, label: "Facebook", href: "https://www.facebook.com/share/1HTm4Rz58F/" },
+                { Icon: Instagram, label: "Instagram", href: "#" },
+                { Icon: Youtube, label: "YouTube", href: "#" },
+                { Icon: Linkedin, label: "LinkedIn", href: "#" },
+              ].map(({ Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-white/70 transition hover:bg-primary hover:text-white"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Bottom row: copyright + payments */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-5 border-t border-white/10 pt-6 sm:flex-row">
-          <p className="text-[15px] font-semibold text-white">
-            Copyright @ {new Date().getFullYear()} CineVault Bangladesh. All rights reserved.
-          </p>
-          <div
-            className="flex items-center bg-white"
-            style={{ height: "40px", width: "360px" }}
-          >
-            <img
-              src={paymentMethods}
-              alt="bKash, Nagad, Rocket, Upay, Visa, Mastercard, Amex, DBBL"
-              className="block h-full w-full object-cover"
-              loading="lazy"
-              width={1920}
-              height={640}
-            />
+      {/* Bottom Payment Bar */}
+      <div className="w-full bg-white py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+            <p className="text-sm font-medium text-black/60">
+              Copyright @ 2026 <span className="font-bold text-black">RaifaNest</span>. All rights reserved.
+            </p>
+            <div className="flex items-center justify-center grayscale transition hover:grayscale-0">
+              <img
+                src={paymentMethods}
+                alt="Payment Methods: bKash, Nagad, Rocket, Upay, DBBL, VISA, Mastercard, AMEX"
+                className="h-8 w-auto md:h-10"
+                loading="lazy"
+              />
+            </div>
           </div>
-
-
-
         </div>
       </div>
     </footer>

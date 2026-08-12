@@ -73,7 +73,12 @@ export const Route = createFileRoute("/product/$id")({
 });
 
 function ProductDetail() {
-  const { product } = Route.useLoaderData();
+  const data = Route.useLoaderData();
+  const product = data?.product;
+
+  if (!product) {
+    return null;
+  }
   const { items, add } = useCart();
   const inCart = items.some((i) => i.product.id === product.id);
   const { reviews, submit, statsFor } = useReviews();
